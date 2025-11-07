@@ -1,0 +1,51 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+export const useAppStore = create(
+  persist(
+    (set) => ({
+      darkMode: false,
+      showCalculator: false,
+      showFeedbackForm: false,
+      calculatorData: {
+        totalClasses: '',
+        classesAttended: '',
+        targetPercentage: 75,
+      },
+
+      toggleDarkMode: () => set((state) => {
+        const newMode = !state.darkMode;
+        if (newMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        return { darkMode: newMode };
+      }),
+
+      setShowCalculator: (show) => set({ showCalculator: show }),
+      setShowFeedbackForm: (show) => set({ showFeedbackForm: show }),
+      
+      setCalculatorData: (data) => set((state) => ({
+        calculatorData: { ...state.calculatorData, ...data }
+      })),
+
+      resetCalculator: () => set({
+        calculatorData: {
+          totalClasses: '',
+          classesAttended: '',
+          targetPercentage: 75,
+        }
+      }),
+    }),
+    {
+      name: 'app-storage',
+      onRehydrateStorage: () => (state) => {
+        // Apply dark mode on initial load
+        if (state?.darkMode) {
+          document.documentElement.classList.add('dark');
+        }
+      },
+    }
+  )
+);
