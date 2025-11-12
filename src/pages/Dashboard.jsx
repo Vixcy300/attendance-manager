@@ -145,6 +145,8 @@ const Dashboard = () => {
             {courses.slice(0, 6).map((course, index) => {
               const percentage = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
               const status = getStatusInfo(percentage);
+              const classesNeeded = calculateClassesNeeded(course.classes_attended, course.total_classes, course.target_percentage);
+              const classesCanMiss = calculateClassesCanMiss(course.classes_attended, course.total_classes, course.target_percentage);
 
               return (
                 <motion.div
@@ -193,6 +195,25 @@ const Dashboard = () => {
                       <span className={getStatusBadgeClass(percentage)}>
                         Target: {course.target_percentage}%
                       </span>
+                    </div>
+
+                    {/* Classes Can Miss / Classes Needed */}
+                    <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
+                      {percentage >= course.target_percentage ? (
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-600 dark:text-gray-400">Can Miss</span>
+                          <span className="font-semibold text-green-600 dark:text-green-400">
+                            {classesCanMiss} class{classesCanMiss !== 1 ? 'es' : ''}
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-600 dark:text-gray-400">Need to Attend</span>
+                          <span className="font-semibold text-blue-600 dark:text-blue-400">
+                            {classesNeeded} class{classesNeeded !== 1 ? 'es' : ''}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </motion.div>
