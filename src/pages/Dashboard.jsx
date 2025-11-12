@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Target, BookOpen, Calendar as CalendarIcon } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
-import { calculatePercentage, getStatusInfo, getStatusBadgeClass } from '../utils/helpers';
+import { calculatePercentage, getStatusInfo, getStatusBadgeClass, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
 
 const Dashboard = () => {
   const { user } = useAuthStore();
@@ -37,6 +37,8 @@ const Dashboard = () => {
   }, [courses]);
 
   const statusInfo = getStatusInfo(stats.overallPercentage);
+  const classesNeeded = calculateClassesNeeded(stats.classesAttended, stats.totalClasses, 80);
+  const classesCanMiss = calculateClassesCanMiss(stats.classesAttended, stats.totalClasses, 80);
 
   const statCards = [
     {
@@ -60,10 +62,10 @@ const Dashboard = () => {
       color: 'from-purple-400 to-purple-600',
     },
     {
-      title: 'This Month',
-      value: new Date().toLocaleDateString('en-IN', { month: 'long' }),
-      icon: CalendarIcon,
-      color: 'from-pink-400 to-pink-600',
+      title: stats.overallPercentage >= 80 ? 'Can Miss' : 'Need to Attend',
+      value: stats.overallPercentage >= 80 ? `${classesCanMiss} classes` : `${classesNeeded} classes`,
+      icon: stats.overallPercentage >= 80 ? TrendingDown : TrendingUp,
+      color: stats.overallPercentage >= 80 ? 'from-green-400 to-green-600' : 'from-blue-400 to-blue-600',
     },
   ];
 

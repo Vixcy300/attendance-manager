@@ -101,6 +101,28 @@
 /* Modal Backdrop */
 .modal-backdrop {
   @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-in;
+  padding: 0.5rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile Orientation Support */
+@media screen and (max-width: 768px) {
+  body {
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+  }
+  
+  .modal-backdrop {
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  .modal-backdrop {
+    padding: 0.25rem;
+  }
 }
 
 /* Calendar Custom Styles */

@@ -103,34 +103,34 @@ const QuickCalculator = () => {
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl mx-2 sm:mx-4 max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="sticky top-0 bg-gradient-to-r from-primary-500 to-primary-600 text-white p-6 rounded-t-2xl">
+          <div className="sticky top-0 bg-gradient-to-r from-primary-500 to-primary-600 text-white p-4 sm:p-6 rounded-t-2xl z-10">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <TrendingUp size={28} />
-                  Quick Attendance Calculator
+                <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                  <TrendingUp size={24} className="sm:w-7 sm:h-7" />
+                  Quick Calculator
                 </h2>
-                <p className="text-sm text-primary-100 mt-1">
-                  Calculate your attendance instantly
+                <p className="text-xs sm:text-sm text-primary-100 mt-1">
+                  Calculate attendance instantly
                 </p>
               </div>
               <button
                 onClick={handleClose}
                 className="p-2 hover:bg-white/20 rounded-lg transition-colors"
               >
-                <X size={24} />
+                <X size={20} className="sm:w-6 sm:h-6" />
               </button>
             </div>
           </div>
 
           {/* Content */}
-          <div className="p-6 space-y-6">
+          <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
             {/* Input Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Total Classes
@@ -161,7 +161,7 @@ const QuickCalculator = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Target % (Default: 75%)
+                  Target % (Default: 80%)
                 </label>
                 <input
                   type="number"
@@ -170,7 +170,7 @@ const QuickCalculator = () => {
                   value={calculatorData.targetPercentage}
                   onChange={(e) => setCalculatorData({ targetPercentage: e.target.value })}
                   className="input-field"
-                  placeholder="75"
+                  placeholder="80"
                 />
               </div>
             </div>
@@ -183,9 +183,18 @@ const QuickCalculator = () => {
                 className="space-y-6"
               >
                 {/* Circular Progress */}
-                <div className="flex justify-center">
+                <div className="flex justify-center py-4">
                   <div className="relative">
-                    <svg className="w-48 h-48 transform -rotate-90">
+                    <svg className="w-40 h-40 sm:w-48 sm:h-48 transform -rotate-90">
+                      <circle
+                        cx="80"
+                        cy="80"
+                        r="72"
+                        stroke="currentColor"
+                        strokeWidth="10"
+                        fill="none"
+                        className="text-gray-200 dark:text-gray-700 sm:hidden"
+                      />
                       <circle
                         cx="96"
                         cy="96"
@@ -193,7 +202,29 @@ const QuickCalculator = () => {
                         stroke="currentColor"
                         strokeWidth="12"
                         fill="none"
-                        className="text-gray-200 dark:text-gray-700"
+                        className="text-gray-200 dark:text-gray-700 hidden sm:block"
+                      />
+                      <motion.circle
+                        cx="80"
+                        cy="80"
+                        r="72"
+                        stroke="currentColor"
+                        strokeWidth="10"
+                        fill="none"
+                        strokeDasharray={2 * Math.PI * 72}
+                        initial={{ strokeDashoffset: 2 * Math.PI * 72 }}
+                        animate={{ 
+                          strokeDashoffset: 2 * Math.PI * 72 * (1 - result.currentPercentage / 100)
+                        }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        className={`sm:hidden ${
+                          result.statusInfo.text === 'Safe'
+                            ? 'text-green-500'
+                            : result.statusInfo.text === 'Warning'
+                            ? 'text-yellow-500'
+                            : 'text-red-500'
+                        }`}
+                        strokeLinecap="round"
                       />
                       <motion.circle
                         cx="96"
@@ -208,21 +239,21 @@ const QuickCalculator = () => {
                           strokeDashoffset: 2 * Math.PI * 88 * (1 - result.currentPercentage / 100)
                         }}
                         transition={{ duration: 1, ease: "easeOut" }}
-                        className={
+                        className={`hidden sm:block ${
                           result.statusInfo.text === 'Safe'
                             ? 'text-green-500'
                             : result.statusInfo.text === 'Warning'
                             ? 'text-yellow-500'
                             : 'text-red-500'
-                        }
+                        }`}
                         strokeLinecap="round"
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-5xl font-bold text-gray-800 dark:text-white">
+                      <span className="text-3xl sm:text-5xl font-bold text-gray-800 dark:text-white">
                         {result.currentPercentage.toFixed(1)}%
                       </span>
-                      <span className={`text-lg font-semibold mt-2 ${result.statusInfo.color}`}>
+                      <span className={`text-sm sm:text-lg font-semibold mt-1 sm:mt-2 ${result.statusInfo.color}`}>
                         {result.statusInfo.icon} {result.statusInfo.text}
                       </span>
                     </div>
@@ -230,12 +261,12 @@ const QuickCalculator = () => {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="card bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 border border-green-200 dark:border-green-700">
-                    <h3 className="text-sm font-medium text-green-800 dark:text-green-200 mb-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="card bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 border border-green-200 dark:border-green-700 p-3 sm:p-4">
+                    <h3 className="text-xs sm:text-sm font-medium text-green-800 dark:text-green-200 mb-1 sm:mb-2">
                       Classes You Can Miss
                     </h3>
-                    <p className="text-3xl font-bold text-green-600 dark:text-green-400">
+                    <p className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400">
                       {result.classesCanMiss}
                     </p>
                     <p className="text-xs text-green-700 dark:text-green-300 mt-1">
@@ -243,11 +274,11 @@ const QuickCalculator = () => {
                     </p>
                   </div>
 
-                  <div className="card bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border border-blue-200 dark:border-blue-700">
-                    <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-2">
+                  <div className="card bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border border-blue-200 dark:border-blue-700 p-3 sm:p-4">
+                    <h3 className="text-xs sm:text-sm font-medium text-blue-800 dark:text-blue-200 mb-1 sm:mb-2">
                       Classes Needed
                     </h3>
-                    <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                    <p className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
                       {result.classesNeeded}
                     </p>
                     <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
@@ -257,28 +288,28 @@ const QuickCalculator = () => {
                 </div>
 
                 {/* Predictive Message */}
-                <div className="card bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700">
-                  <p className="text-purple-800 dark:text-purple-200 font-medium">
+                <div className="card bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-700 p-3 sm:p-4">
+                  <p className="text-sm sm:text-base text-purple-800 dark:text-purple-200 font-medium">
                     💡 {result.predictiveMessage}
                   </p>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                   <button
                     onClick={handleSaveToDatabase}
-                    className="flex items-center justify-center gap-2 btn-primary py-3"
+                    className="flex items-center justify-center gap-2 btn-primary py-2.5 sm:py-3 text-sm sm:text-base"
                   >
-                    <Save size={18} />
-                    <span className="hidden md:inline">Save</span>
+                    <Save size={16} className="sm:w-5 sm:h-5" />
+                    <span>Save</span>
                   </button>
 
                   <button
                     onClick={handleShare}
-                    className="flex items-center justify-center gap-2 btn-secondary py-3"
+                    className="flex items-center justify-center gap-2 btn-secondary py-2.5 sm:py-3 text-sm sm:text-base"
                   >
-                    <Share2 size={18} />
-                    <span className="hidden md:inline">Share</span>
+                    <Share2 size={16} className="sm:w-5 sm:h-5" />
+                    <span>Share</span>
                   </button>
 
                   <button
@@ -286,18 +317,19 @@ const QuickCalculator = () => {
                       resetCalculator();
                       setResult(null);
                     }}
-                    className="flex items-center justify-center gap-2 btn-secondary py-3"
+                    className="flex items-center justify-center gap-2 btn-secondary py-2.5 sm:py-3 text-sm sm:text-base"
                   >
-                    <RefreshCw size={18} />
-                    <span className="hidden md:inline">Clear</span>
+                    <RefreshCw size={16} className="sm:w-5 sm:h-5" />
+                    <span>Clear</span>
                   </button>
 
                   <button
                     onClick={() => setAdvancedMode(!advancedMode)}
-                    className="flex items-center justify-center gap-2 btn-secondary py-3"
+                    className="flex items-center justify-center gap-2 btn-secondary py-2.5 sm:py-3 text-sm sm:text-base"
                   >
-                    <TrendingUp size={18} />
-                    <span className="hidden md:inline">Advanced</span>
+                    <TrendingUp size={16} className="sm:w-5 sm:h-5" />
+                    <span className="hidden sm:inline">Advanced</span>
+                    <span className="sm:hidden">More</span>
                   </button>
                 </div>
 
