@@ -9,7 +9,7 @@ A comprehensive web application for students to track and manage their attendanc
 
 This is NOT an official college application. Student Attendance Manager (SAM) is an independent student project created for personal attendance tracking. It is not affiliated with, endorsed by, or officially connected to SIMATS Engineering College or any other educational institution.
 
-[Read Full Disclaimer](./DISCLAIMER.md)
+[Read Full Disclaimer]([./DISCLAIMER.md](https://attendance-manger-vignesh.vercel.app/disclaimer))
 
  🚀 Features
 
