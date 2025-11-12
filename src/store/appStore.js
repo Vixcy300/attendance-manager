@@ -10,7 +10,7 @@ export const useAppStore = create(
       calculatorData: {
         totalClasses: '',
         classesAttended: '',
-        targetPercentage: 75,
+        targetPercentage: 80,
       },
 
       toggleDarkMode: () => set((state) => {
@@ -34,7 +34,7 @@ export const useAppStore = create(
         calculatorData: {
           totalClasses: '',
           classesAttended: '',
-          targetPercentage: 75,
+          targetPercentage: 80,
         }
       }),
     }),

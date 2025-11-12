@@ -171,7 +171,7 @@ const Disclaimer = () => {
                   <strong>Project Type:</strong> Student Portfolio Project
                 </p>
                 <p>
-                  <strong>Version:</strong> 1.0.0
+                  <strong>Version:</strong> 1.1.0
                 </p>
               </div>
               <p className="text-sm">
@@ -215,7 +215,7 @@ const Disclaimer = () => {
 
         {/* Footer Note */}
         <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8">
-          Last updated: November 8, 2025 • Made with ❤️ by{' '}
+          Last updated: November 12, 2025 • Made with ❤️ by{' '}
           <a 
             href="https://github.com/Vixcy300" 
             target="_blank" 

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
-import { calculatePercentage, getStatusInfo, getStatusBadgeClass } from '../utils/helpers';
+import { calculatePercentage, getStatusInfo, getStatusBadgeClass, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
 import toast from 'react-hot-toast';
 
 const Courses = () => {
@@ -42,7 +42,7 @@ const Courses = () => {
         course_name: '',
         classes_attended: 0,
         total_classes: 0,
-        target_percentage: 75,
+        target_percentage: 80,
       });
     }
     setShowModal(true);
@@ -140,6 +140,8 @@ const Courses = () => {
           {courses.map((course, index) => {
             const percentage = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
             const status = getStatusInfo(percentage);
+            const classesNeeded = calculateClassesNeeded(course.classes_attended, course.total_classes, course.target_percentage);
+            const classesCanMiss = calculateClassesCanMiss(course.classes_attended, course.total_classes, course.target_percentage);
 
             return (
               <motion.div
@@ -228,6 +230,23 @@ const Courses = () => {
                       {course.target_percentage}%
                     </span>
                   </div>
+                  
+                  {/* Classes Can Miss / Classes Needed */}
+                  {percentage >= course.target_percentage ? (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">Can Miss</span>
+                      <span className="font-semibold text-green-600 dark:text-green-400">
+                        {classesCanMiss} class{classesCanMiss !== 1 ? 'es' : ''}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">Need to Attend</span>
+                      <span className="font-semibold text-blue-600 dark:text-blue-400">
+                        {classesNeeded} class{classesNeeded !== 1 ? 'es' : ''}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Quick Actions */}
