@@ -223,14 +223,11 @@ This project is open source and available under the [MIT License](LICENSE).
 
  📸 Screenshots
 
- Dashboard
-![Dashboard]= https://drive.google.com/file/d/1P42VVp-RifqsNahI588uOzMS2Yf-aztL/view?usp=sharing
+ Dashboard =[Dashboard](https://drive.google.com/file/d/1P42VVp-RifqsNahI588uOzMS2Yf-aztL/view?usp=sharing)
 
- Quick Calculator
-![Calculator]= https://drive.google.com/file/d/11pveSADL9YCYvt98s1VhJZRJyRwRUYXQ/view?usp=sharing
+ Quick Calculator =[Calculator](https://drive.google.com/file/d/11pveSADL9YCYvt98s1VhJZRJyRwRUYXQ/view?usp=sharing)
 
- Statistics
-![Statistics]= https://drive.google.com/file/d/1d9Nz7LBmKLWzhoEGLpdiu5be8auzaE8Y/view?usp=sharing
+ Statistics =[Statistics](https://drive.google.com/file/d/1d9Nz7LBmKLWzhoEGLpdiu5be8auzaE8Y/view?usp=sharing)
 
 ---
 
