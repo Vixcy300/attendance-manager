@@ -153,7 +153,7 @@ The production build will be in the `dist` folder.
 
  Quick Calculator Features
 - Input total classes and classes attended
-- Set custom target percentage (default 75%)
+- Set custom target percentage (default 80%)
 - See real-time attendance percentage
 - Calculate classes needed to reach target
 - Calculate classes you can safely miss
