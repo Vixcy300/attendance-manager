@@ -81,6 +81,16 @@ const Profile = () => {
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
             Email cannot be changed
           </p>
+          <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <p className="text-xs text-blue-800 dark:text-blue-200 flex items-start gap-2">
+              <span className="text-blue-500">🔒</span>
+              <span>
+                <strong>Industry-Standard Security:</strong> Your email is stored securely using Supabase with 
+                AES-256 encryption, SSL/TLS in transit, and compliant with GDPR standards. 
+                We will use this email only for important updates and never share it with third parties.
+              </span>
+            </p>
+          </div>
         </div>
 
         {/* Name */}

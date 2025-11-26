@@ -9,15 +9,16 @@ import { db } from '../lib/supabase';
 import toast from 'react-hot-toast';
 import { formatDate } from '../utils/helpers';
 
-// Exam Schedule Data
+// MS2 Exam Schedule - UPDATED Nov 26, 2025
+// Day Scholar & Hosteler Schedule (Oct 2025 - Jan 2026)
 const examSchedule = {
   dayScholar: [
     { date: '2025-10-14', event: 'SLOT A', type: 'slot', color: 'purple' },
-    { date: '2025-11-05', event: 'Practical Exam / Capstone Project', type: 'practical', color: 'orange' },
+    { date: '2025-11-05', event: 'Practical Exam Capstone Project', type: 'practical', color: 'orange' },
     { date: '2025-11-06', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2025-11-07', event: 'Theory Exam', type: 'theory', color: 'red' },
     { date: '2025-11-08', event: 'SLOT B', type: 'slot', color: 'purple' },
-    { date: '2025-11-24', event: 'Practical Exam / Capstone Project', type: 'practical', color: 'orange' },
+    { date: '2025-11-24', event: 'Practical Exam Capstone Project', type: 'practical', color: 'orange' },
     { date: '2025-11-25', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2025-11-26', event: 'Theory Exam', type: 'theory', color: 'red' },
     { date: '2025-11-27', event: 'SLOT C', type: 'slot', color: 'purple' },

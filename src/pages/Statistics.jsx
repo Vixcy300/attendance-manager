@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { TrendingUp, Download } from 'lucide-react';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
+import { TrendingUp, Download, Target, Award, Clock, Zap, AlertTriangle, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
 import { db } from '../lib/supabase';
-import { calculatePercentage, calculateMonthlyAttendance } from '../utils/helpers';
+import { calculatePercentage, calculateMonthlyAttendance, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
 import { exportToPDF, exportToExcel } from '../utils/export';
 import toast from 'react-hot-toast';
 
@@ -34,6 +35,7 @@ const Statistics = () => {
     percentage: parseFloat(calculatePercentage(course.classes_attended, course.total_classes)),
     attended: course.classes_attended,
     total: course.total_classes,
+    target: course.target_percentage,
   }));
 
   // Monthly attendance data
@@ -48,6 +50,38 @@ const Statistics = () => {
     { name: 'Present', value: totalAttended, color: '#10b981' },
     { name: 'Absent', value: totalAbsent, color: '#ef4444' },
   ];
+
+  // Calculate additional statistics
+  const overallPercentage = parseFloat(calculatePercentage(totalAttended, totalClasses));
+  const coursesAboveTarget = courses.filter(c => {
+    const pct = parseFloat(calculatePercentage(c.classes_attended, c.total_classes));
+    return pct >= c.target_percentage;
+  }).length;
+  const coursesBelowTarget = courses.length - coursesAboveTarget;
+  
+  // Best and worst performing courses
+  const sortedCourses = [...courses].sort((a, b) => {
+    const pctA = parseFloat(calculatePercentage(a.classes_attended, a.total_classes));
+    const pctB = parseFloat(calculatePercentage(b.classes_attended, b.total_classes));
+    return pctB - pctA;
+  });
+  const bestCourse = sortedCourses[0];
+  const worstCourse = sortedCourses[sortedCourses.length - 1];
+
+  // Streak data (simulated based on recent attendance)
+  const attendanceStreak = attendanceRecords.filter(r => r.status === 'present').length;
+  
+  // Risk assessment data
+  const riskData = courses.map(course => {
+    const pct = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
+    const needed = calculateClassesNeeded(course.classes_attended, course.total_classes, course.target_percentage);
+    return {
+      name: course.course_code,
+      risk: pct < course.target_percentage ? (course.target_percentage - pct) : 0,
+      canMiss: calculateClassesCanMiss(course.classes_attended, course.total_classes, course.target_percentage),
+      needed,
+    };
+  }).filter(c => c.risk > 0 || c.canMiss > 0);
 
   const handleExportPDF = () => {
     exportToPDF(courses, userData);
@@ -90,25 +124,127 @@ const Statistics = () => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="card bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20">
-          <p className="text-sm text-green-800 dark:text-green-200 mb-1">Total Present</p>
-          <p className="text-3xl font-bold text-green-600 dark:text-green-400">{totalAttended}</p>
-        </div>
-        <div className="card bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20">
-          <p className="text-sm text-red-800 dark:text-red-200 mb-1">Total Absent</p>
-          <p className="text-3xl font-bold text-red-600 dark:text-red-400">{totalAbsent}</p>
-        </div>
-        <div className="card bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20">
-          <p className="text-sm text-blue-800 dark:text-blue-200 mb-1">Total Classes</p>
-          <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{totalClasses}</p>
-        </div>
-        <div className="card bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20">
-          <p className="text-sm text-purple-800 dark:text-purple-200 mb-1">Overall %</p>
-          <p className="text-3xl font-bold text-purple-600 dark:text-purple-400">
-            {calculatePercentage(totalAttended, totalClasses)}%
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="card bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20"
+        >
+          <div className="flex items-center gap-2 mb-1">
+            <CheckCircle size={16} className="text-green-600 dark:text-green-400" />
+            <p className="text-sm text-green-800 dark:text-green-200">Present</p>
+          </div>
+          <p className="text-2xl font-bold text-green-600 dark:text-green-400">{totalAttended}</p>
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="card bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20"
+        >
+          <div className="flex items-center gap-2 mb-1">
+            <AlertTriangle size={16} className="text-red-600 dark:text-red-400" />
+            <p className="text-sm text-red-800 dark:text-red-200">Absent</p>
+          </div>
+          <p className="text-2xl font-bold text-red-600 dark:text-red-400">{totalAbsent}</p>
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="card bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20"
+        >
+          <div className="flex items-center gap-2 mb-1">
+            <Target size={16} className="text-blue-600 dark:text-blue-400" />
+            <p className="text-sm text-blue-800 dark:text-blue-200">Total Classes</p>
+          </div>
+          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{totalClasses}</p>
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="card bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20"
+        >
+          <div className="flex items-center gap-2 mb-1">
+            <Zap size={16} className="text-purple-600 dark:text-purple-400" />
+            <p className="text-sm text-purple-800 dark:text-purple-200">Overall %</p>
+          </div>
+          <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+            {overallPercentage}%
           </p>
-        </div>
+        </motion.div>
+      </div>
+
+      {/* Performance Insights */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          className="card border-2 border-green-200 dark:border-green-800"
+        >
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
+              <Award size={24} className="text-green-600 dark:text-green-400" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Above Target</p>
+              <p className="text-xl font-bold text-green-600 dark:text-green-400">
+                {coursesAboveTarget} / {courses.length} courses
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.6 }}
+          className="card border-2 border-amber-200 dark:border-amber-800"
+        >
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-xl">
+              <TrendingUp size={24} className="text-amber-600 dark:text-amber-400" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Best Course</p>
+              <p className="text-xl font-bold text-amber-600 dark:text-amber-400">
+                {bestCourse?.course_code || 'N/A'}
+              </p>
+              {bestCourse && (
+                <p className="text-xs text-gray-500">
+                  {calculatePercentage(bestCourse.classes_attended, bestCourse.total_classes)}%
+                </p>
+              )}
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.7 }}
+          className="card border-2 border-red-200 dark:border-red-800"
+        >
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-xl">
+              <Clock size={24} className="text-red-600 dark:text-red-400" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Needs Attention</p>
+              <p className="text-xl font-bold text-red-600 dark:text-red-400">
+                {worstCourse?.course_code || 'N/A'}
+              </p>
+              {worstCourse && (
+                <p className="text-xs text-gray-500">
+                  {calculatePercentage(worstCourse.classes_attended, worstCourse.total_classes)}%
+                </p>
+              )}
+            </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Charts */}
@@ -244,14 +380,14 @@ const Statistics = () => {
                     <td className="text-center py-3 px-4">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          percentage >= 75
+                          percentage >= course.target_percentage
                             ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                            : percentage >= 65
+                            : percentage >= course.target_percentage - 10
                             ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
                             : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                         }`}
                       >
-                        {percentage >= 75 ? 'Safe' : percentage >= 65 ? 'Warning' : 'Critical'}
+                        {percentage >= course.target_percentage ? 'Safe' : percentage >= course.target_percentage - 10 ? 'Warning' : 'Critical'}
                       </span>
                     </td>
                   </tr>

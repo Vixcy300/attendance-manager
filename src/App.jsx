@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Courses from './pages/Courses';
 import Calendar from './pages/Calendar';
 import Statistics from './pages/Statistics';
+import Goals from './pages/Goals';
 import Feedback from './pages/Feedback';
 import Profile from './pages/Profile';
 import Disclaimer from './pages/Disclaimer';
@@ -20,6 +21,7 @@ import Layout from './components/Layout';
 import QuickCalculator from './components/QuickCalculator';
 import FloatingButtons from './components/FloatingButtons';
 import ProtectedRoute from './components/ProtectedRoute';
+import WhatsNew from './components/WhatsNew';
 
 function App() {
   const { initialize, loading } = useAuthStore();
@@ -77,6 +79,7 @@ function App() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/statistics" element={<Statistics />} />
+            <Route path="/goals" element={<Goals />} />
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/feedback-history" element={<FeedbackHistory />} />
             <Route path="/profile" element={<Profile />} />
@@ -90,6 +93,7 @@ function App() {
       {/* Global Floating Components */}
       <FloatingButtons />
       <QuickCalculator />
+      <WhatsNew />
     </Router>
   );
 }

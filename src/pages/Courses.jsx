@@ -177,7 +177,7 @@ const Courses = () => {
                   </div>
                 </div>
 
-                {/* Circular Progress */}
+                {/* Circular Progress - Now uses target percentage for color */}
                 <div className="flex justify-center mb-4">
                   <div className="relative">
                     <svg className="w-32 h-32 transform -rotate-90">
@@ -200,7 +200,8 @@ const Courses = () => {
                         strokeDasharray={`${2 * Math.PI * 56}`}
                         strokeDashoffset={`${2 * Math.PI * 56 * (1 - percentage / 100)}`}
                         className={`transition-all duration-1000 ${
-                          percentage >= 75 ? 'text-green-500' : percentage >= 65 ? 'text-yellow-500' : 'text-red-500'
+                          percentage >= course.target_percentage ? 'text-green-500' : 
+                          percentage >= course.target_percentage - 10 ? 'text-yellow-500' : 'text-red-500'
                         }`}
                         strokeLinecap="round"
                       />
@@ -209,8 +210,12 @@ const Courses = () => {
                       <span className="text-3xl font-bold text-gray-800 dark:text-white">
                         {percentage.toFixed(0)}%
                       </span>
-                      <span className={`text-xs ${status.color}`}>
-                        {status.text}
+                      <span className={`text-xs font-semibold ${
+                        percentage >= course.target_percentage ? 'text-green-600' : 
+                        percentage >= course.target_percentage - 10 ? 'text-yellow-600' : 'text-red-600'
+                      }`}>
+                        {percentage >= course.target_percentage ? 'Safe' : 
+                         percentage >= course.target_percentage - 10 ? 'Warning' : 'Critical'}
                       </span>
                     </div>
                   </div>

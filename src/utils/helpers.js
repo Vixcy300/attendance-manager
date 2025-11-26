@@ -11,18 +11,19 @@ export const getAttendanceStatus = (percentage) => {
   return 'critical';
 };
 
-// Get status badge class
-export const getStatusBadgeClass = (percentage) => {
-  const status = getAttendanceStatus(percentage);
-  return status === 'safe' ? 'badge-safe' : status === 'warning' ? 'badge-warning' : 'badge-critical';
+// Get status badge class - now uses target percentage
+export const getStatusBadgeClass = (percentage, target = 75) => {
+  if (percentage >= target) return 'badge-safe';
+  if (percentage >= target - 10) return 'badge-warning';
+  return 'badge-critical';
 };
 
-// Get status text and icon
-export const getStatusInfo = (percentage) => {
-  if (percentage >= 75) {
+// Get status text and icon - now uses target percentage
+export const getStatusInfo = (percentage, target = 75) => {
+  if (percentage >= target) {
     return { text: 'Safe', icon: '✅', color: 'text-green-600' };
   }
-  if (percentage >= 65) {
+  if (percentage >= target - 10) {
     return { text: 'Warning', icon: '⚠️', color: 'text-yellow-600' };
   }
   return { text: 'Critical', icon: '❌', color: 'text-red-600' };

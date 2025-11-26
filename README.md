@@ -1,239 +1,286 @@
- Student Attendance Manager (SAM)
+<div align="center">
 
-A comprehensive web application for students to track and manage their attendance across multiple courses with advanced analytics and intelligent predictions.
+# ✨ SAM - Student Attendance Manager
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+### *Your Smart Companion for Academic Success* 🎓
 
- ⚠️ Important Disclaimer
+[![Version](https://img.shields.io/badge/version-2.0.0-6366f1?style=for-the-badge&logo=rocket&logoColor=white)](https://github.com/Vixcy300/attendance-manager)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Visit_Now-10b981?style=for-the-badge)](https://attendance-manger-nug9fp5xg-vixcy300s-projects.vercel.app)
+[![License](https://img.shields.io/badge/license-MIT-f59e0b?style=for-the-badge)](LICENSE)
 
-This is NOT an official college application. Student Attendance Manager (SAM) is an independent student project created for personal attendance tracking. It is not affiliated with, endorsed by, or officially connected to SIMATS Engineering College or any other educational institution.
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Books.png" alt="Books" width="150" />
 
-[Read Full Disclaimer](./DISCLAIMER.md)
+**Track • Analyze • Achieve**
 
- 🚀 Features
+*A beautiful, modern web application to help students track attendance, visualize statistics, and achieve their academic goals.*
 
- Core Features
-- 🔐 User Authentication: Secure signup/login with Supabase Auth
-- 📊 Dashboard Overview: Real-time attendance statistics with color-coded indicators
-- 📚 Course Management: Add, edit, delete courses with detailed tracking
-- 🧮 Quick Attendance Calculator: Floating calculator widget with real-time predictions
-- 📅 Calendar View: Interactive calendar for marking attendance
-- 📈 Statistics Dashboard: Visual analytics with charts and graphs
-- 💬 Feedback System: Direct feedback submission to developer's email
-
- Advanced Features
-- Smart Predictions: Calculate classes needed to reach target percentage
-- Bulk Attendance Marking: Mark multiple courses at once
-- Export Reports: Download PDF/Excel attendance reports
-- Dark Mode: Full dark mode support
-- Responsive Design: Works seamlessly on mobile and desktop
-- Real-time Updates: Auto-save and instant data sync
-
- 🛠️ Tech Stack
-
- Frontend
-- React 18 - UI library
-- Vite - Build tool
-- Tailwind CSS - Styling
-- Framer Motion - Animations
-- Recharts - Data visualization
-- React Router - Navigation
-- Lucide React - Icons
-
- Backend & Services
-- Supabase - Backend, database, and authentication
-- Brevo (Sendinblue) - Email service for feedback (300 emails/day free)
-- Zustand - State management
-
- Libraries
-- jsPDF & jsPDF-AutoTable - PDF export
-- XLSX - Excel export
-- React Calendar - Calendar component
-- React Hot Toast - Notifications
-- date-fns - Date formatting
-
- 📦 Installation
-
- Prerequisites
-- Node.js 16+ and npm/yarn
-- Supabase account
-- EmailJS account (for feedback feature)
-
- Step 1: Clone the Repository
-```bash
-git clone https://github.com/yourusername/attendance-manager.git
-cd attendance-manager
-```
-
- Step 2: Install Dependencies
-```bash
-npm install
-```
-
- Step 3: Set Up Supabase
-
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to SQL Editor and run the contents of `supabase-schema.sql`
-3. Enable Email Authentication in Authentication settings
-4. Get your project URL and anon key from Settings > API
-
- Step 4: Set Up EmailJS
-
-1. Create account at [emailjs.com](https://www.emailjs.com)
-2. Create an email service (Gmail recommended)
-3. Create an email template with these variables:
-   - `{{from_name}}`, `{{from_email}}`, `{{user_roll}}`
-   - `{{feedback_type}}`, `{{subject}}`, `{{description}}`
-   - `{{categories}}`, `{{priority}}`, `{{timestamp}}`
-   - `{{browser_info}}`
- Step 4: Setup Brevo (Email Service)
-
-1. Go to [Brevo](https://app.brevo.com/account/register)
-2. Sign up for a FREE account (no credit card needed)
-3. Go to Settings > SMTP & API > API Keys
-4. Generate a new API key
-5. Copy the API key (starts with `xkeysib-`)
-
-See detailed guide: [BREVO_SETUP_GUIDE.md](./BREVO_SETUP_GUIDE.md)
-
- Step 5: Configure Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-VITE_BREVO_API_KEY=xkeysib-your_brevo_api_key
-```
-
- Step 6: Run Development Server
-```bash
-npm run dev
-```
-
-The app will be available at `http://localhost:3000`
-
- 🚀 Deployment
-
- Vercel Deployment (Recommended)
-
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com)
-3. Import your repository
-4. Add environment variables in Settings > Environment Variables
-5. Deploy!
-
-```bash
- Or use Vercel CLI
-npm install -g vercel
-vercel
-```
-
- Build for Production
-```bash
-npm run build
-```
-
-The production build will be in the `dist` folder.
-
- 📱 Usage Guide
-
- For Students
-
-1. Sign Up: Create account with university email
-2. Add Courses: Add all your courses with course code and name
-3. Track Attendance: 
-   - Use quick Present/Absent buttons on course cards
-   - Or use Calendar view for detailed tracking
-4. Use Calculator: Click floating calculator button for quick calculations
-5. View Statistics: Check charts and trends in Statistics page
-6. Export Reports: Download PDF or Excel reports anytime
-7. Send Feedback: Use feedback button to report bugs or suggest features
-
- Quick Calculator Features
-- Input total classes and classes attended
-- Set custom target percentage (default 75%)
-- See real-time attendance percentage
-- Calculate classes needed to reach target
-- Calculate classes you can safely miss
-- Save to database as new course
-- Share results
-
- 🎨 Customization
-
- Change Color Theme
-Edit `tailwind.config.js`:
-```javascript
-colors: {
-  primary: {
-    500: '4A90E2', // Change this
-  },
-}
-```
-
- Change University Name
-Edit the default in:
-- `src/pages/Signup.jsx`
-- `src/lib/supabase.js`
-- Database schema
-
- 🔒 Security & Privacy
-
-- ✅ All data encrypted at rest (Supabase)
-- ✅ Row Level Security (RLS) enabled
-- ✅ User data isolated - you can only see your own data
-- ✅ No data sharing with third parties
-- ✅ Secure authentication with email verification
-- ✅ Session management with auto-logout
-
- 🐛 Known Issues
-
-- Calendar may not display correctly in some older browsers
-- PDF export might have alignment issues with long course names
-- Dark mode toggle needs page refresh in some cases
-
- 🤝 Contributing
-
-This is a personal project, but feedback and suggestions are welcome!
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
- 📧 Contact
-
-Developer: Vignesh  
-Email: vigneshigt@gmail.com  
-Project Type: Student Portfolio Project
-
-For questions, bug reports, or feature requests, use the in-app feedback form or email directly.
-
- 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
- 🙏 Acknowledgments
-
-- Built as a student project to solve real attendance tracking problems
-- Inspired by the need for better attendance management tools
-- Thanks to all students who provided feedback and suggestions
-
- 📸 Screenshots
-
- Dashboard
-![Dashboard]= https://drive.google.com/file/d/1P42VVp-RifqsNahI588uOzMS2Yf-aztL/view?usp=sharing
-
- Quick Calculator
-![Calculator]= https://drive.google.com/file/d/11pveSADL9YCYvt98s1VhJZRJyRwRUYXQ/view?usp=sharing
-
- Statistics
-![Statistics]= https://drive.google.com/file/d/1d9Nz7LBmKLWzhoEGLpdiu5be8auzaE8Y/view?usp=sharing
+[🎯 Features](#-features) • [🛠️ Tech Stack](#️-tech-stack) • [🚀 Quick Start](#-quick-start) • [📸 Screenshots](#-screenshots)
 
 ---
 
-Note: This is a student project and not affiliated with any educational institution. Use responsibly and always verify attendance with official college systems.
+</div>
 
-Made with ❤️ by a student for students
+## ⚠️ Disclaimer
+
+> **This is NOT an official college application.** SAM is an independent student project created for personal attendance tracking. It is not affiliated with, endorsed by, or officially connected to SIMATS Engineering College or any other educational institution.
+
+---
+
+## 🌟 What's New in v2.0
+
+<table>
+<tr>
+<td width="50%">
+
+### ✨ Premium UI Redesign
+- Beautiful Indigo-Violet gradient theme
+- Glassmorphism effects & smooth animations
+- Dark mode optimized throughout
+- Premium glow effects & shadows
+
+</td>
+<td width="50%">
+
+### 🎯 Goals & Targets Page
+- Set personal attendance goals
+- Track progress with visual indicators
+- Streak tracking for motivation
+- Celebrate achievements
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 📅 Enhanced Calendar
+- Day Scholar & Hosteler exam schedules
+- Tamil Nadu holidays (2025-2026)
+- Beautiful event indicators
+- One-click schedule switching
+
+</td>
+<td width="50%">
+
+### 📊 Advanced Statistics
+- Performance insights
+- Best & worst course tracking
+- Above/below target analysis
+- Visual trend charts
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🎯 Features
+
+<div align="center">
+
+| Feature | Description |
+|---------|-------------|
+| 🔐 **Secure Auth** | Email-based authentication with Supabase |
+| 📊 **Smart Dashboard** | Real-time stats with color-coded indicators |
+| 📚 **Course Management** | Add, edit, delete courses with targets |
+| 🧮 **Quick Calculator** | Floating widget for instant predictions |
+| 📅 **Event Calendar** | Exam schedules + holidays integrated |
+| 📈 **Analytics** | Beautiful charts & performance insights |
+| 🎯 **Goal Tracking** | Set targets & track streaks |
+| 🌙 **Dark Mode** | Premium dark theme throughout |
+| 📱 **Responsive** | Works perfectly on all devices |
+| 📄 **Export** | Download PDF/Excel reports |
+
+</div>
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+### Frontend
+![React](https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-black?style=for-the-badge&logo=framer&logoColor=white)
+
+### Backend & Services
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+### Libraries
+![Recharts](https://img.shields.io/badge/Recharts-FF6384?style=for-the-badge&logo=chart.js&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logo=react&logoColor=white)
+
+</div>
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Vixcy300/attendance-manager.git
+
+# Navigate to directory
+cd attendance-manager
+
+# Install dependencies
+npm install
+
+# Create .env file with your credentials
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_key
+
+# Start development server
+npm run dev
+```
+
+### 🌐 Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Vixcy300/attendance-manager)
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+### 🏠 Dashboard
+*Clean, modern dashboard with real-time attendance overview*
+
+### 📅 Calendar View
+*Interactive calendar with exam schedules and holidays*
+
+### 📊 Statistics
+*Beautiful charts and performance analytics*
+
+### 🎯 Goals
+*Track your attendance goals and streaks*
+
+</div>
+
+---
+
+## 📅 Exam Schedule (MS2 2025-2026)
+
+<details>
+<summary><b>🏫 Day Scholar Schedule</b></summary>
+
+| Date | Event |
+|------|-------|
+| 14 Oct 2025 | SLOT A |
+| 05 Nov 2025 | Practical Exam / Capstone |
+| 06 Nov 2025 | Model Exam |
+| 07 Nov 2025 | Theory Exam |
+| 08 Nov 2025 | SLOT B |
+| 24 Nov 2025 | Practical Exam / Capstone |
+| 25 Nov 2025 | Model Exam |
+| 26 Nov 2025 | Theory Exam |
+| 27 Nov 2025 | SLOT C |
+| 11 Dec 2025 | Practical Exam / Capstone |
+| 12 Dec 2025 | Model Exam |
+| 13 Dec 2025 | Theory Exam |
+| 15 Dec 2025 | SLOT D |
+| 02 Jan 2026 | Practical Exam / Capstone |
+| 03 Jan 2026 | Model Exam |
+| 05 Jan 2026 | Theory Exam |
+
+</details>
+
+<details>
+<summary><b>🏠 Hosteler Schedule</b></summary>
+
+| Date | Event |
+|------|-------|
+| 14 Oct 2025 | SLOT A |
+| 10 Nov 2025 | Practical Exam / Capstone |
+| 11 Nov 2025 | Model Exam |
+| 12 Nov 2025 | Theory Exam |
+| 13 Nov 2025 | SLOT B |
+| 26 Nov 2025 | Practical Exam / Capstone |
+| 27 Nov 2025 | Model Exam |
+| 28 Nov 2025 | Theory Exam |
+| 29 Nov 2025 | SLOT C |
+| 11 Dec 2025 | Practical Exam / Capstone |
+| 12 Dec 2025 | Model Exam |
+| 13 Dec 2025 | Theory Exam |
+| 15 Dec 2025 | SLOT D |
+| 02 Jan 2026 | Practical Exam / Capstone |
+| 03 Jan 2026 | Model Exam |
+| 05 Jan 2026 | Theory Exam |
+
+</details>
+
+---
+
+## 🔒 Security & Privacy
+
+<div align="center">
+
+| ✅ Feature | Description |
+|-----------|-------------|
+| 🔐 Encrypted Data | All data encrypted at rest with Supabase |
+| 🛡️ Row Level Security | Users can only access their own data |
+| 🚫 No Third-Party Sharing | Your data stays private |
+| 🔑 Secure Auth | Email-based authentication |
+| ⏰ Auto Logout | Session management for security |
+
+</div>
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+
+1. 🍴 Fork the repository
+2. 🌿 Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. 💾 Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. 📤 Push to branch (`git push origin feature/AmazingFeature`)
+5. 🔃 Open a Pull Request
+
+---
+
+## 📧 Contact
+
+<div align="center">
+
+**Developer:** Vignesh
+
+[![Email](https://img.shields.io/badge/Email-vigneshigt@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:vigneshigt@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-Vixcy300-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Vixcy300)
+
+</div>
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+### ⭐ Star this repo if you find it helpful!
+
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Clapping%20Hands.png" alt="Clapping Hands" width="60" />
+
+**Made with ❤️ by a student, for students**
+
+*Track your attendance. Achieve your goals. Succeed in academics.*
+
+---
+
+![Wave](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer)
+
+</div>
