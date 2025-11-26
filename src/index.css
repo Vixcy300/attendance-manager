@@ -137,3 +137,96 @@
 .react-calendar__tile--now {
   @apply bg-primary-100 dark:bg-primary-900;
 }
+
+/* Exam and Holiday Day Styling */
+.exam-day {
+  @apply relative;
+}
+
+.exam-day::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+}
+
+.holiday-day {
+  @apply relative;
+}
+
+.holiday-day::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #3b82f6);
+}
+
+/* Event Indicator Pulse Animation */
+.event-indicator {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* Calendar Tile Hover Effect */
+.react-calendar__tile:hover {
+  @apply bg-gray-100 dark:bg-gray-700 transition-colors duration-200;
+}
+
+/* Student Type Toggle Button Styles */
+.student-type-toggle {
+  @apply relative flex bg-gray-200 dark:bg-gray-700 rounded-full p-1;
+}
+
+.student-type-btn {
+  @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 z-10;
+}
+
+.student-type-btn.active {
+  @apply text-white;
+}
+
+.student-type-btn:not(.active) {
+  @apply text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white;
+}
+
+/* Calendar Event Badge */
+.calendar-event-badge {
+  @apply absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-xs font-bold rounded-full;
+  animation: bounce 2s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Safe Area for Mobile */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

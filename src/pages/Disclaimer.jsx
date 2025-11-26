@@ -171,7 +171,7 @@ const Disclaimer = () => {
                   <strong>Project Type:</strong> Student Portfolio Project
                 </p>
                 <p>
-                  <strong>Version:</strong> 1.1.0
+                  <strong>Version:</strong> 1.2.0
                 </p>
               </div>
               <p className="text-sm">
