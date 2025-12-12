@@ -7,105 +7,75 @@
     scroll-behavior: smooth;
   }
   
+  /* Dark mode (default) */
   body {
-    @apply bg-background-light dark:bg-background-dark transition-colors duration-300;
+    @apply bg-black text-white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  * {
-    @apply transition-colors duration-200;
+
+  /* Light mode support */
+  html:not(.dark) body {
+    @apply bg-gray-50 text-gray-900;
   }
 }
 
 @layer components {
-  /* Premium Card Styles */
   .card {
-    @apply bg-white dark:bg-surface-dark rounded-2xl p-6 transition-all duration-300;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card:hover {
-    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.1), 0 4px 6px -2px rgba(99, 102, 241, 0.05);
-    transform: translateY(-2px);
-  }
-  
-  .dark .card {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  }
-  
-  .dark .card:hover {
-    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.2), 0 4px 6px -2px rgba(99, 102, 241, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    @apply bg-neutral-900 border border-neutral-800 rounded-xl p-4;
   }
 
-  /* Premium Glass Card */
-  .card-glass {
-    @apply backdrop-blur-xl rounded-2xl p-6 transition-all duration-300;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  html:not(.dark) .card {
+    @apply bg-white border-gray-200;
   }
-  
-  .dark .card-glass {
-    background: rgba(24, 24, 31, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* Premium Buttons */
+
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-300;
-    box-shadow: 0 4px 14px -2px rgba(99, 102, 241, 0.4);
-  }
-  
-  .btn-primary:hover {
-    box-shadow: 0 6px 20px -2px rgba(99, 102, 241, 0.6);
-    transform: translateY(-1px);
-  }
-  
-  .btn-primary:active {
-    transform: translateY(0) scale(0.98);
+    @apply bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors;
   }
   
   .btn-secondary {
-    @apply bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-800 dark:text-neutral-100 font-semibold py-2.5 px-6 rounded-xl transition-all duration-300;
+    @apply bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2 px-4 rounded-lg transition-colors;
   }
-  
-  .btn-secondary:hover {
-    transform: translateY(-1px);
-  }
-  
-  .btn-accent {
-    @apply bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-300;
-    box-shadow: 0 4px 14px -2px rgba(217, 70, 239, 0.4);
+
+  html:not(.dark) .btn-secondary {
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-900;
   }
   
   .input-field {
-    @apply w-full px-4 py-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 dark:text-white transition-all duration-300;
+    @apply w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500 transition-colors;
+  }
+
+  html:not(.dark) .input-field {
+    @apply bg-white border-gray-300 text-gray-900 placeholder-gray-400;
   }
   
-  .input-field:focus {
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-  }
-  
-  /* Premium Badges */
   .badge-safe {
-    @apply bg-gradient-to-r from-success-100 to-success-50 text-success-700 dark:from-success-900/50 dark:to-success-800/30 dark:text-success-300 px-3 py-1.5 rounded-full text-sm font-semibold border border-success-200 dark:border-success-700/50;
+    @apply bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full text-xs font-medium;
   }
   
   .badge-warning {
-    @apply bg-gradient-to-r from-warning-100 to-warning-50 text-warning-700 dark:from-warning-900/50 dark:to-warning-800/30 dark:text-warning-300 px-3 py-1.5 rounded-full text-sm font-semibold border border-warning-200 dark:border-warning-700/50;
+    @apply bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full text-xs font-medium;
   }
   
   .badge-critical {
-    @apply bg-gradient-to-r from-danger-100 to-danger-50 text-danger-700 dark:from-danger-900/50 dark:to-danger-800/30 dark:text-danger-300 px-3 py-1.5 rounded-full text-sm font-semibold border border-danger-200 dark:border-danger-700/50;
+    @apply bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full text-xs font-medium;
   }
 }
 
-/* Premium Scrollbar */
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -113,157 +83,83 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-300 dark:bg-neutral-700 rounded-full;
-  border: 2px solid transparent;
-  background-clip: content-box;
+  @apply bg-neutral-700 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary-400 dark:bg-primary-600;
+  @apply bg-neutral-600;
 }
 
-/* Premium Counter Animation */
-.animate-counter {
-  animation: countUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Premium Loading Spinner */
+/* Loading Spinner */
 .spinner {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 3px solid rgba(99, 102, 241, 0.1);
-  border-top-color: #6366f1;
-  animation: spin 0.8s linear infinite;
+  border: 3px solid rgba(16, 185, 129, 0.2);
+  border-top-color: #10b981;
+  animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* Premium Floating Button */
-.floating-btn {
-  @apply fixed bottom-6 right-6 bg-gradient-to-br from-primary-500 to-accent-500 text-white rounded-2xl p-4 z-50 transition-all duration-300;
-  box-shadow: 0 8px 30px -4px rgba(99, 102, 241, 0.5);
-  animation: float 4s ease-in-out infinite;
-}
-
-.floating-btn:hover {
-  box-shadow: 0 12px 40px -4px rgba(99, 102, 241, 0.7);
-  transform: translateY(-5px);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-5px) rotate(1deg); }
-  75% { transform: translateY(-3px) rotate(-1deg); }
-}
-
-/* Premium Modal Backdrop */
+/* Modal */
 .modal-backdrop {
-  @apply fixed inset-0 flex items-center justify-center z-50;
-  padding: 0.5rem;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
-  animation: fadeIn 0.2s ease-out;
+  @apply fixed inset-0 flex items-center justify-center z-50 p-4;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Mobile Orientation Support */
+/* Mobile */
 @media screen and (max-width: 768px) {
   body {
     -webkit-text-size-adjust: 100%;
     touch-action: manipulation;
   }
-  
-  .modal-backdrop {
-    align-items: flex-start;
-    padding-top: 1rem;
-  }
 }
 
-@media screen and (orientation: landscape) and (max-height: 600px) {
-  .modal-backdrop {
-    padding: 0.25rem;
-  }
-}
-
-/* Premium Calendar Styles */
+/* Calendar Base - Dark Theme */
 .react-calendar {
   background: transparent !important;
   border: none !important;
   font-family: inherit !important;
   width: 100% !important;
+  color: white !important;
 }
 
 .react-calendar__navigation {
-  margin-bottom: 1rem !important;
-  display: flex !important;
-  gap: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .react-calendar__navigation button {
   font-size: 1rem !important;
   font-weight: 600 !important;
-  color: #374151 !important;
-  border-radius: 0.75rem !important;
-  padding: 0.75rem !important;
-  transition: all 0.3s ease !important;
-  background: rgba(99, 102, 241, 0.05) !important;
-  border: 1px solid transparent !important;
-  min-width: 44px !important;
-}
-
-.dark .react-calendar__navigation button {
-  color: #e5e7eb !important;
-  background: rgba(99, 102, 241, 0.1) !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem !important;
+  transition: all 0.15s ease !important;
+  background: transparent !important;
+  min-width: 40px !important;
 }
 
 .react-calendar__navigation button:hover:not(:disabled) {
-  background: rgba(99, 102, 241, 0.15) !important;
-  border-color: rgba(99, 102, 241, 0.3) !important;
-}
-
-.dark .react-calendar__navigation button:hover:not(:disabled) {
-  background: rgba(99, 102, 241, 0.25) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
 .react-calendar__navigation button:disabled {
-  background: transparent !important;
   opacity: 0.3;
 }
 
 .react-calendar__month-view__weekdays {
-  font-weight: 700 !important;
-  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  font-size: 0.7rem !important;
   text-transform: uppercase !important;
-  color: #6366f1 !important;
-  letter-spacing: 0.05em !important;
-}
-
-.dark .react-calendar__month-view__weekdays {
-  color: #818cf8 !important;
+  color: #888 !important;
 }
 
 .react-calendar__month-view__weekdays__weekday {
-  padding: 0.75rem !important;
+  padding: 0.5rem !important;
 }
 
 .react-calendar__month-view__weekdays__weekday abbr {
@@ -271,340 +167,95 @@
 }
 
 .react-calendar__tile {
-  aspect-ratio: 1 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 0.9rem !important;
+  font-size: 0.875rem !important;
   font-weight: 500 !important;
-  border-radius: 0.75rem !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.15s ease !important;
   position: relative !important;
-  color: #374151 !important;
+  color: white !important;
   background: transparent !important;
-  margin: 2px !important;
+  padding: 0.75rem !important;
+  margin: 1px !important;
 }
 
-.dark .react-calendar__tile {
-  color: #e5e7eb !important;
-}
-
-.react-calendar__tile:enabled:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1)) !important;
-  transform: scale(1.08) !important;
-  z-index: 1 !important;
-}
-
-.dark .react-calendar__tile:enabled:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.2)) !important;
+.react-calendar__tile:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
 .react-calendar__tile--now {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.15)) !important;
-  font-weight: 700 !important;
-  border: 2px solid rgba(99, 102, 241, 0.4) !important;
-}
-
-.dark .react-calendar__tile--now {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(139, 92, 246, 0.25)) !important;
-  border-color: rgba(99, 102, 241, 0.6) !important;
+  background: rgba(16, 185, 129, 0.2) !important;
 }
 
 .react-calendar__tile--active {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  background: #10b981 !important;
   color: white !important;
-  box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.5) !important;
 }
 
-.react-calendar__tile--active:enabled:hover {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+.react-calendar__tile--neighboringMonth {
+  color: #555 !important;
 }
 
-.react-calendar__month-view__days__day--neighboringMonth {
-  color: #9ca3af !important;
-  opacity: 0.4 !important;
+/* Calendar Day Status */
+.react-calendar__tile.present-day {
+  background: rgba(16, 185, 129, 0.2) !important;
 }
 
-.dark .react-calendar__month-view__days__day--neighboringMonth {
-  color: #6b7280 !important;
+.react-calendar__tile.absent-day {
+  background: rgba(239, 68, 68, 0.2) !important;
 }
 
-/* Exam and Holiday Day Premium Styling */
-.exam-day {
-  @apply relative;
+.react-calendar__tile.exam-day {
+  background: rgba(245, 158, 11, 0.2) !important;
 }
 
-.exam-day::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #f59e0b, #ef4444);
-  box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
-  animation: glowPulse 2s ease-in-out infinite;
+.react-calendar__tile.holiday-day {
+  background: rgba(139, 92, 246, 0.2) !important;
 }
 
-.holiday-day {
-  @apply relative;
-}
-
-.holiday-day::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #10b981, #6366f1);
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-  animation: glowPulse 2s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    box-shadow: 0 0 16px rgba(99, 102, 241, 0.8);
-    transform: translateX(-50%) scale(1.2);
+/* Mobile Calendar */
+@media (max-width: 640px) {
+  .react-calendar__tile {
+    padding: 0.5rem !important;
+    font-size: 0.75rem !important;
   }
 }
 
-/* Student Type Toggle Premium Styles */
-.student-type-toggle {
-  @apply relative flex rounded-2xl p-1.5;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
-  border: 1px solid rgba(99, 102, 241, 0.2);
+/* Quick Calculator Overrides */
+.floating-btn {
+  @apply fixed bottom-6 right-6 z-50;
 }
 
-.dark .student-type-toggle {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
-  border-color: rgba(99, 102, 241, 0.3);
+/* Toast Styles */
+.Toastify__toast {
+  background: #171717 !important;
+  border: 1px solid #333 !important;
+  border-radius: 0.75rem !important;
+  color: white !important;
 }
 
-.student-type-btn {
-  @apply px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 z-10;
+/* Select dropdown dark mode */
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-.student-type-btn.active {
-  @apply text-white;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.5);
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.student-type-btn:not(.active) {
-  @apply text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400;
-}
-
-/* Calendar Event Badge Premium */
-.calendar-event-badge {
-  @apply absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center text-xs font-bold rounded-full text-white;
-  background: linear-gradient(135deg, #6366f1, #d946ef);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.5);
-  animation: bounceGlow 2s ease infinite;
-}
-
-@keyframes bounceGlow {
-  0%, 100% {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.5);
-  }
-  50% {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.7);
-  }
-}
-
-/* Safe Area for Mobile */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
-/* Premium Custom Scrollbar */
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.3));
-  border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.6), rgba(139, 92, 246, 0.5));
-}
-
-/* Premium Glassmorphism */
-.glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-}
-
-.dark .glass {
-  background: rgba(24, 24, 31, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-/* Premium Gradient Text */
-.gradient-text {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 40%, #d946ef 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-text-gold {
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Premium Page Transitions */
-.page-enter {
-  opacity: 0;
-  transform: translateY(20px) scale(0.98);
-}
-
-.page-enter-active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1), transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* v2.0 Premium Badge */
-.version-badge {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
-  background-size: 200% 200%;
-  color: white;
-  padding: 0.35rem 1rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  animation: gradientShift 3s ease-in-out infinite, glowBadge 2s ease-in-out infinite;
-  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.4);
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes glowBadge {
-  0%, 100% {
-    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.4);
-  }
-  50% {
-    box-shadow: 0 4px 24px rgba(99, 102, 241, 0.7), 0 0 40px rgba(139, 92, 246, 0.3);
-  }
-}
-
-/* Premium Stat Card Gradient Borders */
-.stat-card-premium {
-  position: relative;
-  border-radius: 1rem;
-  overflow: hidden;
-}
-
-.stat-card-premium::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 1rem;
-  padding: 1.5px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef, #6366f1);
-  background-size: 300% 300%;
-  animation: gradientBorder 4s ease infinite;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-@keyframes gradientBorder {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Premium Focus Ring */
-*:focus-visible {
-  outline: 2px solid #6366f1;
-  outline-offset: 2px;
-  border-radius: 0.5rem;
-}
-
-/* Premium Selection */
-::selection {
-  background: rgba(99, 102, 241, 0.3);
-  color: inherit;
-}
-
-/* Premium Hover Glow Effect */
-.hover-glow {
-  transition: all 0.3s ease;
-}
-
-.hover-glow:hover {
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.3), 0 10px 40px -10px rgba(99, 102, 241, 0.4);
-}
-
-/* Premium Shimmer Loading */
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 20%,
-    rgba(255, 255, 255, 0.5) 60%,
-    rgba(255, 255, 255, 0)
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  from { background-position: 200% 0; }
-  to { background-position: -200% 0; }
-}
-
-/* Premium Stat Number Animation */
-.stat-number {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-
-/* Premium Progress Bar */
-.progress-premium {
-  @apply h-3 rounded-full overflow-hidden;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
-}
-
-.progress-premium-bar {
-  @apply h-full rounded-full transition-all duration-700 ease-out;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+input[type="number"] {
+  -moz-appearance: textfield;
 }

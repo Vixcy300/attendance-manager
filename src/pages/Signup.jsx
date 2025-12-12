@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { UserPlus, Mail, Lock, User, Hash, Eye, EyeOff, Building2 } from 'lucide-react';
+import { Mail, Lock, User, Hash, Eye, EyeOff, Building2, ArrowRight } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 
 const Signup = () => {
@@ -21,222 +20,178 @@ const Signup = () => {
 
   const validate = () => {
     const newErrors = {};
-
-    if (formData.name.length < 3) {
-      newErrors.name = 'Name must be at least 3 characters';
-    }
-
-    if (!formData.email.includes('@')) {
-      newErrors.email = 'Please enter a valid email';
-    }
-
-    if (formData.rollNumber.length < 3) {
-      newErrors.rollNumber = 'Roll number must be at least 3 characters';
-    }
-
-    if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-
+    if (formData.name.length < 3) newErrors.name = 'Name must be at least 3 characters';
+    if (!formData.email.includes('@')) newErrors.email = 'Please enter a valid email';
+    if (formData.rollNumber.length < 3) newErrors.rollNumber = 'Roll number must be at least 3 characters';
+    if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (!validate()) return;
-
     setLoading(true);
-
     const { error } = await signUp(formData.email, formData.password, {
       name: formData.name,
       roll_number: formData.rollNumber,
       university: formData.university,
     });
-
-    if (!error) {
-      navigate('/dashboard');
-    }
-
+    if (!error) navigate('/dashboard');
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden"
-      >
-        {/* Header */}
-        <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-8 text-white">
-          <h1 className="text-3xl font-bold mb-2">Create Account</h1>
-          <p className="text-primary-100">Join SAM to track your attendance</p>
+    <div className="min-h-screen flex items-center justify-center bg-black p-4 py-8">
+      <div className="w-full max-w-lg">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <img 
+            src="/logo.png" 
+            alt="SIMATS" 
+            className="w-24 h-24 mx-auto mb-4 object-contain"
+          />
+          <h1 className="text-2xl font-bold text-white">Join SIMATS AM</h1>
+          <p className="text-neutral-400 mt-1">Start tracking your attendance today</p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Name */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Full Name
-              </label>
+              <label className="block text-sm font-medium text-neutral-300 mb-2">Full Name</label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="input-field pl-10"
-                  placeholder="John Doe"
+                  className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                  placeholder="Enter your name"
                 />
               </div>
-              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+              {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
             </div>
 
-            {/* Roll Number */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Roll Number
-              </label>
+              <label className="block text-sm font-medium text-neutral-300 mb-2">Roll Number</label>
               <div className="relative">
-                <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                 <input
                   type="text"
                   required
                   value={formData.rollNumber}
                   onChange={(e) => setFormData({ ...formData, rollNumber: e.target.value })}
-                  className="input-field pl-10"
-                  placeholder="CS21001"
+                  className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                  placeholder="e.g. 21EUCS001"
                 />
               </div>
-              {errors.rollNumber && <p className="text-red-500 text-xs mt-1">{errors.rollNumber}</p>}
+              {errors.rollNumber && <p className="text-red-400 text-xs mt-1">{errors.rollNumber}</p>}
             </div>
           </div>
 
-          {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              University Email
-            </label>
+            <label className="block text-sm font-medium text-neutral-300 mb-2">University Email</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
               <input
                 type="email"
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="input-field pl-10"
-                placeholder="your.email@university.edu"
+                className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                placeholder="your.email@simats.edu.in"
               />
             </div>
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
           </div>
 
-          {/* University */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              University/College
-            </label>
+            <label className="block text-sm font-medium text-neutral-300 mb-2">University/College</label>
             <div className="relative">
-              <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
               <input
                 type="text"
                 value={formData.university}
                 onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-                className="input-field pl-10"
-                placeholder="SIMATS Engineering"
+                className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                placeholder="Your institution"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Password */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-neutral-300 mb-2">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="input-field pl-10 pr-10"
-                  placeholder="••••••••"
+                  className="w-full pl-12 pr-12 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                  placeholder="Min 6 characters"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
-              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+              {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
             </div>
 
-            {/* Confirm Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Confirm Password
-              </label>
+              <label className="block text-sm font-medium text-neutral-300 mb-2">Confirm Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type="password"
                   required
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className="input-field pl-10"
-                  placeholder="••••••••"
+                  className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                  placeholder="Confirm password"
                 />
               </div>
-              {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
+              {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>}
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-primary flex items-center justify-center gap-2 py-3 mt-6"
+            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3.5 px-6 rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50 mt-6"
           >
             {loading ? (
-              <div className="spinner w-5 h-5 border-2"></div>
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
             ) : (
               <>
-                <UserPlus size={20} />
                 Create Account
+                <ArrowRight size={18} />
               </>
             )}
           </button>
 
-          {/* Sign In Link */}
-          <p className="text-center text-gray-600 dark:text-gray-400">
+          <p className="text-center text-neutral-400 pt-2">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary-500 hover:text-primary-600 font-semibold">
+            <Link to="/login" className="text-emerald-500 hover:text-emerald-400 font-semibold">
               Sign In
             </Link>
           </p>
 
-          {/* Disclaimer */}
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mt-4">
-            <p className="text-xs text-yellow-800 dark:text-yellow-200 text-center">
-              ⚠️ This is a student project and not an official SIMATS page.{' '}
-              <Link to="/disclaimer" className="underline">Learn more</Link>
-            </p>
-          </div>
+          <p className="text-center text-xs text-neutral-600">
+            <Link to="/disclaimer" className="hover:text-emerald-500 underline">
+              Not an official SIMATS application
+            </Link>
+          </p>
         </form>
-      </motion.div>
+      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 export const useAppStore = create(
   persist(
     (set) => ({
-      darkMode: false,
+      darkMode: true, // Default to dark mode
       showCalculator: false,
       showFeedbackForm: false,
       calculatorData: {
@@ -41,8 +41,8 @@ export const useAppStore = create(
     {
       name: 'app-storage',
       onRehydrateStorage: () => (state) => {
-        // Apply dark mode on initial load
-        if (state?.darkMode) {
+        // Apply dark mode on initial load (default to dark)
+        if (state?.darkMode !== false) {
           document.documentElement.classList.add('dark');
         }
       },

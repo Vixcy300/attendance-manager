@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Check, Minus } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
-import { calculatePercentage, getStatusInfo, getStatusBadgeClass, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
+import { calculatePercentage, getStatusInfo, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
 import toast from 'react-hot-toast';
 
 const Courses = () => {
@@ -20,9 +19,7 @@ const Courses = () => {
   });
 
   useEffect(() => {
-    if (user) {
-      fetchCourses(user.id);
-    }
+    if (user) fetchCourses(user.id);
   }, [user, fetchCourses]);
 
   const handleOpenModal = (course = null) => {
@@ -55,7 +52,6 @@ const Courses = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (parseInt(formData.classes_attended) > parseInt(formData.total_classes)) {
       toast.error('Classes attended cannot exceed total classes');
       return;
@@ -74,7 +70,6 @@ const Courses = () => {
     } else {
       await addCourse(courseData);
     }
-
     handleCloseModal();
   };
 
@@ -93,308 +88,210 @@ const Courses = () => {
   };
 
   return (
-    <div className="space-y-8 animate-slide-up">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-            My Courses
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Manage your courses and track attendance
-          </p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">My Courses</h1>
+          <p className="text-neutral-500 text-sm mt-0.5">Manage your courses and track attendance</p>
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="btn-primary flex items-center gap-2"
+          className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center gap-2 w-fit"
         >
-          <Plus size={20} />
+          <Plus size={18} />
           Add Course
         </button>
       </div>
 
       {/* Courses Grid */}
       {courses.length === 0 ? (
-        <div className="card text-center py-16">
-          <div className="text-gray-400 mb-4">
-            <svg className="w-24 h-24 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="bg-neutral-900 border border-neutral-800 rounded-xl text-center py-12 px-6">
+          <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
           </div>
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-            No courses yet
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Start by adding your first course to track attendance
-          </p>
+          <h3 className="text-lg font-semibold text-white mb-2">No courses yet</h3>
+          <p className="text-neutral-500 mb-6">Start by adding your first course</p>
           <button
             onClick={() => handleOpenModal()}
-            className="btn-primary inline-flex items-center gap-2"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors inline-flex items-center gap-2"
           >
-            <Plus size={20} />
-            Add Your First Course
+            <Plus size={18} />
+            Add Course
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.map((course, index) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {courses.map((course) => {
             const percentage = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
             const status = getStatusInfo(percentage);
             const classesNeeded = calculateClassesNeeded(course.classes_attended, course.total_classes, course.target_percentage);
             const classesCanMiss = calculateClassesCanMiss(course.classes_attended, course.total_classes, course.target_percentage);
 
             return (
-              <motion.div
+              <div
                 key={course.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="card hover:shadow-xl transition-all duration-200"
+                className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 hover:border-neutral-700 transition-colors"
               >
                 {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-                      {course.course_code}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                      {course.course_name}
-                    </p>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-white truncate">{course.course_code}</h3>
+                    <p className="text-sm text-neutral-500 truncate">{course.course_name}</p>
                   </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleOpenModal(course)}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                    >
-                      <Edit2 size={16} className="text-gray-600 dark:text-gray-400" />
+                  <div className="flex gap-1 ml-2">
+                    <button onClick={() => handleOpenModal(course)} className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors">
+                      <Edit2 size={14} className="text-neutral-500" />
                     </button>
-                    <button
-                      onClick={() => handleDelete(course.id)}
-                      className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                    >
-                      <Trash2 size={16} className="text-red-600 dark:text-red-400" />
+                    <button onClick={() => handleDelete(course.id)} className="p-1.5 hover:bg-red-500/10 rounded-lg transition-colors">
+                      <Trash2 size={14} className="text-red-500" />
                     </button>
                   </div>
                 </div>
 
-                {/* Circular Progress - Now uses target percentage for color */}
-                <div className="flex justify-center mb-4">
-                  <div className="relative">
-                    <svg className="w-32 h-32 transform -rotate-90">
+                {/* Circular Progress */}
+                <div className="flex justify-center mb-3">
+                  <div className="relative w-24 h-24">
+                    <svg className="w-full h-full -rotate-90">
+                      <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="6" fill="none" className="text-neutral-800" />
                       <circle
-                        cx="64"
-                        cy="64"
-                        r="56"
-                        stroke="currentColor"
-                        strokeWidth="8"
-                        fill="none"
-                        className="text-gray-200 dark:text-gray-700"
-                      />
-                      <circle
-                        cx="64"
-                        cy="64"
-                        r="56"
-                        stroke="currentColor"
-                        strokeWidth="8"
-                        fill="none"
-                        strokeDasharray={`${2 * Math.PI * 56}`}
-                        strokeDashoffset={`${2 * Math.PI * 56 * (1 - percentage / 100)}`}
-                        className={`transition-all duration-1000 ${
-                          percentage >= course.target_percentage ? 'text-green-500' : 
-                          percentage >= course.target_percentage - 10 ? 'text-yellow-500' : 'text-red-500'
-                        }`}
+                        cx="48" cy="48" r="40"
+                        stroke="currentColor" strokeWidth="6" fill="none"
+                        strokeDasharray={`${2 * Math.PI * 40}`}
+                        strokeDashoffset={`${2 * Math.PI * 40 * (1 - percentage / 100)}`}
                         strokeLinecap="round"
+                        className={percentage >= course.target_percentage ? 'text-emerald-500' : percentage >= course.target_percentage - 10 ? 'text-amber-500' : 'text-red-500'}
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-3xl font-bold text-gray-800 dark:text-white">
-                        {percentage.toFixed(0)}%
-                      </span>
-                      <span className={`text-xs font-semibold ${
-                        percentage >= course.target_percentage ? 'text-green-600' : 
-                        percentage >= course.target_percentage - 10 ? 'text-yellow-600' : 'text-red-600'
-                      }`}>
-                        {percentage >= course.target_percentage ? 'Safe' : 
-                         percentage >= course.target_percentage - 10 ? 'Warning' : 'Critical'}
-                      </span>
+                      <span className="text-xl font-bold text-white">{percentage.toFixed(1)}%</span>
+                      <span className="text-[10px] text-neutral-500">Target: {course.target_percentage}%</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Stats */}
-                <div className="space-y-3 mb-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600 dark:text-gray-400">Classes</span>
-                    <span className="font-semibold text-gray-800 dark:text-white">
-                      {course.classes_attended} / {course.total_classes}
-                    </span>
+                <div className="grid grid-cols-2 gap-2 mb-3 text-center">
+                  <div className="bg-neutral-950 rounded-lg p-2">
+                    <p className="text-xs text-neutral-500">Attended</p>
+                    <p className="text-lg font-bold text-white">{course.classes_attended}/{course.total_classes}</p>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600 dark:text-gray-400">Target</span>
-                    <span className={getStatusBadgeClass(percentage)}>
-                      {course.target_percentage}%
-                    </span>
+                  <div className="bg-neutral-950 rounded-lg p-2">
+                    <p className="text-xs text-neutral-500">{classesNeeded > 0 ? 'Need' : 'Can Skip'}</p>
+                    <p className={`text-lg font-bold ${classesNeeded > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                      {classesNeeded > 0 ? classesNeeded : classesCanMiss}
+                    </p>
                   </div>
-                  
-                  {/* Classes Can Miss / Classes Needed */}
-                  {percentage >= course.target_percentage ? (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600 dark:text-gray-400">Can Miss</span>
-                      <span className="font-semibold text-green-600 dark:text-green-400">
-                        {classesCanMiss} class{classesCanMiss !== 1 ? 'es' : ''}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600 dark:text-gray-400">Need to Attend</span>
-                      <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        {classesNeeded} class{classesNeeded !== 1 ? 'es' : ''}
-                      </span>
-                    </div>
-                  )}
                 </div>
 
                 {/* Quick Actions */}
-                <div className="grid grid-cols-2 gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex gap-2">
                   <button
                     onClick={() => handleIncrementAttendance(course, true)}
-                    className="py-2 px-4 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:hover:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg font-medium text-sm transition-colors"
+                    className="flex-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 py-2 px-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-1"
                   >
-                    ✅ Present
+                    <Check size={16} /> Present
                   </button>
                   <button
                     onClick={() => handleIncrementAttendance(course, false)}
-                    className="py-2 px-4 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg font-medium text-sm transition-colors"
+                    className="flex-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 py-2 px-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-1"
                   >
-                    ❌ Absent
+                    <Minus size={16} /> Absent
                   </button>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
       )}
 
       {/* Modal */}
-      <AnimatePresence>
-        {showModal && (
-          <div className="modal-backdrop" onClick={handleCloseModal}>
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full mx-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Modal Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-                  {editingCourse ? 'Edit Course' : 'Add New Course'}
-                </h2>
-                <button
-                  onClick={handleCloseModal}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                >
-                  <X size={20} />
-                </button>
+      {showModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-xl w-full max-w-md">
+            <div className="flex items-center justify-between p-4 border-b border-neutral-800">
+              <h2 className="text-lg font-semibold text-white">
+                {editingCourse ? 'Edit Course' : 'Add Course'}
+              </h2>
+              <button onClick={handleCloseModal} className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors">
+                <X size={18} className="text-neutral-500" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="p-4 space-y-4">
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1.5">Course Code *</label>
+                <input
+                  type="text"
+                  value={formData.course_code}
+                  onChange={(e) => setFormData({ ...formData, course_code: e.target.value })}
+                  placeholder="e.g., CS101"
+                  required
+                  className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
+                />
               </div>
 
-              {/* Modal Form */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1.5">Course Name *</label>
+                <input
+                  type="text"
+                  value={formData.course_name}
+                  onChange={(e) => setFormData({ ...formData, course_name: e.target.value })}
+                  placeholder="e.g., Introduction to Programming"
+                  required
+                  className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Course Code *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.course_code}
-                    onChange={(e) => setFormData({ ...formData, course_code: e.target.value })}
-                    className="input-field"
-                    placeholder="e.g., CS101"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Course Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.course_name}
-                    onChange={(e) => setFormData({ ...formData, course_name: e.target.value })}
-                    className="input-field"
-                    placeholder="e.g., Introduction to Computer Science"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Classes Attended
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      required
-                      value={formData.classes_attended}
-                      onChange={(e) => setFormData({ ...formData, classes_attended: e.target.value })}
-                      className="input-field"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Total Classes
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      required
-                      value={formData.total_classes}
-                      onChange={(e) => setFormData({ ...formData, total_classes: e.target.value })}
-                      className="input-field"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Target Percentage (%)
-                  </label>
+                  <label className="block text-sm text-neutral-400 mb-1.5">Attended</label>
                   <input
                     type="number"
                     min="0"
-                    max="100"
-                    required
-                    value={formData.target_percentage}
-                    onChange={(e) => setFormData({ ...formData, target_percentage: e.target.value })}
-                    className="input-field"
+                    value={formData.classes_attended}
+                    onChange={(e) => setFormData({ ...formData, classes_attended: e.target.value })}
+                    className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white focus:outline-none focus:border-emerald-500"
                   />
                 </div>
-
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="submit"
-                    className="flex-1 btn-primary flex items-center justify-center gap-2"
-                  >
-                    <Save size={18} />
-                    {editingCourse ? 'Update' : 'Add'} Course
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCloseModal}
-                    className="flex-1 btn-secondary"
-                  >
-                    Cancel
-                  </button>
+                <div>
+                  <label className="block text-sm text-neutral-400 mb-1.5">Total Classes</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.total_classes}
+                    onChange={(e) => setFormData({ ...formData, total_classes: e.target.value })}
+                    className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                  />
                 </div>
-              </form>
-            </motion.div>
+              </div>
+
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1.5">Target Percentage</label>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={formData.target_percentage}
+                  onChange={(e) => setFormData({ ...formData, target_percentage: e.target.value })}
+                  className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={handleCloseModal} className="flex-1 py-2 px-4 bg-neutral-800 text-white rounded-lg hover:bg-neutral-700 transition-colors">
+                  Cancel
+                </button>
+                <button type="submit" className="flex-1 py-2 px-4 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">
+                  {editingCourse ? 'Update' : 'Add'}
+                </button>
+              </div>
+            </form>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </div>
   );
 };

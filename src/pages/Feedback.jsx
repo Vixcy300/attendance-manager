@@ -1,31 +1,27 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Upload, X, Heart, Bug, Lightbulb } from 'lucide-react';
+import { Send, Bug, Lightbulb, Heart, X } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
-import { useAppStore } from '../store/appStore';
 import { db } from '../lib/supabase';
 import toast from 'react-hot-toast';
 import { getBrowserInfo } from '../utils/helpers';
 
 const Feedback = () => {
   const { user } = useAuthStore();
-  const { showFeedbackForm, setShowFeedbackForm } = useAppStore();
   const [userData, setUserData] = useState(null);
   const [submissionCount, setSubmissionCount] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: 'General Feedback',
     subject: '',
     description: '',
     categories: [],
     priority: 'Medium',
-    screenshot: null,
   });
 
   const feedbackTypes = [
-    { value: 'Bug Report', icon: Bug, color: 'text-red-500' },
-    { value: 'Feature Request', icon: Lightbulb, color: 'text-yellow-500' },
-    { value: 'General Feedback', icon: Heart, color: 'text-pink-500' },
-    { value: 'UI/UX Improvement', icon: '🎨', color: 'text-purple-500' },
+    { value: 'Bug Report', icon: Bug, color: 'text-red-400' },
+    { value: 'Feature Request', icon: Lightbulb, color: 'text-amber-400' },
+    { value: 'General Feedback', icon: Heart, color: 'text-pink-400' },
   ];
 
   const categories = ['Dashboard', 'Courses', 'Calculator', 'Statistics', 'Calendar', 'Other'];
@@ -52,49 +48,27 @@ const Feedback = () => {
     setSubmissionCount(todaySubmissions);
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('File size must be less than 5MB');
-        return;
-      }
-      setFormData({ ...formData, screenshot: file });
-    }
-  };
-
-  const handleQuickFeedback = (type, message) => {
-    setFormData({
-      ...formData,
-      type,
-      subject: message,
-      description: message,
-    });
-    toast.success(`Quick feedback: ${message}`);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check submission limit
     if (submissionCount >= 10) {
-      toast.error('You have reached the daily submission limit (10 submissions per day)');
+      toast.error('Daily limit reached (10/day)');
       return;
     }
 
-    // Validate
     if (formData.subject.length > 100) {
-      toast.error('Subject must be less than 100 characters');
+      toast.error('Subject too long (max 100 chars)');
       return;
     }
 
     if (formData.description.length < 30) {
-      toast.error('Description must be at least 30 characters');
+      toast.error('Description too short (min 30 chars)');
       return;
     }
 
+    setLoading(true);
+
     try {
-      // Save to database
       const feedbackData = {
         user_id: user.id,
         type: formData.type,
@@ -102,261 +76,139 @@ const Feedback = () => {
         description: formData.description,
         categories: formData.categories,
         priority: formData.priority,
-        status: 'Submitted',
+        browser_info: getBrowserInfo(),
+        status: 'Pending',
+        app_version: '3.0.0',
       };
 
-      const { data: savedFeedback, error } = await db.createFeedback(feedbackData);
+      const { error } = await db.createFeedback(feedbackData);
+
       if (error) throw error;
 
-      // Feedback saved successfully - you can view it in Feedback History
-      console.log('✅ Feedback saved to database:', savedFeedback?.id);
-
-      // Send email via Formspree
-      try {
-        const formspreeData = {
-          name: userData?.name || 'Anonymous',
-          email: userData?.email || user.email,
-          rollNumber: userData?.roll_number || 'N/A',
-          feedbackType: formData.type,
-          subject: formData.subject,
-          description: formData.description,
-          categories: formData.categories.join(', '),
-          priority: formData.priority,
-          timestamp: new Date().toLocaleString('en-IN'),
-          feedbackId: savedFeedback?.id,
-        };
-
-        const emailResponse = await fetch('https://formspree.io/f/xqawzkzd', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formspreeData),
-        });
-
-        if (emailResponse.ok) {
-          console.log('✅ Email sent successfully via Formspree!');
-          toast.success('Thank you! Your feedback has been submitted and emailed!');
-        } else {
-          console.error('Email failed:', await emailResponse.text());
-          toast.success('Feedback saved! (Email notification pending)');
-        }
-      } catch (emailError) {
-        console.error('Email error:', emailError);
-        toast.success('Feedback saved successfully!');
-      }
-      
-      // Reset form
+      toast.success('Feedback submitted!');
       setFormData({
         type: 'General Feedback',
         subject: '',
         description: '',
         categories: [],
         priority: 'Medium',
-        screenshot: null,
       });
-      
-      setSubmissionCount(submissionCount + 1);
-      if (showFeedbackForm) {
-        setShowFeedbackForm(false);
-      }
+      checkSubmissionLimit();
     } catch (error) {
-      console.error('Error submitting feedback:', error);
-      toast.error('Failed to submit feedback. Please try again.');
+      toast.error('Failed to submit feedback');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const toggleCategory = (category) => {
-    setFormData({
-      ...formData,
-      categories: formData.categories.includes(category)
-        ? formData.categories.filter(c => c !== category)
-        : [...formData.categories, category],
-    });
+  const toggleCategory = (cat) => {
+    if (formData.categories.includes(cat)) {
+      setFormData({ ...formData, categories: formData.categories.filter(c => c !== cat) });
+    } else {
+      setFormData({ ...formData, categories: [...formData.categories, cat] });
+    }
   };
 
   return (
-    <div className="space-y-8 animate-slide-up">
+    <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-            Feedback & Suggestions
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Help us improve the Student Attendance Manager
-          </p>
-        </div>
-        <button
-          onClick={() => window.location.href = '/feedback-history'}
-          className="btn-secondary"
-        >
-          My Feedback History
-        </button>
-      </div>
-
-      {/* Daily Limit Warning */}
-      {submissionCount >= 8 && (
-        <div className="card bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-200 dark:border-yellow-800">
-          <p className="text-yellow-800 dark:text-yellow-200">
-            ⚠️ You have submitted {submissionCount}/10 feedback today. {10 - submissionCount} remaining.
-          </p>
-        </div>
-      )}
-
-      {/* Quick Feedback Buttons */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => handleQuickFeedback('General Feedback', 'Love this! ❤️')}
-          className="card bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 border-2 border-pink-200 dark:border-pink-700"
-        >
-          <div className="text-center">
-            <div className="text-4xl mb-2">❤️</div>
-            <p className="font-semibold text-pink-800 dark:text-pink-200">Love this!</p>
-          </div>
-        </motion.button>
-
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => handleQuickFeedback('Bug Report', 'Found bug 🐛')}
-          className="card bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 border-2 border-red-200 dark:border-red-700"
-        >
-          <div className="text-center">
-            <div className="text-4xl mb-2">🐛</div>
-            <p className="font-semibold text-red-800 dark:text-red-200">Found a Bug</p>
-          </div>
-        </motion.button>
-
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => handleQuickFeedback('Feature Request', 'Suggest improvement 💡')}
-          className="card bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 border-2 border-yellow-200 dark:border-yellow-700"
-        >
-          <div className="text-center">
-            <div className="text-4xl mb-2">💡</div>
-            <p className="font-semibold text-yellow-800 dark:text-yellow-200">Suggest Improvement</p>
-          </div>
-        </motion.button>
+      <div className="text-center">
+        <h1 className="text-xl sm:text-2xl font-bold text-white">Send Feedback</h1>
+        <p className="text-neutral-500 text-sm mt-0.5">Help us improve the app</p>
+        <p className="text-xs text-neutral-600 mt-1">Submissions today: {submissionCount}/10</p>
       </div>
 
       {/* Feedback Form */}
-      <form onSubmit={handleSubmit} className="card">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-6">
-          Detailed Feedback Form
-        </h2>
-
+      <form onSubmit={handleSubmit} className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 sm:p-6 space-y-5">
         {/* Feedback Type */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-            Feedback Type *
-          </label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {feedbackTypes.map((type) => (
+        <div>
+          <label className="block text-sm text-neutral-400 mb-2">Feedback Type</label>
+          <div className="grid grid-cols-3 gap-2">
+            {feedbackTypes.map(type => (
               <button
                 key={type.value}
                 type="button"
                 onClick={() => setFormData({ ...formData, type: type.value })}
-                className={`p-4 rounded-lg border-2 transition-all ${
+                className={`p-3 rounded-lg border text-center transition-colors ${
                   formData.type === type.value
-                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                    ? 'border-emerald-500 bg-emerald-500/10'
+                    : 'border-neutral-800 hover:border-neutral-700'
                 }`}
               >
-                <div className="text-2xl mb-2">
-                  {typeof type.icon === 'string' ? type.icon : <type.icon className={type.color} />}
-                </div>
-                <p className="text-sm font-medium text-gray-800 dark:text-white">
-                  {type.value}
-                </p>
+                <type.icon className={`w-5 h-5 mx-auto mb-1 ${type.color}`} />
+                <span className="text-xs text-white">{type.value.split(' ')[0]}</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Subject */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Subject * (Max 100 characters)
-          </label>
+        <div>
+          <label className="block text-sm text-neutral-400 mb-1.5">Subject *</label>
           <input
             type="text"
-            required
-            maxLength={100}
             value={formData.subject}
             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-            className="input-field"
             placeholder="Brief summary of your feedback"
+            required
+            maxLength={100}
+            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
           />
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            {formData.subject.length}/100 characters
-          </p>
+          <p className="text-xs text-neutral-600 mt-1">{formData.subject.length}/100</p>
         </div>
 
         {/* Description */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Description * (Min 30 characters)
-          </label>
+        <div>
+          <label className="block text-sm text-neutral-400 mb-1.5">Description *</label>
           <textarea
-            required
-            minLength={30}
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="input-field"
-            rows="5"
-            placeholder="Please provide detailed information..."
+            placeholder="Describe your feedback in detail (minimum 30 characters)"
+            required
+            rows={4}
+            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500 resize-none"
           />
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            {formData.description.length} characters
-          </p>
+          <p className="text-xs text-neutral-600 mt-1">{formData.description.length} characters</p>
         </div>
 
         {/* Categories */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-            Related Categories (Select all that apply)
-          </label>
+        <div>
+          <label className="block text-sm text-neutral-400 mb-2">Related to (optional)</label>
           <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
+            {categories.map(cat => (
               <button
-                key={category}
+                key={cat}
                 type="button"
-                onClick={() => toggleCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  formData.categories.includes(category)
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300'
+                onClick={() => toggleCategory(cat)}
+                className={`px-3 py-1 rounded-full text-xs transition-colors ${
+                  formData.categories.includes(cat)
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-neutral-800 text-neutral-400 hover:text-white'
                 }`}
               >
-                {category}
+                {cat}
               </button>
             ))}
           </div>
         </div>
 
         {/* Priority */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-            Priority
-          </label>
-          <div className="flex gap-3">
-            {priorities.map((priority) => (
+        <div>
+          <label className="block text-sm text-neutral-400 mb-2">Priority</label>
+          <div className="flex gap-2">
+            {priorities.map(priority => (
               <button
                 key={priority}
                 type="button"
                 onClick={() => setFormData({ ...formData, priority })}
-                className={`flex-1 py-2 rounded-lg font-medium transition-all ${
+                className={`flex-1 py-2 rounded-lg text-sm transition-colors ${
                   formData.priority === priority
-                    ? priority === 'High'
-                      ? 'bg-red-500 text-white'
+                    ? priority === 'High' 
+                      ? 'bg-red-500 text-white' 
                       : priority === 'Medium'
-                      ? 'bg-yellow-500 text-white'
-                      : 'bg-green-500 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                        ? 'bg-amber-500 text-white'
+                        : 'bg-blue-500 text-white'
+                    : 'bg-neutral-800 text-neutral-400 hover:text-white'
                 }`}
               >
                 {priority}
@@ -365,53 +217,23 @@ const Feedback = () => {
           </div>
         </div>
 
-        {/* Screenshot Upload */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Screenshot (Optional, Max 5MB)
-          </label>
-          <div className="flex items-center gap-4">
-            <label className="btn-secondary cursor-pointer flex items-center gap-2">
-              <Upload size={18} />
-              Choose File
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileUpload}
-                className="hidden"
-              />
-            </label>
-            {formData.screenshot && (
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600 dark:text-gray-400">
-                  {formData.screenshot.name}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, screenshot: null })}
-                  className="text-red-500 hover:text-red-600"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Submit Button */}
+        {/* Submit */}
         <button
           type="submit"
-          disabled={submissionCount >= 10}
-          className="w-full btn-primary flex items-center justify-center gap-2 py-3"
+          disabled={loading || submissionCount >= 10}
+          className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
-          <Send size={20} />
-          Submit Feedback
+          <Send size={18} />
+          {loading ? 'Submitting...' : 'Submit Feedback'}
         </button>
-
-        <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-4">
-          Your feedback will be reviewed by the developer
-        </p>
       </form>
+
+      {/* Info */}
+      <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-center">
+        <p className="text-neutral-400 text-sm">
+          Your feedback helps us improve! All submissions are reviewed by our team.
+        </p>
+      </div>
     </div>
   );
 };

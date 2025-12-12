@@ -11,6 +11,7 @@ import Courses from './pages/Courses';
 import Calendar from './pages/Calendar';
 import Statistics from './pages/Statistics';
 import Goals from './pages/Goals';
+import Streaks from './pages/Streaks';
 import Feedback from './pages/Feedback';
 import Profile from './pages/Profile';
 import Disclaimer from './pages/Disclaimer';
@@ -32,7 +33,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="spinner"></div>
       </div>
     );
@@ -80,6 +81,7 @@ function App() {
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/goals" element={<Goals />} />
+            <Route path="/streaks" element={<Streaks />} />
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/feedback-history" element={<FeedbackHistory />} />
             <Route path="/profile" element={<Profile />} />

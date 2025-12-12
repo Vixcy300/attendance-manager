@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Clock } from 'lucide-react';
+import { ArrowLeft, Clock, MessageSquare } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { db } from '../lib/supabase';
 import { formatDate } from '../utils/helpers';
@@ -10,9 +11,7 @@ const FeedbackHistory = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      loadFeedback();
-    }
+    if (user) loadFeedback();
   }, [user]);
 
   const loadFeedback = async () => {
@@ -25,117 +24,77 @@ const FeedbackHistory = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Submitted':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+      case 'Pending':
+        return 'bg-amber-500/10 text-amber-400';
       case 'Under Review':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+        return 'bg-blue-500/10 text-blue-400';
       case 'Completed':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+        return 'bg-emerald-500/10 text-emerald-400';
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
-    }
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'Submitted':
-        return '🟡';
-      case 'Under Review':
-        return '🔵';
-      case 'Completed':
-        return '✅';
-      default:
-        return '⚪';
+        return 'bg-neutral-500/10 text-neutral-400';
     }
   };
 
   return (
-    <div className="space-y-8 animate-slide-up">
+    <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => window.history.back()}
-          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+      <div className="flex items-center gap-3">
+        <Link 
+          to="/feedback" 
+          className="p-2 bg-neutral-900 border border-neutral-800 rounded-lg hover:bg-neutral-800 transition-colors"
         >
-          <ArrowLeft size={24} />
-        </button>
+          <ArrowLeft size={18} className="text-neutral-400" />
+        </Link>
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-            My Feedback History
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Track the status of your submitted feedback
-          </p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Feedback History</h1>
+          <p className="text-neutral-500 text-sm mt-0.5">View your submitted feedback</p>
         </div>
       </div>
 
       {/* Feedback List */}
       {loading ? (
-        <div className="flex justify-center py-12">
-          <div className="spinner"></div>
+        <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-8 text-center">
+          <p className="text-neutral-500">Loading...</p>
         </div>
       ) : feedbackList.length === 0 ? (
-        <div className="card text-center py-16">
-          <div className="text-gray-400 mb-4">
-            <Clock size={64} className="mx-auto" />
+        <div className="bg-neutral-900 border border-neutral-800 rounded-xl text-center py-12 px-6">
+          <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4">
+            <MessageSquare className="w-8 h-8 text-neutral-600" />
           </div>
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-            No feedback submitted yet
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Your feedback history will appear here
-          </p>
-          <button
-            onClick={() => window.location.href = '/feedback'}
-            className="btn-primary"
+          <h3 className="text-lg font-semibold text-white mb-2">No feedback yet</h3>
+          <p className="text-neutral-500 mb-6">You haven't submitted any feedback</p>
+          <Link
+            to="/feedback"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors inline-block"
           >
-            Submit Your First Feedback
-          </button>
+            Submit Feedback
+          </Link>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {feedbackList.map((feedback) => (
             <div
               key={feedback.id}
-              className="card hover:shadow-lg transition-all duration-200"
+              className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 hover:border-neutral-700 transition-colors"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                        feedback.status
-                      )}`}
-                    >
-                      {getStatusIcon(feedback.status)} {feedback.status}
-                    </span>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
-                      {formatDate(feedback.created_at)}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-1">
-                    {feedback.subject}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    Type: {feedback.type} • Priority: {feedback.priority}
-                  </p>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    {feedback.description}
-                  </p>
-                </div>
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <h3 className="font-medium text-white">{feedback.subject}</h3>
+                <span className={`text-xs px-2 py-0.5 rounded shrink-0 ${getStatusColor(feedback.status)}`}>
+                  {feedback.status}
+                </span>
               </div>
-
-              {feedback.categories && feedback.categories.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  {feedback.categories.map((category, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs"
-                    >
-                      {category}
-                    </span>
-                  ))}
-                </div>
-              )}
+              
+              <p className="text-neutral-400 text-sm line-clamp-2 mb-3">{feedback.description}</p>
+              
+              <div className="flex items-center justify-between text-xs">
+                <span className="bg-neutral-800 text-neutral-400 px-2 py-0.5 rounded">
+                  {feedback.type}
+                </span>
+                <span className="text-neutral-600 flex items-center gap-1">
+                  <Clock size={12} />
+                  {formatDate(new Date(feedback.created_at))}
+                </span>
+              </div>
             </div>
           ))}
         </div>

@@ -8,7 +8,6 @@ const FloatingButtons = () => {
   const { setShowCalculator } = useAppStore();
   const { user } = useAuthStore();
 
-  // Only show for authenticated users
   if (!user) return null;
 
   return (
@@ -16,20 +15,21 @@ const FloatingButtons = () => {
       {/* Calculator Button */}
       <button
         onClick={() => setShowCalculator(true)}
-        className="floating-btn"
-        title="Quick Attendance Calculator"
-        style={{ bottom: '8rem', right: '1.5rem' }}
+        className="fixed z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-3 rounded-xl shadow-lg transition-colors"
+        title="Quick Calculator"
+        style={{ bottom: '5rem', right: '1rem' }}
       >
-        <Calculator size={24} />
+        <Calculator size={20} />
       </button>
 
       {/* Feedback Button */}
       <button
         onClick={() => navigate('/feedback')}
-        className="floating-btn"
-        title="Send Feedback"
+        className="fixed z-50 bg-neutral-800 hover:bg-neutral-700 text-white p-3 rounded-xl shadow-lg transition-colors"
+        title="Feedback"
+        style={{ bottom: '1rem', right: '1rem' }}
       >
-        <MessageSquare size={24} />
+        <MessageSquare size={20} />
       </button>
     </>
   );

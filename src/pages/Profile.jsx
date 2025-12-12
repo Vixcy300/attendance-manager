@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { User, Mail, Hash, Building2, Save } from 'lucide-react';
+import { User, Mail, Hash, Building2, Save, Shield } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { db } from '../lib/supabase';
 import toast from 'react-hot-toast';
@@ -15,9 +15,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (user) {
-      loadUserData();
-    }
+    if (user) loadUserData();
   }, [user]);
 
   const loadUserData = async () => {
@@ -35,159 +33,121 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     const { error } = await updateProfile(formData);
-    
-    if (!error) {
-      loadUserData();
-    }
-
+    if (!error) loadUserData();
     setLoading(false);
   };
 
   return (
-    <div className="space-y-8 animate-slide-up max-w-2xl mx-auto">
+    <div className="space-y-6 max-w-xl mx-auto">
       {/* Header */}
       <div className="text-center">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-4xl font-bold mx-auto mb-4">
+        <div className="w-20 h-20 rounded-full bg-emerald-500 flex items-center justify-center text-white text-3xl font-bold mx-auto mb-3">
           {userData?.name?.charAt(0).toUpperCase() || 'U'}
         </div>
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-          My Profile
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          Manage your account information
-        </p>
+        <h1 className="text-xl sm:text-2xl font-bold text-white">My Profile</h1>
+        <p className="text-neutral-500 text-sm">Manage your account information</p>
       </div>
 
       {/* Profile Form */}
-      <form onSubmit={handleSubmit} className="card">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-6">
-          Personal Information
-        </h2>
+      <form onSubmit={handleSubmit} className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 sm:p-6 space-y-5">
+        <h2 className="font-semibold text-white mb-4">Personal Information</h2>
 
         {/* Email (Read-only) */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            <Mail size={16} className="inline mr-2" />
+        <div>
+          <label className="flex items-center gap-2 text-sm text-neutral-400 mb-1.5">
+            <Mail size={14} />
             Email Address
           </label>
           <input
             type="email"
             value={user?.email || ''}
             disabled
-            className="input-field bg-gray-100 dark:bg-gray-700 cursor-not-allowed"
+            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-neutral-500 cursor-not-allowed"
           />
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            Email cannot be changed
-          </p>
-          <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <p className="text-xs text-blue-800 dark:text-blue-200 flex items-start gap-2">
-              <span className="text-blue-500">🔒</span>
+          <p className="text-xs text-neutral-600 mt-1">Email cannot be changed</p>
+          
+          <div className="mt-2 p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg">
+            <p className="text-xs text-blue-400 flex items-start gap-2">
+              <Shield size={14} className="shrink-0 mt-0.5" />
               <span>
-                <strong>Industry-Standard Security:</strong> Your email is stored securely using Supabase with 
-                AES-256 encryption, SSL/TLS in transit, and compliant with GDPR standards. 
-                We will use this email only for important updates and never share it with third parties.
+                <strong>Secure Storage:</strong> Your data is encrypted with AES-256 and protected with SSL/TLS.
               </span>
             </p>
           </div>
         </div>
 
         {/* Name */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            <User size={16} className="inline mr-2" />
+        <div>
+          <label className="flex items-center gap-2 text-sm text-neutral-400 mb-1.5">
+            <User size={14} />
             Full Name *
           </label>
           <input
             type="text"
-            required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="input-field"
-            placeholder="John Doe"
+            placeholder="Enter your name"
+            required
+            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
           />
         </div>
 
         {/* Roll Number */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            <Hash size={16} className="inline mr-2" />
-            Roll Number *
+        <div>
+          <label className="flex items-center gap-2 text-sm text-neutral-400 mb-1.5">
+            <Hash size={14} />
+            Roll Number
           </label>
           <input
             type="text"
-            required
             value={formData.roll_number}
             onChange={(e) => setFormData({ ...formData, roll_number: e.target.value })}
-            className="input-field"
-            placeholder="CS21001"
+            placeholder="Enter your roll number"
+            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
           />
         </div>
 
         {/* University */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            <Building2 size={16} className="inline mr-2" />
-            University/College
+        <div>
+          <label className="flex items-center gap-2 text-sm text-neutral-400 mb-1.5">
+            <Building2 size={14} />
+            University / College
           </label>
           <input
             type="text"
             value={formData.university}
             onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-            className="input-field"
-            placeholder="SIMATS Engineering"
+            placeholder="Enter your institution"
+            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full btn-primary flex items-center justify-center gap-2 py-3"
+          className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
-          {loading ? (
-            <div className="spinner w-5 h-5 border-2"></div>
-          ) : (
-            <>
-              <Save size={20} />
-              Save Changes
-            </>
-          )}
+          <Save size={18} />
+          {loading ? 'Saving...' : 'Save Changes'}
         </button>
       </form>
 
-      {/* Account Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="card bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20">
-          <p className="text-sm text-blue-800 dark:text-blue-200 mb-1">Member Since</p>
-          <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
-            {userData?.created_at
-              ? new Date(userData.created_at).toLocaleDateString('en-IN', {
-                  month: 'short',
-                  year: 'numeric',
-                })
-              : 'N/A'}
-          </p>
+      {/* Account Info */}
+      <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+        <h3 className="font-medium text-white mb-3">Account Info</h3>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-neutral-500">Member Since</span>
+            <span className="text-neutral-300">
+              {userData?.created_at ? new Date(userData.created_at).toLocaleDateString() : '-'}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-neutral-500">Account Status</span>
+            <span className="text-emerald-400">Active</span>
+          </div>
         </div>
-
-        <div className="card bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20">
-          <p className="text-sm text-green-800 dark:text-green-200 mb-1">Account Status</p>
-          <p className="text-xl font-bold text-green-600 dark:text-green-400">Active</p>
-        </div>
-
-        <div className="card bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20">
-          <p className="text-sm text-purple-800 dark:text-purple-200 mb-1">Account Type</p>
-          <p className="text-xl font-bold text-purple-600 dark:text-purple-400">Student</p>
-        </div>
-      </div>
-
-      {/* Disclaimer */}
-      <div className="card bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-200 dark:border-yellow-800">
-        <p className="text-sm text-yellow-800 dark:text-yellow-200">
-          ⚠️ Your data is stored securely and will never be shared with third parties. This is a
-          student project and not affiliated with any official institution.
-        </p>
       </div>
     </div>
   );
