@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS courses (
   classes_attended INTEGER DEFAULT 0,
   total_classes INTEGER DEFAULT 0,
   target_percentage INTEGER DEFAULT 75,
+  is_completed BOOLEAN DEFAULT FALSE,
+  completed_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

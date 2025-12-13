@@ -117,13 +117,31 @@ const Statistics = () => {
   });
 
   const handleExportPDF = () => {
-    exportToPDF(courses, userData);
-    toast.success('Exported as PDF');
+    if (courses.length === 0) {
+      toast.error('No courses to export');
+      return;
+    }
+    try {
+      exportToPDF(courses, userData);
+      toast.success('Exported as PDF');
+    } catch (error) {
+      console.error('PDF export error:', error);
+      toast.error('Failed to export PDF');
+    }
   };
 
   const handleExportExcel = () => {
-    exportToExcel(courses, userData);
-    toast.success('Exported as Excel');
+    if (courses.length === 0) {
+      toast.error('No courses to export');
+      return;
+    }
+    try {
+      exportToExcel(courses, userData);
+      toast.success('Exported as Excel');
+    } catch (error) {
+      console.error('Excel export error:', error);
+      toast.error('Failed to export Excel');
+    }
   };
 
   const CustomTooltip = ({ active, payload }) => {

@@ -90,20 +90,25 @@ const Courses = () => {
 
   const handleMarkComplete = async (course) => {
     if (window.confirm(`Mark "${course.course_code}" as completed? This will archive the course.`)) {
-      await updateCourse(course.id, { 
+      const { error } = await updateCourse(course.id, { 
         is_completed: true,
         completed_at: new Date().toISOString()
       });
-      toast.success(`${course.course_code} marked as completed`);
+      if (error) {
+        // Column doesn't exist - inform user
+        toast.error('Please add is_completed and completed_at columns to your Supabase courses table');
+      }
     }
   };
 
   const handleReactivateCourse = async (course) => {
-    await updateCourse(course.id, { 
+    const { error } = await updateCourse(course.id, { 
       is_completed: false,
       completed_at: null
     });
-    toast.success(`${course.course_code} reactivated`);
+    if (error) {
+      toast.error('Please add is_completed and completed_at columns to your Supabase courses table');
+    }
   };
 
   // Filter courses

@@ -61,16 +61,17 @@ export const exportToPDF = (courses, userInfo) => {
 // Export attendance as Excel
 export const exportToExcel = (courses, userInfo) => {
   const workbook = XLSX.utils.book_new();
+  const user = userInfo || {};
   
   // Summary sheet
   const summaryData = [
     ['Student Attendance Report'],
     [''],
-    ['Student Name:', userInfo.name || 'N/A'],
-    ['Roll Number:', userInfo.roll_number || 'N/A'],
+    ['Student Name:', user.name || 'N/A'],
+    ['Roll Number:', user.roll_number || 'N/A'],
     ['Generated On:', formatDate(new Date())],
     [''],
-    ['Course Code', 'Course Name', 'Classes Attended', 'Total Classes', 'Current %', 'Target %'],
+    ['Course Code', 'Course Name', 'Classes Attended', 'Total Classes', 'Current %', 'Target %', 'Status'],
   ];
   
   courses.forEach(course => {
@@ -81,6 +82,7 @@ export const exportToExcel = (courses, userInfo) => {
       course.total_classes,
       calculatePercentage(course.classes_attended, course.total_classes) + '%',
       course.target_percentage + '%',
+      course.is_completed ? 'Completed' : 'Active',
     ]);
   });
   
@@ -103,6 +105,7 @@ export const exportToExcel = (courses, userInfo) => {
     { wch: 30 },
     { wch: 15 },
     { wch: 15 },
+    { wch: 12 },
     { wch: 12 },
     { wch: 12 },
   ];
