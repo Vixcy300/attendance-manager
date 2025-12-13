@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Plus, Edit2, Trash2, X, Check, Minus } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Check, Minus, CheckCircle, Archive } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
 import { calculatePercentage, getStatusInfo, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
@@ -10,6 +10,7 @@ const Courses = () => {
   const { courses, fetchCourses, addCourse, updateCourse, deleteCourse } = useCourseStore();
   const [showModal, setShowModal] = useState(false);
   const [editingCourse, setEditingCourse] = useState(null);
+  const [showCompleted, setShowCompleted] = useState(false);
   const [formData, setFormData] = useState({
     course_code: '',
     course_name: '',
@@ -87,32 +88,71 @@ const Courses = () => {
     await updateCourse(course.id, updates);
   };
 
+  const handleMarkComplete = async (course) => {
+    if (window.confirm(`Mark "${course.course_code}" as completed? This will archive the course.`)) {
+      await updateCourse(course.id, { 
+        is_completed: true,
+        completed_at: new Date().toISOString()
+      });
+      toast.success(`${course.course_code} marked as completed`);
+    }
+  };
+
+  const handleReactivateCourse = async (course) => {
+    await updateCourse(course.id, { 
+      is_completed: false,
+      completed_at: null
+    });
+    toast.success(`${course.course_code} reactivated`);
+  };
+
+  // Filter courses
+  const activeCourses = courses.filter(c => !c.is_completed);
+  const completedCourses = courses.filter(c => c.is_completed);
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white">My Courses</h1>
-          <p className="text-neutral-500 text-sm mt-0.5">Manage your courses and track attendance</p>
+          <p className="text-neutral-500 text-sm mt-0.5">
+            {activeCourses.length} active • {completedCourses.length} completed
+          </p>
         </div>
-        <button
-          onClick={() => handleOpenModal()}
-          className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center gap-2 w-fit"
-        >
-          <Plus size={18} />
-          Add Course
-        </button>
+        <div className="flex gap-2">
+          {completedCourses.length > 0 && (
+            <button
+              onClick={() => setShowCompleted(!showCompleted)}
+              className={`py-2 px-4 rounded-lg transition-colors flex items-center gap-2 text-sm ${
+                showCompleted 
+                  ? 'bg-violet-500 text-white' 
+                  : 'bg-neutral-800 hover:bg-neutral-700 text-neutral-400'
+              }`}
+            >
+              <Archive size={16} />
+              {showCompleted ? 'Hide Completed' : 'Show Completed'}
+            </button>
+          )}
+          <button
+            onClick={() => handleOpenModal()}
+            className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center gap-2"
+          >
+            <Plus size={18} />
+            Add Course
+          </button>
+        </div>
       </div>
 
       {/* Courses Grid */}
-      {courses.length === 0 ? (
+      {activeCourses.length === 0 && !showCompleted ? (
         <div className="bg-neutral-900 border border-neutral-800 rounded-xl text-center py-12 px-6">
           <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
           </div>
-          <h3 className="text-lg font-semibold text-white mb-2">No courses yet</h3>
+          <h3 className="text-lg font-semibold text-white mb-2">No active courses</h3>
           <p className="text-neutral-500 mb-6">Start by adding your first course</p>
           <button
             onClick={() => handleOpenModal()}
@@ -123,8 +163,13 @@ const Courses = () => {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {courses.map((course) => {
+        <>
+          {/* Active Courses */}
+          {activeCourses.length > 0 && (
+            <div>
+              <h2 className="text-sm font-medium text-neutral-500 mb-3">Active Courses</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {activeCourses.map((course) => {
             const percentage = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
             const status = getStatusInfo(percentage);
             const classesNeeded = calculateClassesNeeded(course.classes_attended, course.total_classes, course.target_percentage);
@@ -142,6 +187,13 @@ const Courses = () => {
                     <p className="text-sm text-neutral-500 truncate">{course.course_name}</p>
                   </div>
                   <div className="flex gap-1 ml-2">
+                    <button 
+                      onClick={() => handleMarkComplete(course)} 
+                      className="p-1.5 hover:bg-emerald-500/10 rounded-lg transition-colors"
+                      title="Mark as Complete"
+                    >
+                      <CheckCircle size={14} className="text-emerald-500" />
+                    </button>
                     <button onClick={() => handleOpenModal(course)} className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors">
                       <Edit2 size={14} className="text-neutral-500" />
                     </button>
@@ -204,7 +256,63 @@ const Courses = () => {
               </div>
             );
           })}
-        </div>
+              </div>
+            </div>
+          )}
+
+          {/* Completed Courses */}
+          {showCompleted && completedCourses.length > 0 && (
+            <div className="mt-6">
+              <h2 className="text-sm font-medium text-neutral-500 mb-3 flex items-center gap-2">
+                <Archive size={16} />
+                Completed Courses ({completedCourses.length})
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {completedCourses.map((course) => {
+                  const percentage = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
+                  return (
+                    <div
+                      key={course.id}
+                      className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4 opacity-75"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold text-neutral-400 truncate">{course.course_code}</h3>
+                            <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">Completed</span>
+                          </div>
+                          <p className="text-sm text-neutral-600 truncate">{course.course_name}</p>
+                        </div>
+                        <button 
+                          onClick={() => handleReactivateCourse(course)} 
+                          className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors text-xs text-neutral-500"
+                          title="Reactivate Course"
+                        >
+                          Reactivate
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-neutral-500 text-xs">Final Attendance</p>
+                          <p className="text-lg font-bold text-neutral-400">{percentage.toFixed(1)}%</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-neutral-500 text-xs">Classes</p>
+                          <p className="text-neutral-400">{course.classes_attended}/{course.total_classes}</p>
+                        </div>
+                      </div>
+                      {course.completed_at && (
+                        <p className="text-[10px] text-neutral-600 mt-2">
+                          Completed on {new Date(course.completed_at).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Modal */}

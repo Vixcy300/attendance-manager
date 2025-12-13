@@ -486,7 +486,8 @@ const Statistics = () => {
                 </tr>
               </thead>
               <tbody>
-                {courses.map(course => {
+                {/* Active Courses */}
+                {courses.filter(c => !c.is_completed).map(course => {
                   const pct = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
                   const isAbove = pct >= course.target_percentage;
                   return (
@@ -504,6 +505,33 @@ const Statistics = () => {
                       <td className="text-center py-2 px-3">
                         <span className={`text-xs px-2 py-0.5 rounded ${isAbove ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
                           {isAbove ? 'On Track' : 'At Risk'}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {/* Completed Courses */}
+                {courses.filter(c => c.is_completed).map(course => {
+                  const pct = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
+                  const isAbove = pct >= course.target_percentage;
+                  return (
+                    <tr key={course.id} className="border-b border-neutral-800/50 bg-neutral-950/50 opacity-70">
+                      <td className="py-2 px-3">
+                        <div className="flex items-center gap-2">
+                          <p className="text-neutral-400 font-medium">{course.course_code}</p>
+                          <span className="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded">Done</span>
+                        </div>
+                        <p className="text-neutral-600 text-xs truncate max-w-[150px]">{course.course_name}</p>
+                      </td>
+                      <td className="text-center py-2 px-3 text-neutral-400">{course.classes_attended}</td>
+                      <td className="text-center py-2 px-3 text-neutral-400">{course.total_classes}</td>
+                      <td className={`text-center py-2 px-3 font-medium ${pct >= 85 ? 'text-emerald-400/70' : pct >= 75 ? 'text-amber-400/70' : 'text-red-400/70'}`}>
+                        {pct.toFixed(1)}%
+                      </td>
+                      <td className="text-center py-2 px-3 text-neutral-500">{course.target_percentage}%</td>
+                      <td className="text-center py-2 px-3">
+                        <span className="text-xs px-2 py-0.5 rounded bg-violet-500/10 text-violet-400">
+                          Completed
                         </span>
                       </td>
                     </tr>

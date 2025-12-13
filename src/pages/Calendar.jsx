@@ -9,36 +9,41 @@ import { db } from '../lib/supabase';
 import toast from 'react-hot-toast';
 import { formatDate, calculatePercentage } from '../utils/helpers';
 
-// Exam Schedule
+// Exam Schedule - MS2 OCT 2025 to JAN 2026
 const examSchedule = {
   dayScholar: [
-    { date: '2025-10-14', event: 'SLOT A - Start', type: 'slot', color: 'purple' },
-    { date: '2025-11-05', event: 'Practical Exam', type: 'practical', color: 'orange' },
+    { date: '2025-10-14', event: 'SLOT A', type: 'slot', color: 'purple' },
+    { date: '2025-11-05', event: 'Practical / Capstone', type: 'practical', color: 'orange' },
     { date: '2025-11-06', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2025-11-07', event: 'Theory Exam', type: 'theory', color: 'red' },
-    { date: '2025-11-08', event: 'SLOT B - Start', type: 'slot', color: 'purple' },
-    { date: '2025-11-24', event: 'Practical Exam', type: 'practical', color: 'orange' },
+    { date: '2025-11-08', event: 'SLOT B', type: 'slot', color: 'purple' },
+    { date: '2025-11-24', event: 'Practical / Capstone', type: 'practical', color: 'orange' },
     { date: '2025-11-25', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2025-11-26', event: 'Theory Exam', type: 'theory', color: 'red' },
-    { date: '2025-12-11', event: 'Practical Exam', type: 'practical', color: 'orange' },
+    { date: '2025-11-27', event: 'SLOT C', type: 'slot', color: 'purple' },
+    { date: '2025-12-11', event: 'Practical / Capstone', type: 'practical', color: 'orange' },
     { date: '2025-12-12', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2025-12-13', event: 'Theory Exam', type: 'theory', color: 'red' },
-    { date: '2026-01-02', event: 'Practical Exam', type: 'practical', color: 'orange' },
+    { date: '2025-12-15', event: 'SLOT D', type: 'slot', color: 'purple' },
+    { date: '2026-01-02', event: 'Practical / Capstone', type: 'practical', color: 'orange' },
     { date: '2026-01-03', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2026-01-05', event: 'Theory Exam', type: 'theory', color: 'red' },
   ],
   hosteler: [
-    { date: '2025-10-14', event: 'SLOT A - Start', type: 'slot', color: 'purple' },
-    { date: '2025-11-10', event: 'Practical Exam', type: 'practical', color: 'orange' },
+    { date: '2025-10-14', event: 'SLOT A', type: 'slot', color: 'purple' },
+    { date: '2025-11-10', event: 'Practical / Capstone', type: 'practical', color: 'orange' },
     { date: '2025-11-11', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2025-11-12', event: 'Theory Exam', type: 'theory', color: 'red' },
-    { date: '2025-11-26', event: 'Practical Exam', type: 'practical', color: 'orange' },
+    { date: '2025-11-13', event: 'SLOT B', type: 'slot', color: 'purple' },
+    { date: '2025-11-26', event: 'Practical / Capstone', type: 'practical', color: 'orange' },
     { date: '2025-11-27', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2025-11-28', event: 'Theory Exam', type: 'theory', color: 'red' },
-    { date: '2025-12-11', event: 'Practical Exam', type: 'practical', color: 'orange' },
+    { date: '2025-11-29', event: 'SLOT C', type: 'slot', color: 'purple' },
+    { date: '2025-12-11', event: 'Practical / Capstone', type: 'practical', color: 'orange' },
     { date: '2025-12-12', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2025-12-13', event: 'Theory Exam', type: 'theory', color: 'red' },
-    { date: '2026-01-02', event: 'Practical Exam', type: 'practical', color: 'orange' },
+    { date: '2025-12-15', event: 'SLOT D', type: 'slot', color: 'purple' },
+    { date: '2026-01-02', event: 'Practical / Capstone', type: 'practical', color: 'orange' },
     { date: '2026-01-03', event: 'Model Exam', type: 'model', color: 'blue' },
     { date: '2026-01-05', event: 'Theory Exam', type: 'theory', color: 'red' },
   ],
@@ -311,6 +316,8 @@ const Calendar = () => {
             value={selectedDate}
             tileClassName={tileClassName}
             className="attendance-calendar w-full border-none"
+            calendarType="iso8601"
+            showNeighboringMonth={true}
           />
           
           {/* Legend */}

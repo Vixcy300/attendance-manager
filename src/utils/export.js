@@ -6,15 +6,18 @@ import { formatDate, calculatePercentage } from './helpers';
 // Export attendance as PDF
 export const exportToPDF = (courses, userInfo) => {
   const doc = new jsPDF();
+  const user = userInfo || {};
   
   // Header
   doc.setFontSize(20);
-  doc.text('Attendance Report', 14, 20);
+  doc.setTextColor(16, 185, 129);
+  doc.text('SIMATS Attendance Report', 14, 20);
   
+  doc.setTextColor(0, 0, 0);
   doc.setFontSize(10);
   doc.text(`Generated on: ${formatDate(new Date())}`, 14, 28);
-  doc.text(`Student: ${userInfo.name || 'N/A'}`, 14, 34);
-  doc.text(`Roll No: ${userInfo.roll_number || 'N/A'}`, 14, 40);
+  doc.text(`Student: ${user.name || 'Student'}`, 14, 34);
+  doc.text(`Roll No: ${user.roll_number || 'N/A'}`, 14, 40);
   
   // Table data
   const tableData = courses.map(course => [
@@ -24,14 +27,16 @@ export const exportToPDF = (courses, userInfo) => {
     course.total_classes,
     `${calculatePercentage(course.classes_attended, course.total_classes)}%`,
     course.target_percentage + '%',
+    course.is_completed ? 'Completed' : 'Active',
   ]);
   
   doc.autoTable({
     startY: 50,
-    head: [['Code', 'Course Name', 'Attended', 'Total', 'Current %', 'Target %']],
+    head: [['Code', 'Course Name', 'Attended', 'Total', 'Current %', 'Target %', 'Status']],
     body: tableData,
     theme: 'striped',
-    headStyles: { fillColor: [74, 144, 226] },
+    headStyles: { fillColor: [16, 185, 129] },
+    styles: { fontSize: 9 },
   });
   
   // Summary
