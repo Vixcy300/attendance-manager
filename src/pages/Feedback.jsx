@@ -42,7 +42,7 @@ const Feedback = () => {
   const checkSubmissionLimit = async () => {
     const { data } = await db.getFeedback(user.id);
     const today = new Date().toDateString();
-    const todaySubmissions = data?.filter(f => 
+    const todaySubmissions = data?.filter(f =>
       new Date(f.created_at).toDateString() === today
     ).length || 0;
     setSubmissionCount(todaySubmissions);
@@ -74,11 +74,16 @@ const Feedback = () => {
         type: formData.type,
         subject: formData.subject,
         description: formData.description,
+        type: formData.type,
+        subject: formData.subject,
+        description: formData.description,
+        type: formData.type,
+        subject: formData.subject,
+        description: formData.description,
         categories: formData.categories,
         priority: formData.priority,
-        browser_info: getBrowserInfo(),
-        status: 'Pending',
-        app_version: '3.0.0',
+        // browser_info removed as column does not exist in DB
+        // status removed to use DB default
       };
 
       const { error } = await db.createFeedback(feedbackData);
@@ -95,7 +100,8 @@ const Feedback = () => {
       });
       checkSubmissionLimit();
     } catch (error) {
-      toast.error('Failed to submit feedback');
+      console.error('Feedback error full details:', JSON.stringify(error, null, 2));
+      toast.error(`Failed to submit: ${error.message || 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
@@ -119,7 +125,7 @@ const Feedback = () => {
       </div>
 
       {/* Feedback Form */}
-      <form onSubmit={handleSubmit} className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 sm:p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="glass-card space-y-5">
         {/* Feedback Type */}
         <div>
           <label className="block text-sm text-neutral-400 mb-2">Feedback Type</label>
@@ -129,14 +135,16 @@ const Feedback = () => {
                 key={type.value}
                 type="button"
                 onClick={() => setFormData({ ...formData, type: type.value })}
-                className={`p-3 rounded-lg border text-center transition-colors ${
-                  formData.type === type.value
-                    ? 'border-emerald-500 bg-emerald-500/10'
-                    : 'border-neutral-800 hover:border-neutral-700'
-                }`}
+                className={`p-3 rounded-lg border text-center transition-all duration-300 ${formData.type === type.value
+                  ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_10px_rgba(59,130,246,0.2)]'
+                  : 'border-white/5 bg-neutral-900/40 hover:bg-neutral-800/60 hover:border-white/10'
+                  }`}
               >
-                <type.icon className={`w-5 h-5 mx-auto mb-1 ${type.color}`} />
-                <span className="text-xs text-white">{type.value.split(' ')[0]}</span>
+                <type.icon className={`w-5 h-5 mx-auto mb-1 ${formData.type === type.value ? 'text-blue-400' : type.color
+                  }`} />
+                <span className={`text-xs ${formData.type === type.value ? 'text-white font-medium' : 'text-neutral-400'}`}>
+                  {type.value.split(' ')[0]}
+                </span>
               </button>
             ))}
           </div>
@@ -152,9 +160,9 @@ const Feedback = () => {
             placeholder="Brief summary of your feedback"
             required
             maxLength={100}
-            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
+            className="input-field"
           />
-          <p className="text-xs text-neutral-600 mt-1">{formData.subject.length}/100</p>
+          <p className="text-xs text-neutral-600 mt-1 text-right">{formData.subject.length}/100</p>
         </div>
 
         {/* Description */}
@@ -166,9 +174,9 @@ const Feedback = () => {
             placeholder="Describe your feedback in detail (minimum 30 characters)"
             required
             rows={4}
-            className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500 resize-none"
+            className="input-field resize-none"
           />
-          <p className="text-xs text-neutral-600 mt-1">{formData.description.length} characters</p>
+          <p className="text-xs text-neutral-600 mt-1 text-right">{formData.description.length} characters</p>
         </div>
 
         {/* Categories */}
@@ -180,11 +188,10 @@ const Feedback = () => {
                 key={cat}
                 type="button"
                 onClick={() => toggleCategory(cat)}
-                className={`px-3 py-1 rounded-full text-xs transition-colors ${
-                  formData.categories.includes(cat)
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-neutral-800 text-neutral-400 hover:text-white'
-                }`}
+                className={`px-3 py-1 rounded-full text-xs transition-all duration-300 border ${formData.categories.includes(cat)
+                  ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/20'
+                  : 'bg-neutral-900/40 border-white/5 text-neutral-400 hover:text-white hover:bg-white/5'
+                  }`}
               >
                 {cat}
               </button>
@@ -195,21 +202,20 @@ const Feedback = () => {
         {/* Priority */}
         <div>
           <label className="block text-sm text-neutral-400 mb-2">Priority</label>
-          <div className="flex gap-2">
+          <div className="flex gap-2 bg-neutral-900/40 p-1 rounded-xl border border-white/5">
             {priorities.map(priority => (
               <button
                 key={priority}
                 type="button"
                 onClick={() => setFormData({ ...formData, priority })}
-                className={`flex-1 py-2 rounded-lg text-sm transition-colors ${
-                  formData.priority === priority
-                    ? priority === 'High' 
-                      ? 'bg-red-500 text-white' 
-                      : priority === 'Medium'
-                        ? 'bg-amber-500 text-white'
-                        : 'bg-blue-500 text-white'
-                    : 'bg-neutral-800 text-neutral-400 hover:text-white'
-                }`}
+                className={`flex-1 py-2 rounded-lg text-sm transition-all duration-300 ${formData.priority === priority
+                  ? priority === 'High'
+                    ? 'bg-red-500 text-white shadow-lg shadow-red-500/20'
+                    : priority === 'Medium'
+                      ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20'
+                      : 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
+                  : 'text-neutral-500 hover:text-white hover:bg-white/5'
+                  }`}
               >
                 {priority}
               </button>
@@ -221,7 +227,7 @@ const Feedback = () => {
         <button
           type="submit"
           disabled={loading || submissionCount >= 10}
-          className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Send size={18} />
           {loading ? 'Submitting...' : 'Submit Feedback'}
@@ -229,7 +235,7 @@ const Feedback = () => {
       </form>
 
       {/* Info */}
-      <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-center">
+      <div className="glass-card text-center">
         <p className="text-neutral-400 text-sm">
           Your feedback helps us improve! All submissions are reviewed by our team.
         </p>

@@ -6,7 +6,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   /* Dark mode (default) */
   body {
     @apply bg-black text-white;
@@ -21,51 +21,66 @@
 }
 
 @layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl;
+  }
+
+  .glass-panel {
+    @apply bg-neutral-900/60 backdrop-blur-xl border border-white/5 rounded-2xl;
+  }
+
   .card {
-    @apply bg-neutral-900 border border-neutral-800 rounded-xl p-4;
+    @apply glass-card;
   }
 
   html:not(.dark) .card {
-    @apply bg-white border-gray-200;
+    @apply bg-white/80 border-blue-100 shadow-sm backdrop-blur-md;
   }
 
   .btn-primary {
-    @apply bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors;
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium py-2.5 px-5 rounded-xl shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98];
   }
-  
+
   .btn-secondary {
-    @apply bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2 px-4 rounded-lg transition-colors;
+    @apply bg-white/5 hover:bg-white/10 border border-white/5 text-white font-medium py-2.5 px-5 rounded-xl transition-all hover:scale-[1.02];
   }
 
   html:not(.dark) .btn-secondary {
     @apply bg-gray-100 hover:bg-gray-200 text-gray-900;
   }
-  
+
   .input-field {
-    @apply w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500 transition-colors;
+    @apply w-full px-4 py-3 bg-neutral-900/50 border border-white/10 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all backdrop-blur-sm;
   }
 
   html:not(.dark) .input-field {
-    @apply bg-white border-gray-300 text-gray-900 placeholder-gray-400;
+    @apply bg-white border-gray-200 text-gray-900 placeholder-gray-400 focus:border-blue-500;
   }
-  
+
   .badge-safe {
-    @apply bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full text-xs font-medium;
+    @apply bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-lg text-xs font-medium border border-emerald-500/20;
   }
-  
+
   .badge-warning {
-    @apply bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full text-xs font-medium;
+    @apply bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-lg text-xs font-medium border border-amber-500/20;
   }
-  
+
   .badge-critical {
-    @apply bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full text-xs font-medium;
+    @apply bg-red-500/10 text-red-400 px-2.5 py-1 rounded-lg text-xs font-medium border border-red-500/20;
   }
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -95,13 +110,15 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 3px solid rgba(16, 185, 129, 0.2);
-  border-top-color: #10b981;
+  border: 3px solid rgba(59, 130, 246, 0.2);
+  border-top-color: #3b82f6;
   animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Modal */
@@ -179,7 +196,6 @@
   color: white !important;
   background: transparent !important;
   padding: 0.75rem !important;
-  margin: 1px !important;
 }
 
 .react-calendar__tile:hover {
@@ -187,11 +203,11 @@
 }
 
 .react-calendar__tile--now {
-  background: rgba(16, 185, 129, 0.2) !important;
+  background: rgba(59, 130, 246, 0.2) !important;
 }
 
 .react-calendar__tile--active {
-  background: #10b981 !important;
+  background: #3b82f6 !important;
   color: white !important;
 }
 
@@ -201,7 +217,7 @@
 
 /* Calendar Day Status */
 .react-calendar__tile.present-day {
-  background: rgba(16, 185, 129, 0.2) !important;
+  background: rgba(59, 130, 246, 0.2) !important;
 }
 
 .react-calendar__tile.absent-day {

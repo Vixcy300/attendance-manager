@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TrendingUp, TrendingDown, Target, BookOpen, Calendar as CalendarIcon, Flame, ArrowRight } from 'lucide-react';
+import { TrendingUp, TrendingDown, Target, BookOpen, Calendar as CalendarIcon, Flame, ArrowRight, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
@@ -80,54 +80,58 @@ const Dashboard = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {statCards.map((stat) => (
-          <div key={stat.title} className="bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+          <div key={stat.title} className="glass-card flex flex-col justify-between hover:border-white/20 transition-all duration-300">
             <div className="flex items-start justify-between">
               <div className="flex-1 min-w-0">
-                <p className="text-xs sm:text-sm text-neutral-500 truncate">{stat.title}</p>
-                <h3 className="text-lg sm:text-2xl font-bold text-white mt-1">{stat.value}</h3>
-                {stat.badge && (
-                  <span className={`inline-block mt-2 text-xs px-2 py-0.5 rounded ${
-                    stat.color === 'emerald' ? 'bg-emerald-500/20 text-emerald-400' :
-                    stat.color === 'amber' ? 'bg-amber-500/20 text-amber-400' :
-                    'bg-red-500/20 text-red-400'
-                  }`}>
-                    {stat.badge}
-                  </span>
-                )}
+                <p className="text-xs sm:text-sm text-neutral-400 truncate font-medium">{stat.title}</p>
+                <h3 className="text-lg sm:text-2xl font-bold text-white mt-1 tracking-tight">{stat.value}</h3>
               </div>
-              <div className={`p-2 sm:p-2.5 rounded-lg ${colorMap[stat.color]}`}>
-                <stat.icon className="text-white" size={18} />
+              <div className={`p-2.5 rounded-xl ${colorMap[stat.color]} bg-opacity-20`}>
+                <stat.icon className={`text-${stat.color}-400`} size={20} />
               </div>
             </div>
+            {stat.badge && (
+              <div className="mt-3">
+                <span className={`text-[10px] px-2.5 py-1 rounded-lg font-semibold border ${stat.color === 'emerald' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                  stat.color === 'amber' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                    'bg-red-500/10 text-red-400 border-red-500/20'
+                  }`}>
+                  {stat.badge}
+                </span>
+              </div>
+            )}
           </div>
         ))}
       </div>
 
       {/* Courses */}
-      <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 sm:p-5">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base sm:text-lg font-semibold text-white">Your Courses</h2>
+      <div className="glass-card">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <BookOpen size={20} className="text-blue-400" />
+            Your Courses
+          </h2>
           <button
             onClick={() => navigate('/courses')}
-            className="text-emerald-400 hover:text-emerald-300 text-sm font-medium flex items-center gap-1"
+            className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center gap-1 transition-colors"
           >
             View All <ArrowRight size={14} />
           </button>
         </div>
 
         {courses.length === 0 ? (
-          <div className="text-center py-10">
-            <BookOpen size={40} className="mx-auto text-neutral-700 mb-3" />
-            <p className="text-neutral-500 mb-4">No courses added yet</p>
+          <div className="text-center py-12 bg-neutral-900/40 rounded-xl border border-white/5 border-dashed">
+            <BookOpen size={48} className="mx-auto text-neutral-700 mb-4" />
+            <p className="text-neutral-400 mb-5 font-medium">No courses added yet</p>
             <button
               onClick={() => navigate('/courses')}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors"
+              className="btn-primary"
             >
               Add Course
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {courses.slice(0, 6).map((course) => {
               const percentage = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
               const status = getStatusInfo(percentage);
@@ -135,40 +139,39 @@ const Dashboard = () => {
               const classesCanMiss = calculateClassesCanMiss(course.classes_attended, course.total_classes, course.target_percentage);
 
               return (
-                <div key={course.id} className="p-3 sm:p-4 rounded-lg border border-neutral-800 hover:border-neutral-700 transition-colors bg-neutral-950">
-                  <div className="flex items-start justify-between mb-2">
+                <div key={course.id} className="p-4 rounded-xl border border-white/5 hover:border-white/10 transition-all duration-300 bg-neutral-900/40 hover:bg-neutral-900/60 group">
+                  <div className="flex items-start justify-between mb-3">
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-white text-sm truncate">{course.course_code}</h3>
+                      <h3 className="font-semibold text-white text-sm truncate group-hover:text-blue-400 transition-colors">{course.course_code}</h3>
                       <p className="text-xs text-neutral-500 truncate">{course.course_name}</p>
                     </div>
                     <span className={status.color}>{status.icon}</span>
                   </div>
 
-                  <div className="flex justify-between text-xs mb-2">
-                    <span className="text-neutral-500">Attendance</span>
+                  <div className="flex justify-between text-xs mb-2.5">
+                    <span className="text-neutral-400">Attendance</span>
                     <span className="text-white font-medium">{course.classes_attended}/{course.total_classes}</span>
                   </div>
 
-                  <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden mb-2">
+                  <div className="h-2 bg-neutral-800 rounded-full overflow-hidden mb-3">
                     <div
-                      className={`h-full rounded-full ${
-                        percentage >= 75 ? 'bg-emerald-500' : percentage >= 65 ? 'bg-amber-500' : 'bg-red-500'
-                      }`}
+                      className={`h-full rounded-full transition-all duration-500 ${percentage >= 75 ? 'bg-emerald-500' : percentage >= 65 ? 'bg-amber-500' : 'bg-red-500'
+                        }`}
                       style={{ width: `${Math.min(percentage, 100)}%` }}
                     />
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <span className="text-base font-bold text-white">{percentage.toFixed(1)}%</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400">
+                    <span className="text-lg font-bold text-white tracking-tight">{percentage.toFixed(1)}%</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-lg bg-neutral-800 text-neutral-400 font-medium">
                       Target: {course.target_percentage}%
                     </span>
                   </div>
 
-                  <div className="mt-2 pt-2 border-t border-neutral-800 flex justify-between text-xs">
-                    <span className="text-neutral-500">{percentage >= course.target_percentage ? 'Can Miss' : 'Need'}</span>
-                    <span className={percentage >= course.target_percentage ? 'text-emerald-400' : 'text-cyan-400'}>
-                      {percentage >= course.target_percentage ? classesCanMiss : classesNeeded} classes
+                  <div className="mt-3 pt-3 border-t border-white/5 flex justify-between text-xs">
+                    <span className="text-neutral-500">{percentage >= course.target_percentage ? 'Buffer' : 'Deficit'}</span>
+                    <span className={`font-medium ${percentage >= course.target_percentage ? 'text-emerald-400' : 'text-cyan-400'}`}>
+                      {percentage >= course.target_percentage ? `+${classesCanMiss} safe` : `-${classesNeeded} needed`}
                     </span>
                   </div>
                 </div>
@@ -179,32 +182,39 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-4">
         <button
           onClick={() => navigate('/courses')}
-          className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-left hover:border-emerald-500/50 transition-colors group"
+          className="glass-card text-left hover:bg-white/5 transition-colors group p-5"
         >
-          <BookOpen className="text-emerald-400 mb-2" size={22} />
-          <h3 className="font-medium text-white text-sm group-hover:text-emerald-400 transition-colors">Courses</h3>
-          <p className="text-xs text-neutral-500 mt-0.5 hidden sm:block">Manage courses</p>
+          <div className="p-3 rounded-xl bg-emerald-500/10 w-fit mb-3 group-hover:scale-110 transition-transform">
+            <BookOpen className="text-emerald-400" size={24} />
+          </div>
+          <h3 className="font-semibold text-white text-sm group-hover:text-emerald-400 transition-colors">Courses</h3>
+          <p className="text-xs text-neutral-500 mt-1 hidden sm:block">Manage subjects</p>
         </button>
 
         <button
           onClick={() => navigate('/calendar')}
-          className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-left hover:border-blue-500/50 transition-colors group"
+          className="glass-card text-left hover:bg-white/5 transition-colors group p-5"
         >
-          <CalendarIcon className="text-blue-400 mb-2" size={22} />
-          <h3 className="font-medium text-white text-sm group-hover:text-blue-400 transition-colors">Calendar</h3>
-          <p className="text-xs text-neutral-500 mt-0.5 hidden sm:block">View schedule</p>
+          <div className="p-3 rounded-xl bg-blue-500/10 w-fit mb-3 group-hover:scale-110 transition-transform">
+            <CalendarIcon className="text-blue-400" size={24} />
+          </div>
+          <h3 className="font-semibold text-white text-sm group-hover:text-blue-400 transition-colors">Calendar</h3>
+          <p className="text-xs text-neutral-500 mt-1 hidden sm:block">View schedule</p>
         </button>
 
         <button
-          onClick={() => navigate('/streaks')}
-          className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-left hover:border-orange-500/50 transition-colors group"
+          onClick={() => navigate('/achievements')}
+          className="glass-card text-left hover:bg-white/5 transition-colors group p-5"
         >
-          <Flame className="text-orange-400 mb-2" size={22} />
-          <h3 className="font-medium text-white text-sm group-hover:text-orange-400 transition-colors">Streaks</h3>
-          <p className="text-xs text-neutral-500 mt-0.5 hidden sm:block">Achievements</p>
+          <div className="p-3 rounded-xl bg-orange-500/10 w-fit mb-3 group-hover:scale-110 transition-transform">
+            {/* Note using Trophy here instead of Flame to match new Achievements theme */}
+            <Trophy className="text-orange-400" size={24} />
+          </div>
+          <h3 className="font-semibold text-white text-sm group-hover:text-orange-400 transition-colors">Achievements</h3>
+          <p className="text-xs text-neutral-500 mt-1 hidden sm:block">Track badges</p>
         </button>
       </div>
     </div>

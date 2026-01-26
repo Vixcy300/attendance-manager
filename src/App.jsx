@@ -11,7 +11,8 @@ import Courses from './pages/Courses';
 import Calendar from './pages/Calendar';
 import Statistics from './pages/Statistics';
 import Goals from './pages/Goals';
-import Streaks from './pages/Streaks';
+import Streaks from './pages/Streaks'; // Keeping for history or fallback
+import Achievements from './pages/Achievements'; // New
 import Feedback from './pages/Feedback';
 import Profile from './pages/Profile';
 import Disclaimer from './pages/Disclaimer';
@@ -41,7 +42,7 @@ function App() {
 
   return (
     <Router>
-      <Toaster 
+      <Toaster
         position="top-right"
         toastOptions={{
           duration: 3000,
@@ -65,7 +66,7 @@ function App() {
           },
         }}
       />
-      
+
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
@@ -81,7 +82,9 @@ function App() {
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/goals" element={<Goals />} />
-            <Route path="/streaks" element={<Streaks />} />
+            <Route path="/goals" element={<Goals />} />
+            <Route path="/streaks" element={<Achievements />} /> {/* Remapped Streaks url to Achievements */}
+            <Route path="/achievements" element={<Achievements />} />
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/feedback-history" element={<FeedbackHistory />} />
             <Route path="/profile" element={<Profile />} />
