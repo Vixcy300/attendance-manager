@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://attendance-manger-vignesh.vercel.app/sitemap.xml

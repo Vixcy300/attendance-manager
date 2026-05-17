@@ -82,7 +82,6 @@ function App() {
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/goals" element={<Goals />} />
-            <Route path="/goals" element={<Goals />} />
             <Route path="/streaks" element={<Achievements />} /> {/* Remapped Streaks url to Achievements */}
             <Route path="/achievements" element={<Achievements />} />
             <Route path="/feedback" element={<Feedback />} />
