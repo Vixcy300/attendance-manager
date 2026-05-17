@@ -5,7 +5,7 @@ import { useAuthStore } from '../store/authStore';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn, signInWithGoogle } = useAuthStore();
+  const { signIn, signInWithGoogle, loginAsGuest } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -26,6 +26,11 @@ const Login = () => {
     setGoogleLoading(true);
     await signInWithGoogle();
     setGoogleLoading(false);
+  };
+
+  const handleGuestLogin = () => {
+    loginAsGuest();
+    navigate('/dashboard');
   };
 
   return (
@@ -151,12 +156,22 @@ const Login = () => {
             </div>
           </div>
 
-          <Link 
-            to="/signup" 
-            className="block w-full text-center py-3.5 px-6 border border-neutral-800 rounded-xl text-neutral-300 hover:text-white hover:bg-neutral-900 hover:border-neutral-700 transition-colors font-medium"
-          >
-            Create an Account
-          </Link>
+          <div className="flex gap-4">
+            <Link 
+              to="/signup" 
+              className="flex-1 text-center py-3.5 px-4 border border-neutral-800 rounded-xl text-neutral-300 hover:text-white hover:bg-neutral-900 hover:border-neutral-700 transition-colors font-medium"
+            >
+              Create Account
+            </Link>
+            
+            <button
+              type="button"
+              onClick={handleGuestLogin}
+              className="flex-1 text-center py-3.5 px-4 bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-300 hover:text-white hover:bg-neutral-800 hover:border-neutral-700 transition-colors font-medium"
+            >
+              Try as Guest
+            </button>
+          </div>
 
           <p className="text-center text-xs text-neutral-600 pt-4">
             <Link to="/disclaimer" className="hover:text-emerald-500 underline">

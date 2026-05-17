@@ -1,9 +1,12 @@
-import { Trophy, Flame, Target, Star, Shield, Zap, Clock, Calendar } from 'lucide-react';
+import { useState } from 'react';
+import { Trophy, Flame, Target, Star, Shield, Zap, Clock, Calendar, Share2, Users } from 'lucide-react';
 import { useCourseStore } from '../store/courseStore';
 import { calculatePercentage } from '../utils/helpers';
+import toast from 'react-hot-toast';
 
 const Achievements = () => {
     const { courses } = useCourseStore();
+    const [activeTab, setActiveTab] = useState('badges'); // 'badges' | 'leaderboard'
 
     const totalClasses = courses.reduce((sum, c) => sum + c.total_classes, 0);
     const totalAttended = courses.reduce((sum, c) => sum + c.classes_attended, 0);
@@ -88,6 +91,36 @@ const Achievements = () => {
         }
     ];
 
+    // Generate dynamic leaderboard data mixed with current user
+    const leaderboardData = [
+        { name: "Anonymous Panda", avatar: "🐼", score: 98, streak: 12 },
+        { name: "Anonymous Tiger", avatar: "🐯", score: 95, streak: 9 },
+        { name: "Anonymous Owl",   avatar: "🦉", score: 92, streak: 8 },
+        { name: "You",             avatar: "👤", score: overallPercentage || 0, streak: streak, isCurrent: true },
+        { name: "Anonymous Fox",   avatar: "🦊", score: 85, streak: 5 },
+        { name: "Anonymous Bear",  avatar: "🐻", score: 78, streak: 2 },
+    ].sort((a, b) => b.score - a.score).map((user, index) => ({ ...user, rank: index + 1 }));
+
+    const handleShare = async () => {
+        const shareText = `🔥 I just hit a ${streak}-day attendance streak with an overall score of ${overallPercentage}% on SIMATS AM! Can you beat my score?`;
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'My Attendance Streak',
+                    text: shareText,
+                    url: window.location.origin
+                });
+                toast.success('Thanks for sharing!');
+            } catch (err) {
+                console.log('Share canceled or failed', err);
+            }
+        } else {
+            navigator.clipboard.writeText(shareText);
+            toast.success('Score copied to clipboard! Paste it in your story.');
+        }
+    };
+
     return (
         <div className="space-y-6">
             {/* Header */}
@@ -100,18 +133,56 @@ const Achievements = () => {
                     <p className="text-neutral-400 text-sm mt-1">Unlock badges by attending classes</p>
                 </div>
 
-                <div className="glass-card flex items-center gap-4 px-5 py-3 bg-gradient-to-r from-orange-500/10 to-red-500/10 border-orange-500/20">
-                    <div className="flex flex-col">
-                        <span className="text-xs text-orange-300 font-medium uppercase tracking-wider">Current Streak</span>
-                        <span className="text-2xl font-bold text-orange-500 flex items-center gap-1">
-                            {streak} Days <Flame size={20} className="fill-orange-500" />
-                        </span>
+                <div className="flex gap-3">
+                    <button 
+                        onClick={handleShare}
+                        className="glass-card flex items-center gap-2 px-4 py-3 bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20 transition-colors"
+                    >
+                        <Share2 size={18} />
+                        <span className="text-sm font-bold">Share Story</span>
+                    </button>
+                    <div className="glass-card flex items-center gap-4 px-5 py-3 bg-gradient-to-r from-orange-500/10 to-red-500/10 border-orange-500/20">
+                        <div className="flex flex-col">
+                            <span className="text-xs text-orange-300 font-medium uppercase tracking-wider">Current Streak</span>
+                            <span className="text-2xl font-bold text-orange-500 flex items-center gap-1">
+                                {streak} <Flame size={20} className="fill-orange-500" />
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Tabs */}
+            <div className="flex border-b border-neutral-800">
+                <button
+                    onClick={() => setActiveTab('badges')}
+                    className={`pb-4 px-6 font-medium text-sm transition-colors relative ${activeTab === 'badges' ? 'text-white' : 'text-neutral-500 hover:text-neutral-300'}`}
+                >
+                    <div className="flex items-center gap-2">
+                        <Trophy size={16} />
+                        My Badges
+                    </div>
+                    {activeTab === 'badges' && (
+                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-400 rounded-t-full shadow-[0_-2px_10px_rgba(251,191,36,0.5)]" />
+                    )}
+                </button>
+                <button
+                    onClick={() => setActiveTab('leaderboard')}
+                    className={`pb-4 px-6 font-medium text-sm transition-colors relative ${activeTab === 'leaderboard' ? 'text-white' : 'text-neutral-500 hover:text-neutral-300'}`}
+                >
+                    <div className="flex items-center gap-2">
+                        <Users size={16} />
+                        Peer Leaderboard
+                    </div>
+                    {activeTab === 'leaderboard' && (
+                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 rounded-t-full shadow-[0_-2px_10px_rgba(59,130,246,0.5)]" />
+                    )}
+                </button>
+            </div>
+
+            {/* Content */}
+            {activeTab === 'badges' ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {achievements.map((item) => (
                     <div
                         key={item.id}
@@ -180,6 +251,62 @@ const Achievements = () => {
                     </div>
                 ))}
             </div>
+            ) : (
+                <div className="glass-card border-neutral-800 overflow-hidden">
+                    <div className="p-4 bg-neutral-900/50 border-b border-neutral-800 flex justify-between items-center text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+                        <div className="flex gap-4">
+                            <span className="w-8 text-center">Rank</span>
+                            <span>Student</span>
+                        </div>
+                        <div className="flex gap-8 text-right">
+                            <span className="w-16">Streak</span>
+                            <span className="w-16">Score</span>
+                        </div>
+                    </div>
+                    
+                    <div className="divide-y divide-neutral-800/50">
+                        {leaderboardData.map((user) => (
+                            <div 
+                                key={user.rank} 
+                                className={`p-4 flex justify-between items-center transition-colors ${user.isCurrent ? 'bg-blue-500/10 relative overflow-hidden' : 'hover:bg-white/5'}`}
+                            >
+                                {user.isCurrent && (
+                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
+                                )}
+                                
+                                <div className="flex items-center gap-4">
+                                    <div className="w-8 flex justify-center">
+                                        {user.rank === 1 ? <Trophy size={20} className="text-amber-400" /> : 
+                                         user.rank === 2 ? <Trophy size={20} className="text-neutral-400" /> : 
+                                         user.rank === 3 ? <Trophy size={20} className="text-amber-700" /> : 
+                                         <span className="font-bold text-neutral-500">{user.rank}</span>}
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center text-xl shadow-inner">
+                                            {user.avatar}
+                                        </div>
+                                        <div>
+                                            <div className={`font-bold ${user.isCurrent ? 'text-blue-400' : 'text-neutral-200'}`}>
+                                                {user.name}
+                                            </div>
+                                            {user.isCurrent && <div className="text-[10px] text-blue-500/80 uppercase tracking-widest font-bold">That's You!</div>}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-8 text-right items-center">
+                                    <div className="w-16 flex items-center justify-end gap-1 font-bold text-orange-400">
+                                        {user.streak} <Flame size={14} className="fill-orange-400" />
+                                    </div>
+                                    <div className="w-16 font-black text-lg text-emerald-400">
+                                        {user.score.toFixed(1)}%
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 export const useAuthStore = create((set, get) => ({
   user: null,
   session: null,
+  isGuest: false,
   loading: true,
 
   initialize: async () => {
@@ -14,12 +15,31 @@ export const useAuthStore = create((set, get) => ({
 
       // Listen for auth changes
       supabase.auth.onAuthStateChange((_event, session) => {
-        set({ session, user: session?.user ?? null });
+        set({ session, user: session?.user ?? null, isGuest: false });
       });
     } catch (error) {
       console.error('Auth initialization error:', error);
       set({ loading: false });
     }
+  },
+
+  loginAsGuest: () => {
+    set({
+      user: {
+        id: 'guest-user',
+        email: 'guest@attendance-manager.local',
+        user_metadata: {
+          full_name: 'Guest Scholar',
+          role: 'Guest'
+        }
+      },
+      session: {
+        access_token: 'guest-token'
+      },
+      isGuest: true,
+      loading: false
+    });
+    toast.success('Signed in as Guest! Progress will be saved locally.');
   },
 
   signUp: async (email, password, userData) => {

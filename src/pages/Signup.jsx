@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Hash, Eye, EyeOff, Building2, ArrowRight } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
@@ -17,6 +17,21 @@ const Signup = () => {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState({});
+  const [collegeList, setCollegeList] = useState([]);
+
+  useEffect(() => {
+    const fetchColleges = async () => {
+      try {
+        const response = await fetch('http://universities.hipolabs.com/search?country=India');
+        const data = await response.json();
+        const uniqueColleges = Array.from(new Set(data.map(item => item.name))).sort();
+        setCollegeList(uniqueColleges);
+      } catch (error) {
+        console.error('Failed to fetch colleges:', error);
+      }
+    };
+    fetchColleges();
+  }, []);
 
   const validate = () => {
     const newErrors = {};
@@ -114,11 +129,25 @@ const Signup = () => {
               <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
               <input
                 type="text"
+                list="colleges-list"
                 value={formData.university}
                 onChange={(e) => setFormData({ ...formData, university: e.target.value })}
                 className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
-                placeholder="Your institution"
+                placeholder="Search your institution..."
               />
+              <datalist id="colleges-list">
+                <option value="SIMATS Engineering" />
+                <option value="Saveetha Engineering College (SEC)" />
+                <option value="Saveetha School of Engineering (SSE)" />
+                <option value="Saveetha Medical College" />
+                <option value="Saveetha Dental College" />
+                <option value="Saveetha School of Law" />
+                <option value="Saveetha School of Management" />
+                {collegeList.map((college, idx) => (
+                  <option key={idx} value={college} />
+                ))}
+                <option value="Other" />
+              </datalist>
             </div>
           </div>
 

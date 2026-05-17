@@ -13,24 +13,32 @@ import {
   AlertCircle,
   Target,
   Flame,
-  Trophy
+  Trophy,
+  Calculator,
+  Lock,
+  Bot,
+  Users
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { signOut } = useAuthStore();
+  const { signOut, isGuest } = useAuthStore();
   const navigate = useNavigate();
 
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Courses', path: '/courses', icon: BookOpen },
-    { name: 'Calendar', path: '/calendar', icon: CalendarIcon },
-    { name: 'Statistics', path: '/statistics', icon: BarChart3 },
-    { name: 'Goals', path: '/goals', icon: Target },
-    { name: 'Achievements', path: '/achievements', icon: Trophy, isNew: true },
-    { name: 'Feedback', path: '/feedback', icon: MessageSquare },
-    { name: 'Profile', path: '/profile', icon: User },
+    { name: 'AI Planner', path: '/ai-optimizer', icon: Bot, isPremium: true },
+    { name: 'Bunk Simulator', path: '/bunk-simulator', icon: Calculator, isPremium: true },
+    { name: 'Bunk Squad', path: '/bunk-squad', icon: Users, isPremium: true },
+    { name: 'Calendar', path: '/calendar', icon: CalendarIcon, requireLogin: true },
+    { name: 'Statistics', path: '/statistics', icon: BarChart3, requireLogin: true },
+    { name: 'Goals', path: '/goals', icon: Target, requireLogin: true },
+    { name: 'Achievements', path: '/achievements', icon: Trophy, isNew: true, requireLogin: true },
+    { name: 'Feedback', path: '/feedback', icon: MessageSquare, requireLogin: true },
+    { name: 'Profile', path: '/profile', icon: User, requireLogin: true },
   ];
 
   const handleSignOut = async () => {
@@ -83,28 +91,50 @@ const Sidebar = () => {
           {/* Navigation */}
           <nav className="flex-1 p-4 overflow-y-auto">
             <ul className="space-y-1.5">
-              {navItems.map((item) => (
-                <li key={item.path}>
-                  <NavLink
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-300 ${isActive
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
-                        : 'text-neutral-400 hover:bg-white/5 hover:text-white'
-                      }`
-                    }
-                  >
-                    <item.icon size={18} />
-                    <span className="font-medium text-sm">{item.name}</span>
-                    {item.isNew && (
-                      <span className="ml-auto text-[10px] bg-gradient-to-r from-orange-500 to-red-500 text-white px-2 py-0.5 rounded-full font-bold shadow-md shadow-orange-500/20">
-                        NEW
-                      </span>
-                    )}
-                  </NavLink>
-                </li>
-              ))}
+              {navItems.map((item) => {
+                const isLocked = isGuest && item.requireLogin;
+
+                return (
+                  <li key={item.path}>
+                    <NavLink
+                      to={isLocked ? '#' : item.path}
+                      onClick={(e) => {
+                        if (isLocked) {
+                          e.preventDefault();
+                          toast('Please Sign In to unlock this feature', { icon: '🔒' });
+                        } else {
+                          setIsOpen(false);
+                        }
+                      }}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-300 ${isActive && !isLocked
+                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
+                          : isLocked
+                            ? 'text-neutral-600 opacity-50 cursor-not-allowed'
+                            : 'text-neutral-400 hover:bg-white/5 hover:text-white'
+                        }`
+                      }
+                    >
+                      <item.icon size={18} />
+                      <span className="font-medium text-sm">{item.name}</span>
+                      
+                      {item.isPremium && (
+                         <span className="ml-auto text-[10px] bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-2 py-0.5 rounded-full font-bold shadow-md shadow-purple-500/20">
+                           PRO
+                         </span>
+                      )}
+
+                      {item.isNew && !item.isPremium && (
+                        <span className="ml-auto text-[10px] bg-gradient-to-r from-orange-500 to-red-500 text-white px-2 py-0.5 rounded-full font-bold shadow-md shadow-orange-500/20">
+                          NEW
+                        </span>
+                      )}
+
+                      {isLocked && <Lock size={14} className="ml-auto text-neutral-500" />}
+                    </NavLink>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
