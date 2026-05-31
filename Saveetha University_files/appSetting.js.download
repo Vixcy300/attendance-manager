@@ -1,0 +1,1 @@
+﻿var arms_appsetting = { arms_domainurl: "https://arms.sse.saveetha.com/", arms_admissionfileurl: "https://arms.ssefile.saveetha.com", att_hour: "1.5"  };

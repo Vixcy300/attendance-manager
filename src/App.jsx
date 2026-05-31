@@ -4,18 +4,15 @@ import { useEffect } from 'react';
 import { useAuthStore } from './store/authStore';
 
 // Pages
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Courses from './pages/Courses';
 import Calendar from './pages/Calendar';
 import Statistics from './pages/Statistics';
-import Goals from './pages/Goals';
 import Streaks from './pages/Streaks'; // Keeping for history or fallback
 import Achievements from './pages/Achievements'; // New
-import BunkSimulator from './pages/BunkSimulator'; // Premium Feature
-import AiOptimizer from './pages/AiOptimizer'; // Premium Feature
-import BunkSquad from './pages/BunkSquad'; // Premium Feature
 import Feedback from './pages/Feedback';
 import Profile from './pages/Profile';
 import Disclaimer from './pages/Disclaimer';
@@ -72,6 +69,7 @@ function App() {
 
       <Routes>
         {/* Public Routes */}
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
@@ -79,17 +77,12 @@ function App() {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/statistics" element={<Statistics />} />
-            <Route path="/goals" element={<Goals />} />
             <Route path="/streaks" element={<Achievements />} /> {/* Remapped Streaks url to Achievements */}
             <Route path="/achievements" element={<Achievements />} />
-            <Route path="/bunk-simulator" element={<BunkSimulator />} />
-            <Route path="/ai-optimizer" element={<AiOptimizer />} />
-            <Route path="/bunk-squad" element={<BunkSquad />} />
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/feedback-history" element={<FeedbackHistory />} />
             <Route path="/profile" element={<Profile />} />

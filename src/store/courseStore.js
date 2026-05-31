@@ -51,6 +51,63 @@ export const useCourseStore = create((set, get) => ({
     }
   },
 
+  batchImportCourses: async (importedCourses, userId) => {
+    try {
+      const isGuest = useAuthStore.getState().isGuest;
+      const currentCourses = [...get().courses];
+      let newCount = 0;
+      let updateCount = 0;
+
+      for (const imported of importedCourses) {
+        const existingIndex = currentCourses.findIndex(c => c.course_code === imported.course_code);
+        
+        if (existingIndex !== -1) {
+          // Update existing
+          const existing = currentCourses[existingIndex];
+          if (existing.classes_attended !== imported.classes_attended || existing.total_classes !== imported.total_classes) {
+            const updates = {
+              classes_attended: imported.classes_attended,
+              total_classes: imported.total_classes,
+            };
+            if (!isGuest) {
+              await db.updateCourse(existing.id, updates);
+            }
+            currentCourses[existingIndex] = { ...existing, ...updates };
+            updateCount++;
+          }
+        } else {
+          // Add new
+          let newCourse;
+          const courseData = { ...imported, user_id: userId };
+          if (isGuest) {
+            newCourse = { ...courseData, id: `guest-${Date.now()}-${Math.random()}` };
+          } else {
+            const { data } = await db.createCourse(courseData);
+            newCourse = data;
+          }
+          currentCourses.push(newCourse);
+          newCount++;
+        }
+      }
+
+      set({ courses: currentCourses });
+      if (isGuest) {
+        localStorage.setItem('guest_courses', JSON.stringify(currentCourses));
+      }
+
+      if (newCount > 0 || updateCount > 0) {
+        toast.success(`Sync complete: ${newCount} added, ${updateCount} updated`);
+      } else {
+        toast.success('Sync complete: All courses are up to date');
+      }
+      return { error: null };
+    } catch (error) {
+      console.error('Batch import error:', error);
+      toast.error('Failed to sync courses');
+      return { error };
+    }
+  },
+
   updateCourse: async (courseId, updates) => {
     try {
       const isGuest = useAuthStore.getState().isGuest;

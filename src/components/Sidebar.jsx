@@ -11,13 +11,8 @@ import {
   Menu,
   X,
   AlertCircle,
-  Target,
-  Flame,
   Trophy,
-  Calculator,
-  Lock,
-  Bot,
-  Users
+  Lock
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
@@ -30,12 +25,8 @@ const Sidebar = () => {
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Courses', path: '/courses', icon: BookOpen },
-    { name: 'AI Planner', path: '/ai-optimizer', icon: Bot, isPremium: true },
-    { name: 'Bunk Simulator', path: '/bunk-simulator', icon: Calculator, isPremium: true },
-    { name: 'Bunk Squad', path: '/bunk-squad', icon: Users, isPremium: true },
     { name: 'Calendar', path: '/calendar', icon: CalendarIcon, requireLogin: true },
     { name: 'Statistics', path: '/statistics', icon: BarChart3, requireLogin: true },
-    { name: 'Goals', path: '/goals', icon: Target, requireLogin: true },
     { name: 'Achievements', path: '/achievements', icon: Trophy, isNew: true, requireLogin: true },
     { name: 'Feedback', path: '/feedback', icon: MessageSquare, requireLogin: true },
     { name: 'Profile', path: '/profile', icon: User, requireLogin: true },

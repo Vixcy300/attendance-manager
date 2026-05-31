@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://arms.sse.saveetha.com/StudentPortal/AttendanceReport.aspx -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head id="Head1"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta name="description"><meta name="anand@basisinfotech.com">
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="./Saveetha University_files/css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/font-awesome.min.css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/simple-line-icons.min.css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/jquery-ui.min.css" rel="stylesheet"><link href="./Saveetha University_files/bootstrap.min.css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/uniform.default.css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/bootstrap-switch.min.css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/all.css" rel="stylesheet" type="text/css">
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!-- BEGIN THEME STYLES -->
+    <link id="style_components" href="./Saveetha University_files/components.css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/plugins.css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/layout.css" rel="stylesheet" type="text/css"><link id="style_color" href="./Saveetha University_files/darkblue.css" rel="stylesheet" type="text/css"><link href="./Saveetha University_files/custom.css" rel="stylesheet" type="text/css">
+    <!-- END THEME STYLES -->
+
+    <!-- BEGIN JAVASCRIPT STYLES -->
+    <script src="./Saveetha University_files/jquery.min.js.download" type="text/javascript"></script>
+    <script src="./Saveetha University_files/jquery-migrate.min.js.download" type="text/javascript"></script>
+    <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+    <script src="./Saveetha University_files/jquery-ui.min.js.download" type="text/javascript"></script>
+    <script src="./Saveetha University_files/bootstrap.min.js.download" type="text/javascript"></script>
+    <script type="text/javascript" src="./Saveetha University_files/icheck.min.js.download"></script>
+    <script type="text/javascript" src="./Saveetha University_files/form-icheck.js.download"></script>
+
+    <!-- END JAVASCRIPT STYLES -->
+
+    <link rel="shortcut icon" href="https://arms.sse.saveetha.com/StaffMaster/favicon.ico"><title>
+	Saveetha University
+</title>
+</head>
+<body class="page-header-fixed page-quick-sidebar-over-content">
+    <form method="post" action="https://arms.sse.saveetha.com/StudentPortal/AttendanceReport.aspx" id="form1" style="opacity: 1;">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/p7hvuxwpLoOiCyuXi2lWq88ShbVJcR3yZtdy9JT07tET7+IEzBtra/WPgv0ELDyX6atLgyusBCo/Q2osfgJ27PyTl4zErYz8jOSSfGlv1rXRfTflOegaAEMyHSaArAXY/G6y4e736zBWwx7ipuLK2TVgx1OpjGIehz2AlWSqqg=">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="./Saveetha University_files/WebResource.axd" type="text/javascript"></script>
+
+
+<script src="./Saveetha University_files/ScriptResource.axd" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="./Saveetha University_files/ScriptResource(1).axd" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="D1E2ED1F">
+</div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ScriptManager1', 'form1', [], [], [], 90, 'ctl00');
+//]]>
+</script>
+
+        <div class="page-header navbar navbar-fixed-top">
+            <!-- BEGIN HEADER TOP -->
+            <div class="page-header navbar navbar-fixed-top">
+                <!-- BEGIN HEADER INNER -->
+                <div class="page-header-inner">
+                    <!-- BEGIN LOGO -->
+                    <div class="page-logo">
+                        <a href="https://arms.sse.saveetha.com/StudentPortal/AttendanceReport.aspx#" style="color: #ffffff; font-size: 20px; padding-top: 1px;">
+                            <img src="./Saveetha University_files/logo.png" alt="logo" class="logo-default" style="height: 35px; padding-bottom: 1px; width: 120px;">
+                        </a>
+                        <div class="menu-toggler sidebar-toggler hide">
+                            <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+                        </div>
+                    </div>
+                    <!-- END LOGO -->
+                    <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                    <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"></a>
+                    <!-- END RESPONSIVE MENU TOGGLER -->
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+                        <ul class="nav navbar-nav pull-right">
+                            <!-- BEGIN NOTIFICATION DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-bell"></i>
+                                    <span class="badge badge-default" id="sbadgenotification">0</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="external">
+                                        <h3 id="hnotification">You have <strong>0 pending</strong> attendance confirmation</h3>
+                                    </li>
+                                    <li>
+                                        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 250px;"><ul class="dropdown-menu-list scroller" id="ulnotification" style="height: 250px; overflow: hidden; width: auto;" data-handle-color="#637283" data-initialized="1">
+                                        </ul><div class="slimScrollBar" style="background: rgb(99, 114, 131); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END NOTIFICATION DROPDOWN -->
+                            <!-- BEGIN INBOX DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-envelope-open"></i>
+                                    <span class="badge badge-default">0 </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="external">
+                                        <h3>You have <span class="bold">0 New</span> Messages</h3>
+                                        <a href="https://arms.sse.saveetha.com/StudentPortal/AttendanceReport.aspx#">view all</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END INBOX DROPDOWN -->
+                            <!-- BEGIN TODO DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-calendar"></i>
+                                    <span class="badge badge-default">0 </span>
+                                </a>
+                                <ul class="dropdown-menu extended tasks">
+                                    <li class="external">
+                                        <h3>You have <span class="bold">0 pending</span> tasks</h3>
+                                        <a href="https://arms.sse.saveetha.com/StudentPortal/AttendanceReport.aspx#">view all</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END TODO DROPDOWN -->
+                            <!-- BEGIN USER LOGIN DROPDOWN -->
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <img alt="" class="img-circle imguserprofileimagepath" src="./Saveetha University_files/avatar.png">
+                                    <span id="spprofile" class="username username-hide-on-mobile">DAVID ANTHONY  F </span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-default">
+                                    <li>
+                                        <a href="https://arms.sse.saveetha.com/StudentPortal/MyDetails.aspx">
+                                            <i class="icon-user"></i>My Profile </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="https://arms.sse.saveetha.com/StudentPortal/ChangePassword.aspx">
+                                            <i class="icon-key"></i>Change Password </a>
+                                    </li>
+                                    <li>
+                                        <a id="aLogout" href="javascript:__doPostBack(&#39;ctl00$aLogout&#39;,&#39;&#39;)">
+                                            <i class="icon-logout"></i>Log Out </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END USER LOGIN DROPDOWN -->
+                            <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <li class="dropdown dropdown-quick-sidebar-toggler">
+                                <a id="a1" class="dropdown-toggle" href="javascript:__doPostBack(&#39;ctl00$a1&#39;,&#39;&#39;)">
+                                    <i class="icon-logout"></i>
+                                </a>
+                            </li>
+                            <!-- END QUICK SIDEBAR TOGGLER -->
+                        </ul>
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+            </div>
+            <!-- END HEADER TOP -->
+        </div>
+        <div class="clearfix">
+        </div>
+        <!-- BEGIN PAGE CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <div class="page-sidebar navbar-collapse collapse">
+                    <!-- BEGIN SIDEBAR MENU -->
+                    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+                    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+                    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+                    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                        <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+                        <li class="sidebar-toggler-wrapper">
+                            <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                            <div class="sidebar-toggler">
+                            </div>
+                            <!-- END SIDEBAR TOGGLER BUTTON -->
+                        </li>
+                        <li class="start" style="padding-top: 5px;">
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/Landing.aspx">
+                                <i class="icon-home"></i>
+                                <span class="title">Home </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/MyCourse.aspx">
+                                <i class="icon-graduation"></i>
+                                <span class="title">My Course</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/CourseFeedback.aspx">
+                                <i class="icon-pencil"></i>
+                                <span class="title">My Course Feedback</span>
+                            </a>
+                        </li>
+                        <li class="hidden">
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/SlotSelect.aspx">
+                                <i class="icon-bulb"></i>
+                                <span class="title">Enrollment</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/Enrollment.aspx">
+                                <i class="icon-bulb"></i>
+                                <span class="title">Enrollment<span class="badge badge-roundless badge-danger">new</span></span>
+                            </a>
+
+                        </li>
+                        <li class="open">
+                            <a href="javascript:;">
+                                <i class="icon-calendar"></i>
+                                <span class="title">Attendance</span>
+                                <span class="arrow  open"></span>
+                            </a>
+                            <ul class="sub-menu" style="display: block;">
+                                <li>
+                                    <a href="https://arms.sse.saveetha.com/StudentPortal/AttendanceReport.aspx">Attendance Report</a>
+                                </li>
+                                <li>
+                                    <a href="https://arms.sse.saveetha.com/StudentPortal/OD.aspx">Request - OD </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/ViewAssigment.aspx">
+                                <i class="icon-note"></i>
+                                <span class="title">Assignment</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="icon-puzzle"></i>
+                                <span class="title">Examination</span>
+                                <span class="arrow "></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a href="https://arms.sse.saveetha.com/StudentPortal/InternalMarks.aspx">Internal Marks</a>
+                                </li>
+                                <li>
+                                    <a href="https://arms.sse.saveetha.com/StudentPortal/NoDueRequest.aspx">No Due</a>
+                                </li>
+                                <li>
+                                    <a href="https://arms.sse.saveetha.com/StudentPortal/Revaluation.aspx">Revaluation</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/Paymenthistory.aspx">
+                                <i class="icon-credit-card"></i>
+                                <span class="title">Financial Record</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/Disciplinary.aspx">
+                                <i class="icon-speech"></i>
+                                <span class="title">Disciplinary</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/Offer.aspx">
+                                <i class="icon-star"></i>
+                                <span class="title">Offer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="icon-support"></i>
+                                <span class="title">Raise Infra Issue</span>
+                                <span class="arrow "></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a href="https://arms.sse.saveetha.com/StudentPortal/Issue.aspx">Raise Issue</a>
+                                </li>
+                                <li>
+                                    <a href="https://arms.sse.saveetha.com/StudentPortal/ViewIssue.aspx">View Issue Solution</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="https://arms.sse.saveetha.com/StudentPortal/DataProfile.aspx">
+                                <i class="icon-camera"></i>
+                                <span class="title">My Profile</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- END SIDEBAR MENU -->
+                </div>
+            </div>
+            <!-- END SIDEBAR -->
+            <!-- BEGIN PAGE CONTENT -->
+            <div class="page-content-wrapper">
+                <div class="page-content" style="min-height:656px">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-top: 10px;">
+                            
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link rel="stylesheet" type="text/css" href="./Saveetha University_files/select2.css">
+    <link rel="stylesheet" type="text/css" href="./Saveetha University_files/dataTables.scroller.min.css">
+    <link rel="stylesheet" type="text/css" href="./Saveetha University_files/dataTables.colReorder.min.css">
+    <link rel="stylesheet" type="text/css" href="./Saveetha University_files/dataTables.bootstrap.css">
+    <!-- END PAGE LEVEL STYLES -->
+
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link rel="stylesheet" type="text/css" href="./Saveetha University_files/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" type="text/css" href="./Saveetha University_files/daterangepicker-bs3.css">
+    <link rel="stylesheet" type="text/css" href="./Saveetha University_files/bootstrap-datetimepicker.min.css">
+    <!-- END PAGE LEVEL STYLES -->
+
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script type="text/javascript" src="./Saveetha University_files/select2.min.js.download"></script>
+    <script type="text/javascript" src="./Saveetha University_files/jquery.dataTables.min.js.download"></script>
+    <script type="text/javascript" src="./Saveetha University_files/dataTables.tableTools.min.js.download"></script>
+    <script type="text/javascript" src="./Saveetha University_files/dataTables.colReorder.min.js.download"></script>
+    <script type="text/javascript" src="./Saveetha University_files/dataTables.scroller.min.js.download"></script>
+    <script type="text/javascript" src="./Saveetha University_files/dataTables.bootstrap.js.download"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script type="text/javascript" src="./Saveetha University_files/bootstrap-datepicker.min.js.download"></script>
+    <script type="text/javascript" src="./Saveetha University_files/moment.min.js.download"></script>
+    <script type="text/javascript" src="./Saveetha University_files/daterangepicker.js.download"></script>
+    <script src="./Saveetha University_files/appSetting.js.download"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <div class="">
+        <div class="form-horizontal">
+            <div class="col-md-10">
+                <h3 class="page-title">Attendance Report <small></small>
+                </h3>
+            </div>
+            <div class="col-md-2 pull-right">
+            </div>
+        </div>
+        <div class="col-md-12 hidden">
+            <div class="col-sm-1"></div>
+            <label class="col-sm-1 control-label text-right">Select Date</label>
+            <div class="col-sm-3">
+                <div class="input-group" id="defaultrange">
+                    <input type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <button class="btn default date-range-toggle" type="button"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-success">View</button>
+                
+            </div>
+        </div>
+        <div class="col-md-12" style="height: 25px;">
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div id="tblStudent_wrapper" class="dataTables_wrapper no-footer"><div class="row"><div class="col-md-6 col-sm-6"></div><div class="col-md-6 col-sm-6"></div></div><div class="table-scrollable"><table class="table table-striped table-hover table-bordered dataTable no-footer" id="tblStudent" style="width: 1239px;" role="grid" aria-describedby="tblStudent_info">
+            <thead><tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-sort="ascending" aria-label="S No.: activate to sort column ascending" style="width: 36.2px;">S No.</th><th class="sorting" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-label="Course Code: activate to sort column ascending" style="width: 95.2px;">Course Code</th><th class="sorting" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-label="Course Name: activate to sort column ascending" style="width: 393.2px;">Course Name</th><th class="sorting" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-label="Class Attended: activate to sort column ascending" style="width: 110.2px;">Class Attended</th><th class="sorting" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-label="Attended Hours: activate to sort column ascending" style="width: 114.2px;">Attended Hours</th><th class="sorting" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-label="Total Class: activate to sort column ascending" style="width: 81.2px;">Total Class</th><th class="sorting" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-label="Total Hours: activate to sort column ascending" style="width: 84.2px;">Total Hours</th><th class="sorting" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-label="%: activate to sort column ascending" style="width: 36.2px;">%</th><th class="sorting" tabindex="0" aria-controls="tblStudent" rowspan="1" colspan="1" aria-label="View: activate to sort column ascending" style="width: 50px;">View</th></tr></thead><tbody><tr role="row" class="odd"><td class="sorting_1">1</td><td>MMA1286</td><td>Mentor Mentee Meeting</td><td>17</td><td>17</td><td>20</td><td>20</td><td><label class="label badge-pill badge-primary">85 % </label></td><td><button onclick="Absdetails(29219)" class="btn btn-danger btn-xs" type="button"> Details </button></td></tr><tr role="row" class="even"><td class="sorting_1">2</td><td>SPIC2A36</td><td>Project 2 with Reinforcement Learning</td><td>37</td><td>37</td><td>41</td><td>41</td><td><label class="label badge-pill badge-primary">90 % </label></td><td><button onclick="Absdetails(38402)" class="btn btn-danger btn-xs" type="button"> Details </button></td></tr><tr role="row" class="odd"><td class="sorting_1">3</td><td>CSA0935</td><td>Programming in Java for Banking Systems</td><td>38</td><td>38</td><td>44</td><td>44</td><td><label class="label badge-pill badge-primary">86 % </label></td><td><button onclick="Absdetails(39845)" class="btn btn-danger btn-xs" type="button"> Details </button></td></tr><tr role="row" class="even"><td class="sorting_1">4</td><td>CSA0635</td><td> Design and Analysis of Algorithms for Complexity</td><td>36</td><td>36</td><td>44</td><td>44</td><td><label class="label badge-pill badge-primary">82 % </label></td><td><button onclick="Absdetails(39950)" class="btn btn-danger btn-xs" type="button"> Details </button></td></tr><tr role="row" class="odd"><td class="sorting_1">5</td><td>BTA0124</td><td>Biology and environmental sciences for Engineers for oil pollution</td><td>0</td><td>0</td><td>0</td><td>0</td><td><label class="label badge-pill badge-success">100 %</label></td><td><label class="label badge-pill badge-success">NA</label></td></tr></tbody></table></div><div class="row"><div class="col-md-5 col-sm-5"><div class="dataTables_info" id="tblStudent_info" role="status" aria-live="polite">Showing 1 to 5 of 5 entries</div></div><div class="col-md-7 col-sm-7"></div></div></div>
+        </div>
+
+        <input type="hidden" name="ctl00$cphbody$HdnCourseId" id="cphbody_HdnCourseId" value="0">
+        <input type="hidden" name="ctl00$cphbody$HdnCollgeId" id="cphbody_HdnCollgeId" value="1">
+        <input type="hidden" name="ctl00$cphbody$HdnGraduationId" id="cphbody_HdnGraduationId" value="0">
+        <input type="hidden" name="ctl00$cphbody$hdnStudentId" id="cphbody_hdnStudentId" value="0">
+
+        <div class="modal fade" id="mdlview" style="display: none;">
+            <div class="modal-dialog" style="width: 40%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Attendance day wise absent details</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div id="tblabs_wrapper" class="dataTables_wrapper no-footer"><div class="row"><div class="col-md-6 col-sm-6"></div><div class="col-md-6 col-sm-6"></div></div><div class="table-scrollable"><table class="table table-striped table-hover table-bordered dataTable no-footer" id="tblabs" style="width: 100%;" role="grid" aria-describedby="tblabs_info">
+                                <thead><tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="tblabs" rowspan="1" colspan="1" aria-sort="ascending" aria-label="S No.: activate to sort column ascending" style="width: 3px;">S No.</th><th class="sorting" tabindex="0" aria-controls="tblabs" rowspan="1" colspan="1" aria-label="Dated On: activate to sort column ascending">Dated On</th><th class="sorting" tabindex="0" aria-controls="tblabs" rowspan="1" colspan="1" aria-label="Attendance Type: activate to sort column ascending">Attendance Type</th></tr></thead><tbody><tr role="row" class="odd"><td class="sorting_1">1</td><td>13/04/2026</td><td>Absent</td></tr><tr role="row" class="even"><td class="sorting_1">2</td><td>13/04/2026</td><td>Absent</td></tr><tr role="row" class="odd"><td class="sorting_1">3</td><td>02/05/2026</td><td>Absent</td></tr><tr role="row" class="even"><td class="sorting_1">4</td><td>02/05/2026</td><td>Absent</td></tr><tr role="row" class="odd"><td class="sorting_1">5</td><td>12/05/2026</td><td>Absent</td></tr><tr role="row" class="even"><td class="sorting_1">6</td><td>12/05/2026</td><td>Absent</td></tr><tr role="row" class="odd"><td class="sorting_1">7</td><td>25/05/2026</td><td>Absent</td></tr><tr role="row" class="even"><td class="sorting_1">8</td><td>25/05/2026</td><td>Absent</td></tr></tbody></table></div><div class="row"><div class="col-md-5 col-sm-5"><div class="dataTables_info" id="tblabs_info" role="status" aria-live="polite">Showing 1 to 8 of 8 entries</div></div><div class="col-md-7 col-sm-7"></div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var fdate = '';
+        var tdate = '';
+
+        $(function () {
+
+            bindattendance();
+
+            $('#defaultrange').daterangepicker({
+                opens: (Metronic.isRTL() ? 'left' : 'right'),
+                format: 'DD/MM/YYYY',
+                separator: ' to ',
+                startDate: moment().subtract('days', 29),
+                endDate: moment(),
+
+                dateLimit: {
+                    days: 365
+                },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                    'Last 7 Days': [moment().subtract('days', 6), moment()],
+                    'Last 30 Days': [moment().subtract('days', 29), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                },
+                buttonClasses: ['btn'],
+                applyClass: 'green',
+                cancelClass: 'default',
+                format: 'MM/DD/YYYY',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Apply',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            },
+                function (start, end) {
+                    fdate = start.format('DD/MM/YYYY');
+                    tdate = end.format('DD/MM/YYYY');
+                    $('#defaultrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+            );
+
+            //$('#defaultrange input').val(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+            //fdate = moment().subtract('days', 29).format('DD/MM/YYYY');
+            //tdate = moment().format('DD/MM/YYYY');
+
+        });
+
+        var arrlist = [];
+
+        var vuniq = null;
+        var jsonObjwork = [];
+
+        function bindattendance() {
+
+            var sid = $("#cphbody_hdnStudentId").val();
+            jsonObjwork = [];
+
+            $.ajax({
+                url: "../Handler/Administration.ashx?Page=StudentAttendance&Mode=ATTENDANCEPGMPERSENT&Id=0&Sid=" + sid + "&Date=" + fdate + "&ToDate=" + tdate + "", success: function (result) {
+
+                    var Result1 = [];
+                    var i = 1;
+                    $.each(JSON.parse(result), function (key, value) {
+
+                        var lpersent = 0;
+                        var classhours = 0;
+                        var classattended = 0;
+                        var attendedhours = 0;
+
+                        var labsdetails = '';
+
+                        //attendedhours = value.AbsCount * parseInt(arms_appsetting.att_hour);
+                        //classhours = value.Totalclasscount * parseInt(arms_appsetting.att_hour);
+
+                        classattended = (parseFloat(value.Totalclasscount) - parseFloat(value.AbsentCount));
+                        attendedhours = (parseFloat(value.Totalclasscount) - parseFloat(value.AbsentCount)) * parseInt(arms_appsetting.att_hour);
+                        classhours = value.Totalclasscount * parseInt(arms_appsetting.att_hour);
+
+                        if (value.AbsentCount == 0) {
+                            lpersent = "<label class='label badge-pill badge-success'>100 %</label>";
+                            labsdetails = "<label class='label badge-pill badge-success'>NA</label>";
+                        }
+                        else {
+
+                            labsdetails = "<button onclick='Absdetails(" + value.CourseId + ")'  class='btn btn-danger btn-xs' type='button'> Details </button>";
+
+                            //lpersent = Math.round(((value.AbsCount) / value.Totalclasscount) * 100, 2);
+
+                            if (parseFloat(value.Totalclasscount) > 0) {
+                                lpersent = Math.round(((classattended) / value.Totalclasscount) * 100, 2);
+                            }
+                            else { lpersent = 0; }
+
+                            if (lpersent <= 59) { lpersent = "<label class='label badge-pill badge-danger'>" + lpersent + " % </label>"; }
+                            //else if (lpersent > 25 && lpersent <= 50)
+                            //{ lpersent = "<label class='label badge-pill badge-warning'>" + lpersent + " % </label>"; }
+                            else if (lpersent >= 60 && lpersent <= 79) { lpersent = "<label class='label badge-pill badge-warning'>" + lpersent + " % </label>"; }
+                            else if (lpersent >= 80 && lpersent <= 90) { lpersent = "<label class='label badge-pill badge-primary'>" + lpersent + " % </label>"; }
+                            else if (lpersent > 90) { lpersent = "<label class='label badge-pill badge-success'>" + lpersent + " % </label>"; }
+
+                            //if (lpersent >= 0 && lpersent <= 25)
+                            //{ lpersent = "<label class='label badge-pill badge-danger'>" + lpersent + " % </label>"; }
+                            //else if (lpersent > 25 && lpersent <= 50)
+                            //{ lpersent = "<label class='label badge-pill badge-warning'>" + lpersent + " % </label>"; }
+                            //else if (lpersent > 50 && lpersent <= 75)
+                            //{ lpersent = "<label class='label badge-pill badge-info'>" + lpersent + " % </label>"; }
+                            //else if (lpersent > 75 && lpersent <= 90)
+                            //{ lpersent = "<label class='label badge-pill badge-primary'>" + lpersent + " % </label>"; }
+                            //else if (lpersent > 90 && lpersent <= 100)
+                            //{ lpersent = "<label class='label badge-pill badge-success'>" + lpersent + " % </label>"; }
+                        }
+
+                        Result1.push([
+                            i,
+                            value.SubjectCode,
+                            value.SubjectName,
+                            classattended,
+                            attendedhours,
+                            value.Totalclasscount,
+                            classhours,
+                            lpersent,
+                            labsdetails
+                        ]);
+
+                        i++;
+                    });
+
+                    $('#tblStudent').DataTable(
+                        {
+                            bRetrieve: false,
+                            bDestroy: true,
+                            aaData: Result1,
+                            paging: false,
+                            filter: false,
+                            aoColumns: [{
+                                sTitle: "S No.", "sWidth": "3%",
+                            }, {
+                                sTitle: "Course Code"
+                            }, {
+                                sTitle: "Course Name"
+                            }, {
+                                sTitle: "Class Attended"
+                            }, {
+                                sTitle: "Attended Hours"
+                            }, {
+                                sTitle: "Total Class"
+                            }, {
+                                sTitle: "Total Hours"
+                            }, {
+                                sTitle: "%"
+                            }, {
+                                sTitle: "View"
+                            }
+                            ]
+                        }
+                    )
+
+                }
+            });
+
+        }
+
+
+        function Absdetails(cid) {
+            $('#mdlview').modal('show');
+            fdate = '';
+            jsonObjwork = [];
+
+            var sid = $("#cphbody_hdnStudentId").val();
+
+            $.ajax({
+                url: "../Handler/Administration.ashx?Page=StudentAttendance&Mode=ATTENDANCESTUPERSENT&SId=" + sid + "&Id=" + cid + "&Date=" + fdate + "&ToDate=" + tdate + "", success: function (result) {
+
+                    var Result1 = [];
+                    var i = 1;
+                    $.each(JSON.parse(result), function (key, value) {
+
+                        Result1.push([
+                            i,
+                            value.DateOn,
+                            value.AttendanceType
+                        ]);
+
+                        i++;
+                    });
+
+                    $('#tblabs').DataTable(
+                        {
+                            bRetrieve: false,
+                            bDestroy: true,
+                            aaData: Result1,
+                            paging: false,
+                            filter: false,
+                            aoColumns: [{
+                                sTitle: "S No.", "sWidth": "3%",
+                            }, {
+                                sTitle: "Dated On"
+                            }, {
+                                sTitle: "Attendance Type"
+                            }
+                            ]
+                        }
+                    )
+
+                }
+            });
+
+        }
+
+    </script>
+    <script>
+        $(function () {
+
+            // $('#hpageheader').html('Attendance Report<small>&nbsp; </small>');
+        });
+
+    </script>
+
+                        </div>
+                    </div>
+                    <input type="hidden" name="ctl00$hdngradeid" id="hdngradeid" value="0">
+                    <input type="hidden" name="ctl00$hdnfeedback" id="hdnfeedback" value="2">
+                </div>
+            </div>
+            <!-- END PAGE CONTENT -->
+            <div class="modal fade" id="MdlGradedetails">
+                <div class="modal-dialog" style="width: 45%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title">Attendance confirmation!</h4>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Subject</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="control-label pull-left" id="lblgradesubdet"></span>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Staff</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="control-label pull-left" id="lblgradestaff"></span>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Dated On</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="control-label pull-left" id="lblgradedate"></span>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label text-danger">Feedback</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="input-group">
+                                            <div class="icheck-inline">
+                                                <label class="">
+                                                    <div class="iradio_minimal-grey" style="position: relative;" onclick="getfeedbackid(&#39;5&#39;);">
+                                                        <div class="iradio_minimal-grey" style="position: relative;"><input name="radio2" id="feed1" class="icheck" style="position: absolute; opacity: 0;" type="radio" onclick="getfeedbackid(&#39;1&#39;);"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                                    </div>
+                                                    5
+                                                </label>
+                                                <label class="">
+                                                    <div class="iradio_minimal-grey" style="position: relative;" onclick="getfeedbackid(&#39;4&#39;);">
+                                                        <div class="iradio_minimal-grey" style="position: relative;"><input name="radio2" id="feed2" class="icheck" style="position: absolute; opacity: 0;" type="radio" onclick="getfeedbackid(&#39;2&#39;);"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                                    </div>
+                                                    4
+                                                </label>
+                                                <label class="">
+                                                    <div class="iradio_minimal-grey" style="position: relative;" onclick="getfeedbackid(&#39;3&#39;);">
+                                                        <div class="iradio_minimal-grey" style="position: relative;"><input name="radio2" id="feed3" class="icheck" style="position: absolute; opacity: 0;" type="radio" onclick="getfeedbackid(&#39;3&#39;);"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                                    </div>
+                                                    3
+                                                </label>
+                                                <label class="">
+                                                    <div class="iradio_minimal-grey" style="position: relative;" onclick="getfeedbackid(&#39;2&#39;);">
+                                                        <div class="iradio_minimal-grey" style="position: relative;"><input name="radio2" id="feed4" class="icheck" style="position: absolute; opacity: 0;" type="radio" onclick="getfeedbackid(&#39;4&#39;);"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                                    </div>
+                                                    2
+                                                </label>
+                                                <label class="">
+                                                    <div class="iradio_minimal-grey" style="position: relative;" onclick="getfeedbackid(&#39;1&#39;);">
+                                                        <div class="iradio_minimal-grey" style="position: relative;"><input name="radio2" id="feed5" class="icheck" style="position: absolute; opacity: 0;" type="radio" onclick="getfeedbackid(&#39;5&#39;);"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                                    </div>
+                                                    1
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="control-label text-danger">Remarks</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <textarea name="ctl00$txtremarks" id="txtremarks" class="form-control" rows="3" maxlength="250"></textarea>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer text-center">
+                            <button onclick="__doPostBack(&#39;ctl00$btnSubmit&#39;,&#39;&#39;)" id="btnSubmit" type="button" class="btn btn-sm btn-success">Submit</button>
+                            <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTAINER -->
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div id="DivSuccessMessage" class="DivSuccessMessage" style="position: absolute; bottom: 2%; right: 1%; z-index: 10000; top: 85%;">
+            </div>
+            <div id="ApplicationLoading" style="position: absolute; bottom: 50%; right: 50%; z-index: 1000000; display: none;">
+                <img src="./Saveetha University_files/loading.gif">
+            </div>
+            <div class="page-footer-inner">
+                &nbsp;&nbsp;&nbsp;2018 © Saveetha Institute of Medical and Technical Sciences | <a href="https://arms.sse.saveetha.com/Disclaimer.aspx" target="_blank" id="disclaimer-btn">Disclaimer </a>| <a href="https://arms.sse.saveetha.com/PrivacyPolicy.aspx" target="_blank" id="privacy-btn">Privacy Policy </a>
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+        <!-- END FOOTER -->
+        <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+        <!-- BEGIN CORE PLUGINS -->
+        <!--[if lt IE 9]>
+        <script src="../../assets/global/plugins/respond.min.js"></script>
+        <script src="../../assets/global/plugins/excanvas.min.js"></script> 
+        <![endif]-->
+
+        <script src="./Saveetha University_files/bootstrap-hover-dropdown.min.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/jquery.slimscroll.min.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/jquery.blockui.min.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/jquery.cokie.min.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/jquery.uniform.min.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/bootstrap-switch.min.js.download" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <script src="./Saveetha University_files/metronic.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/layout.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/quick-sidebar.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/demo.js.download" type="text/javascript"></script>
+        <script src="./Saveetha University_files/stdcustom.js.download"></script>
+
+        <script>
+            jQuery(document).ready(function () {
+                Metronic.init(); // init metronic core components
+                Layout.init(); // init current layout
+                QuickSidebar.init(); // init quick sidebar
+                Demo.init(); // init demo features
+                //bindfeedback(); // bind grade feedback
+            });
+
+            function getfeedbackid(id) {
+                $("#hdnfeedback").val(id);
+            }
+
+            function bindfeedback() {
+
+                var studentid = 0;
+
+                $.ajax({
+                    url: "../Handler/Administration.ashx?Page=DashInstitute&Mode=Studentfeedback&CId=" + studentid + "", success: function (result) {
+
+                        var Data = JSON.parse(result)
+
+                        $('#sbadgenotification').html(Data.length);
+                        $('#hnotification').html('You have <strong>' + Data.length + ' pending</strong> attendance confirmation');
+
+                        var nhtml = '';
+
+                        if (Data != null) {
+                            $.each(Data, function (key, value) {
+                                nhtml += '<li><a href="javascript:;" onclick="showfeedback(' + value.GradeId + ');"><span class="time">' + value.totaldays + ' days</span><span class="details"><span class="label label-sm label-icon label-danger"><i class="fa fa-bolt"></i></span>' + value.SubjectName + '</span></a></li>';
+                            });
+                        }
+
+                        $('#ulnotification').append(nhtml);
+                    }
+                });
+
+            }
+
+            function showfeedback(id) {
+
+                $('#MdlGradedetails').modal('show');
+
+                $("#hdngradeid").val(id);
+
+                $.ajax({
+                    url: "../Handler/Administration.ashx?Page=DashInstituteGrade&Mode=StdfeedbackDetail&CId=" + id + "", success: function (result) {
+
+                        var Data = JSON.parse(result)
+
+                        if (Data != null) {
+                            $.each(Data, function (key, value) {
+
+                                $('#lblgradesubdet').html(value.SubjectCode + '-' + value.SubjectName);
+
+                                $('#lblgradestaff').html(value.feedbacktoname);
+
+                                $('#lblgradedate').html(value.GradeOn);
+                            });
+                        }
+                    }
+                });
+
+            }
+
+        </script>
+        <!-- END JAVASCRIPTS -->
+        <style>
+            .page-header .page-header-top .page-logo .logo-default {
+                margin: 3.5px 0px 0px 0px;
+            }
+        </style>
+    </form>
+
+
+<div class="daterangepicker dropdown-menu opensright"><div class="calendar right"><div class="calendar-date"><table class="table-condensed"><thead><tr><th></th><th></th><th colspan="5" class="month"><select class="monthselect"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4" selected="selected">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select><select class="yearselect"><option value="2026" selected="selected">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option></select></th><th class="next available"><i class="fa fa-angle-right"></i></th></tr><tr><th class="week">W</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr></thead><tbody><tr><td class="week">18</td><td class="off disabled" data-title="r0c0">27</td><td class="off disabled" data-title="r0c1">28</td><td class="off disabled" data-title="r0c2">29</td><td class="off disabled" data-title="r0c3">30</td><td class="off disabled" data-title="r0c4">1</td><td class="available in-range" data-title="r0c5">2</td><td class="available in-range" data-title="r0c6">3</td></tr><tr><td class="week">19</td><td class="available in-range" data-title="r1c0">4</td><td class="available in-range" data-title="r1c1">5</td><td class="available in-range" data-title="r1c2">6</td><td class="available in-range" data-title="r1c3">7</td><td class="available in-range" data-title="r1c4">8</td><td class="available in-range" data-title="r1c5">9</td><td class="available in-range" data-title="r1c6">10</td></tr><tr><td class="week">20</td><td class="available in-range" data-title="r2c0">11</td><td class="available in-range" data-title="r2c1">12</td><td class="available in-range" data-title="r2c2">13</td><td class="available in-range" data-title="r2c3">14</td><td class="available in-range" data-title="r2c4">15</td><td class="available in-range" data-title="r2c5">16</td><td class="available in-range" data-title="r2c6">17</td></tr><tr><td class="week">21</td><td class="available in-range" data-title="r3c0">18</td><td class="available in-range" data-title="r3c1">19</td><td class="available in-range" data-title="r3c2">20</td><td class="available in-range" data-title="r3c3">21</td><td class="available in-range" data-title="r3c4">22</td><td class="available in-range" data-title="r3c5">23</td><td class="available in-range" data-title="r3c6">24</td></tr><tr><td class="week">22</td><td class="available in-range" data-title="r4c0">25</td><td class="available in-range" data-title="r4c1">26</td><td class="available in-range" data-title="r4c2">27</td><td class="available in-range" data-title="r4c3">28</td><td class="available in-range" data-title="r4c4">29</td><td class="available in-range" data-title="r4c5">30</td><td class="available active end-date" data-title="r4c6">31</td></tr><tr><td class="week">23</td><td class="available off" data-title="r5c0">1</td><td class="available off" data-title="r5c1">2</td><td class="available off" data-title="r5c2">3</td><td class="available off" data-title="r5c3">4</td><td class="available off" data-title="r5c4">5</td><td class="available off" data-title="r5c5">6</td><td class="available off" data-title="r5c6">7</td></tr></tbody></table></div></div><div class="calendar left"><div class="calendar-date"><table class="table-condensed"><thead><tr><th></th><th class="prev available"><i class="fa fa-angle-left"></i></th><th colspan="5" class="month"><select class="monthselect"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4" selected="selected">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select><select class="yearselect"><option value="1976">1976</option><option value="1977">1977</option><option value="1978">1978</option><option value="1979">1979</option><option value="1980">1980</option><option value="1981">1981</option><option value="1982">1982</option><option value="1983">1983</option><option value="1984">1984</option><option value="1985">1985</option><option value="1986">1986</option><option value="1987">1987</option><option value="1988">1988</option><option value="1989">1989</option><option value="1990">1990</option><option value="1991">1991</option><option value="1992">1992</option><option value="1993">1993</option><option value="1994">1994</option><option value="1995">1995</option><option value="1996">1996</option><option value="1997">1997</option><option value="1998">1998</option><option value="1999">1999</option><option value="2000">2000</option><option value="2001">2001</option><option value="2002">2002</option><option value="2003">2003</option><option value="2004">2004</option><option value="2005">2005</option><option value="2006">2006</option><option value="2007">2007</option><option value="2008">2008</option><option value="2009">2009</option><option value="2010">2010</option><option value="2011">2011</option><option value="2012">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026" selected="selected">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option></select></th><th class="next available"><i class="fa fa-angle-right"></i></th></tr><tr><th class="week">W</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr></thead><tbody><tr><td class="week">18</td><td class="available off" data-title="r0c0">27</td><td class="available off" data-title="r0c1">28</td><td class="available off" data-title="r0c2">29</td><td class="available off" data-title="r0c3">30</td><td class="available" data-title="r0c4">1</td><td class="available active start-date" data-title="r0c5">2</td><td class="available in-range" data-title="r0c6">3</td></tr><tr><td class="week">19</td><td class="available in-range" data-title="r1c0">4</td><td class="available in-range" data-title="r1c1">5</td><td class="available in-range" data-title="r1c2">6</td><td class="available in-range" data-title="r1c3">7</td><td class="available in-range" data-title="r1c4">8</td><td class="available in-range" data-title="r1c5">9</td><td class="available in-range" data-title="r1c6">10</td></tr><tr><td class="week">20</td><td class="available in-range" data-title="r2c0">11</td><td class="available in-range" data-title="r2c1">12</td><td class="available in-range" data-title="r2c2">13</td><td class="available in-range" data-title="r2c3">14</td><td class="available in-range" data-title="r2c4">15</td><td class="available in-range" data-title="r2c5">16</td><td class="available in-range" data-title="r2c6">17</td></tr><tr><td class="week">21</td><td class="available in-range" data-title="r3c0">18</td><td class="available in-range" data-title="r3c1">19</td><td class="available in-range" data-title="r3c2">20</td><td class="available in-range" data-title="r3c3">21</td><td class="available in-range" data-title="r3c4">22</td><td class="available in-range" data-title="r3c5">23</td><td class="available in-range" data-title="r3c6">24</td></tr><tr><td class="week">22</td><td class="available in-range" data-title="r4c0">25</td><td class="available in-range" data-title="r4c1">26</td><td class="available in-range" data-title="r4c2">27</td><td class="available in-range" data-title="r4c3">28</td><td class="available in-range" data-title="r4c4">29</td><td class="available in-range" data-title="r4c5">30</td><td class="available in-range" data-title="r4c6">31</td></tr><tr><td class="week">23</td><td class="available off" data-title="r5c0">1</td><td class="available off" data-title="r5c1">2</td><td class="available off" data-title="r5c2">3</td><td class="available off" data-title="r5c3">4</td><td class="available off" data-title="r5c4">5</td><td class="available off" data-title="r5c5">6</td><td class="available off" data-title="r5c6">7</td></tr></tbody></table></div></div><div class="ranges"><ul><li>Today</li><li>Yesterday</li><li>Last 7 Days</li><li class="active">Last 30 Days</li><li>This Month</li><li>Last Month</li><li>Custom Range</li></ul><div class="range_inputs"><div class="daterangepicker_start_input"><label for="daterangepicker_start">From</label><input class="input-mini" type="text" name="daterangepicker_start" value=""></div><div class="daterangepicker_end_input"><label for="daterangepicker_end">To</label><input class="input-mini" type="text" name="daterangepicker_end" value=""></div><button class="applyBtn btn green">Apply</button>&nbsp;<button class="cancelBtn btn default">Cancel</button></div></div></div></body></html>

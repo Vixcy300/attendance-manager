@@ -7,16 +7,17 @@
     scroll-behavior: smooth;
   }
 
-  /* Dark mode (default) */
+  /* Light mode (default) */
   body {
-    @apply bg-black text-white;
+    @apply bg-gray-50 text-gray-900;
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Light mode support */
-  html:not(.dark) body {
-    @apply bg-gray-50 text-gray-900;
+  /* Dark mode support (optional) */
+  .dark body {
+    @apply bg-black text-white;
   }
 }
 
@@ -247,15 +248,16 @@
 
 /* Toast Styles */
 .Toastify__toast {
-  background: #171717 !important;
-  border: 1px solid #333 !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 0.75rem !important;
-  color: white !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05) !important;
 }
 
 /* Select dropdown dark mode */
 select {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23475569' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
   background-position: right 0.5rem center;
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
@@ -275,3 +277,5 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+
