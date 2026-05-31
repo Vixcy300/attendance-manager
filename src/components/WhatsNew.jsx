@@ -67,7 +67,7 @@ const WhatsNew = () => {
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm">
       <div
         ref={modalRef}
-        className="bg-neutral-950 border border-neutral-800 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl"
+        className="bg-gray-50 dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl"
       >
         {/* Animated Header */}
         <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 p-6 overflow-hidden">
@@ -90,17 +90,17 @@ const WhatsNew = () => {
             onClick={handleClose}
             className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-all hover:rotate-90 duration-300"
           >
-            <X size={18} className="text-white" />
+            <X size={18} className="text-neutral-900 dark:text-white" />
           </button>
 
           <div className="relative flex items-center gap-4">
             <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm animate-bounce">
-              <Sparkles size={28} className="text-white" />
+              <Sparkles size={28} className="text-neutral-900 dark:text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold text-white">What's New</h2>
-                <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full text-white font-medium">v4.0</span>
+                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">What's New</h2>
+                <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full text-neutral-900 dark:text-white font-medium">v4.0</span>
               </div>
               <p className="text-blue-100 text-sm mt-0.5">January 2026</p>
             </div>
@@ -114,22 +114,22 @@ const WhatsNew = () => {
               <div
                 key={feature.title}
                 className={`feature-item group flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-300 ${activeIndex === index
-                    ? 'bg-neutral-800 scale-[1.02]'
+                    ? 'bg-gray-100 dark:bg-neutral-800 scale-[1.02]'
                     : 'bg-neutral-900/50 hover:bg-neutral-800/70'
                   }`}
                 onClick={() => setActiveIndex(index)}
                 onMouseEnter={() => setActiveIndex(index)}
               >
                 <div className={`p-2.5 rounded-xl ${feature.bg} transition-transform group-hover:scale-110`}>
-                  <feature.icon className="text-white" size={18} />
+                  <feature.icon className="text-neutral-900 dark:text-white" size={18} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-medium text-white text-sm">{feature.title}</h3>
+                  <h3 className="font-medium text-neutral-900 dark:text-white text-sm">{feature.title}</h3>
                   <p className="text-xs text-neutral-500">{feature.description}</p>
                 </div>
                 <ChevronRight
                   size={16}
-                  className={`text-neutral-600 transition-transform ${activeIndex === index ? 'translate-x-1 text-white' : ''}`}
+                  className={`text-neutral-600 transition-transform ${activeIndex === index ? 'translate-x-1 text-neutral-900 dark:text-white' : ''}`}
                 />
               </div>
             ))}
@@ -140,7 +140,7 @@ const WhatsNew = () => {
         <div className="p-4 pt-2 border-t border-neutral-800/50">
           <button
             onClick={handleClose}
-            className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+            className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-neutral-900 dark:text-white font-semibold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
           >
             <Rocket size={18} />
             Let's Explore!

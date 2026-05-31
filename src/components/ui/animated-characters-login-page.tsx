@@ -513,15 +513,15 @@ export function LoginPage() {
         </div>
 
         <div className="relative z-20 flex items-center gap-8 text-sm text-primary-foreground/60">
-          <a href="#" className="hover:text-primary-foreground transition-colors">
+          <Link to="/privacy" className="hover:text-primary-foreground transition-colors">
             Privacy Policy
-          </a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">
+          </Link>
+          <Link to="/terms" className="hover:text-primary-foreground transition-colors">
             Terms of Service
-          </a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">
+          </Link>
+          <Link to="/contact" className="hover:text-primary-foreground transition-colors">
             Contact
-          </a>
+          </Link>
         </div>
 
         {/* Decorative elements */}
@@ -563,7 +563,7 @@ export function LoginPage() {
                 onFocus={() => setIsTyping(true)}
                 onBlur={() => setIsTyping(false)}
                 required
-                className="h-12 bg-neutral-900 text-white border-neutral-800 focus:border-indigo-500 placeholder:text-neutral-500"
+                className="h-12 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white border-gray-200 dark:border-neutral-800 focus:border-indigo-500 placeholder:text-neutral-500"
               />
             </div>
 
@@ -577,7 +577,7 @@ export function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="h-12 pr-10 bg-neutral-900 text-white border-neutral-800 focus:border-indigo-500 placeholder:text-neutral-500"
+                  className="h-12 pr-10 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white border-gray-200 dark:border-neutral-800 focus:border-indigo-500 placeholder:text-neutral-500"
                 />
                 <button
                   type="button"
@@ -633,7 +633,7 @@ export function LoginPage() {
               variant="outline" 
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full h-12 bg-neutral-900 text-white border-neutral-800 hover:bg-neutral-800"
+              className="w-full h-12 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white border-gray-200 dark:border-neutral-800 hover:bg-gray-100 dark:bg-neutral-800"
               type="button"
             >
               <Mail className="mr-2 size-5" />
@@ -642,7 +642,7 @@ export function LoginPage() {
             <Button 
               variant="outline" 
               onClick={handleGuestLogin}
-              className="w-full h-12 bg-neutral-900 text-white border-neutral-800 hover:bg-neutral-800"
+              className="w-full h-12 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white border-gray-200 dark:border-neutral-800 hover:bg-gray-100 dark:bg-neutral-800"
               type="button"
             >
               Try as Guest

@@ -79,11 +79,44 @@ app.post('/api/config/run-now', async (req, res) => {
   }
 });
 
+// Rate limiting helper for test email (10 times a day per email)
+function checkTestEmailRateLimit(email) {
+  const RATE_LIMIT_FILE = path.join(__dirname, 'rate_limit.json');
+  let data = {};
+  if (fs.existsSync(RATE_LIMIT_FILE)) {
+    try {
+      data = JSON.parse(fs.readFileSync(RATE_LIMIT_FILE, 'utf8'));
+    } catch (e) {
+      data = {};
+    }
+  }
+
+  const today = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+  if (!data[today]) {
+    data[today] = {};
+  }
+
+  const count = data[today][email] || 0;
+  if (count >= 10) {
+    return { allowed: false, count };
+  }
+
+  data[today][email] = count + 1;
+  fs.writeFileSync(RATE_LIMIT_FILE, JSON.stringify(data, null, 2));
+  return { allowed: true, count: count + 1 };
+}
+
 // Send a test email to verify SMTP credentials
 app.post('/api/config/test-email', async (req, res) => {
   const { email } = req.body;
   if (!email) {
     return res.status(400).json({ error: 'Notification email is required' });
+  }
+
+  // Enforce rate limit (10 test emails per day per email address)
+  const limitCheck = checkTestEmailRateLimit(email);
+  if (!limitCheck.allowed) {
+    return res.status(429).json({ error: 'Daily limit exceeded. You can only send 10 test emails per day.' });
   }
 
   try {

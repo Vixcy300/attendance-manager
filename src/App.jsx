@@ -17,13 +17,16 @@ import Feedback from './pages/Feedback';
 import Profile from './pages/Profile';
 import Disclaimer from './pages/Disclaimer';
 import FeedbackHistory from './pages/FeedbackHistory';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Contact from './pages/Contact';
 
 // Components
 import Layout from './components/Layout';
 import QuickCalculator from './components/QuickCalculator';
 import FloatingButtons from './components/FloatingButtons';
 import ProtectedRoute from './components/ProtectedRoute';
-import WhatsNew from './components/WhatsNew';
+import { Spinner } from './components/ui/ios-spinner';
 
 function App() {
   const { initialize, loading } = useAuthStore();
@@ -35,7 +38,7 @@ function App() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="spinner"></div>
+        <Spinner size="lg" />
       </div>
     );
   }
@@ -73,6 +76,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/contact" element={<Contact />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
@@ -96,7 +102,6 @@ function App() {
       {/* Global Floating Components */}
       <FloatingButtons />
       <QuickCalculator />
-      <WhatsNew />
     </Router>
   );
 }

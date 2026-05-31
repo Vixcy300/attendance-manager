@@ -1,35 +1,35 @@
 [
   {
-    "course_code": "MMA1286",
+    "course_code": "MMA1285",
     "course_name": "Mentor Mentee Meeting",
-    "classes_attended": 17,
+    "classes_attended": 13,
     "total_classes": 20,
     "target_percentage": 80
   },
   {
-    "course_code": "SPIC2A36",
-    "course_name": "Project 2 with Reinforcement Learning",
-    "classes_attended": 37,
-    "total_classes": 41,
+    "course_code": "SPIC2A07",
+    "course_name": "Project 2 for Cloud Computing",
+    "classes_attended": 35,
+    "total_classes": 39,
     "target_percentage": 80
   },
   {
-    "course_code": "CSA0935",
-    "course_name": "Programming in Java for Banking Systems",
-    "classes_attended": 38,
-    "total_classes": 44,
+    "course_code": "CSA1437",
+    "course_name": "Compiler Design for Embedded Systems",
+    "classes_attended": 34,
+    "total_classes": 41,
     "target_percentage": 80
   },
   {
     "course_code": "CSA0635",
     "course_name": "Design and Analysis of Algorithms for Complexity",
-    "classes_attended": 36,
+    "classes_attended": 37,
     "total_classes": 44,
     "target_percentage": 80
   },
   {
-    "course_code": "BTA0124",
-    "course_name": "Biology and environmental sciences for Engineers for oil pollution",
+    "course_code": "DSA0134",
+    "course_name": "Object Oriented Programming with C++ for Defense",
     "classes_attended": 0,
     "total_classes": 0,
     "target_percentage": 80

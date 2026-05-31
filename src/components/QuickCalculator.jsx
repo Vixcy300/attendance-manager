@@ -89,12 +89,12 @@ const QuickCalculator = () => {
   if (!showCalculator) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-neutral-900 border border-neutral-800 rounded-xl w-full max-w-md">
+    <div className="fixed inset-0 bg-gray-900/40 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl w-full max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-neutral-800">
-          <h2 className="font-semibold text-white">Quick Calculator</h2>
-          <button onClick={handleClose} className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-neutral-800">
+          <h2 className="font-semibold text-neutral-900 dark:text-white">Quick Calculator</h2>
+          <button onClick={handleClose} className="p-1.5 hover:bg-gray-100 dark:bg-neutral-800 rounded-lg transition-colors">
             <X size={18} className="text-neutral-500" />
           </button>
         </div>
@@ -103,51 +103,51 @@ const QuickCalculator = () => {
           {/* Inputs */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm text-neutral-400 mb-1.5">Attended</label>
+              <label className="block text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">Attended</label>
               <input
                 type="number"
                 min="0"
                 value={calculatorData.classesAttended}
                 onChange={(e) => setCalculatorData({ classesAttended: e.target.value })}
                 placeholder="0"
-                className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white text-center text-lg focus:outline-none focus:border-emerald-500"
+                className="w-full px-3 py-2 bg-gray-50 dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-lg text-neutral-900 dark:text-white text-center text-lg focus:outline-none focus:border-emerald-500"
               />
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1.5">Total Classes</label>
+              <label className="block text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">Total Classes</label>
               <input
                 type="number"
                 min="0"
                 value={calculatorData.totalClasses}
                 onChange={(e) => setCalculatorData({ totalClasses: e.target.value })}
                 placeholder="0"
-                className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white text-center text-lg focus:outline-none focus:border-emerald-500"
+                className="w-full px-3 py-2 bg-gray-50 dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-lg text-neutral-900 dark:text-white text-center text-lg focus:outline-none focus:border-emerald-500"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm text-neutral-400 mb-1.5">Target %</label>
+            <label className="block text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">Target %</label>
             <input
               type="number"
               min="0"
               max="100"
               value={calculatorData.targetPercentage}
               onChange={(e) => setCalculatorData({ targetPercentage: e.target.value })}
-              className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-lg text-white text-center focus:outline-none focus:border-emerald-500"
+              className="w-full px-3 py-2 bg-gray-50 dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-lg text-neutral-900 dark:text-white text-center focus:outline-none focus:border-emerald-500"
             />
           </div>
 
           <button
             onClick={calculateResult}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg transition-colors"
+            className="w-full bg-emerald-500 hover:bg-emerald-600 text-neutral-900 dark:text-white py-2 rounded-lg transition-colors"
           >
             Calculate
           </button>
 
           {/* Results */}
           {result && (
-            <div className="space-y-3 pt-2 border-t border-neutral-800">
+            <div className="space-y-3 pt-2 border-t border-gray-200 dark:border-neutral-800">
               {/* Current % */}
               <div className="text-center">
                 <p className="text-xs text-neutral-500 mb-1">Current Attendance</p>
@@ -167,7 +167,7 @@ const QuickCalculator = () => {
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-neutral-950 rounded-lg p-3 text-center">
+                <div className="bg-gray-50 dark:bg-neutral-950 rounded-lg p-3 text-center">
                   <p className="text-xs text-neutral-500 mb-1">
                     {result.classesNeeded > 0 ? 'Need to Attend' : 'Can Skip'}
                   </p>
@@ -178,9 +178,9 @@ const QuickCalculator = () => {
                   </p>
                   <p className="text-xs text-neutral-600">classes</p>
                 </div>
-                <div className="bg-neutral-950 rounded-lg p-3 text-center">
+                <div className="bg-gray-50 dark:bg-neutral-950 rounded-lg p-3 text-center">
                   <p className="text-xs text-neutral-500 mb-1">Ratio</p>
-                  <p className="text-2xl font-bold text-white">
+                  <p className="text-2xl font-bold text-neutral-900 dark:text-white">
                     {result.classesAttended}/{result.totalClasses}
                   </p>
                   <p className="text-xs text-neutral-600">attended</p>
@@ -189,7 +189,7 @@ const QuickCalculator = () => {
 
               {/* Message */}
               {result.predictiveMessage && (
-                <p className="text-sm text-neutral-400 text-center bg-neutral-950 rounded-lg p-3">
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 text-center bg-gray-50 dark:bg-neutral-950 rounded-lg p-3">
                   {result.predictiveMessage}
                 </p>
               )}
@@ -198,19 +198,19 @@ const QuickCalculator = () => {
               <div className="flex gap-2">
                 <button
                   onClick={resetCalculator}
-                  className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
+                  className="flex-1 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 text-neutral-900 dark:text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
                 >
                   <RefreshCw size={14} /> Reset
                 </button>
                 <button
                   onClick={handleShare}
-                  className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
+                  className="flex-1 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 text-neutral-900 dark:text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
                 >
                   <Share2 size={14} /> Share
                 </button>
                 <button
                   onClick={handleSaveToDatabase}
-                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
+                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-neutral-900 dark:text-white py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
                 >
                   <Save size={14} /> Save
                 </button>

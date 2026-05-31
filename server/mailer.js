@@ -1,5 +1,7 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+const path = require('path');
 
 // Create standard transporter
 const transporter = nodemailer.createTransport({
@@ -23,70 +25,77 @@ async function sendAttendanceReport(toEmail, changes, allCourses) {
   let changesHtml = '';
   changes.forEach(change => {
     const isPresent = change.type === 'present';
-    const badgeColor = isPresent ? '#10b981' : '#f43f5e';
-    const badgeText = isPresent ? 'PRESENT ✅' : 'ABSENT 🚨';
+    const badgeBg = isPresent ? '#ecfdf5' : '#fef2f2';
+    const badgeTextCol = isPresent ? '#059669' : '#dc2626';
+    const badgeBorder = isPresent ? '#10b981' : '#ef4444';
+    const badgeText = isPresent ? 'PRESENT' : 'ABSENT';
     const statusDesc = isPresent 
-      ? `You were marked present! Classes: <b>${change.classes_attended}/${change.total_classes}</b>`
-      : `You were marked absent! Classes: <b>${change.classes_attended}/${change.total_classes}</b>`;
+      ? `Attendance marked present (${change.classes_attended}/${change.total_classes})`
+      : `Attendance marked absent (${change.classes_attended}/${change.total_classes})`;
 
     changesHtml += `
-      <div style="background-color: #1e293b; border-left: 4px solid ${badgeColor}; padding: 16px; margin-bottom: 12px; border-radius: 6px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span style="font-size: 14px; font-weight: bold; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">${change.course_code}</span>
-          <span style="background-color: ${badgeColor}22; color: ${badgeColor}; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 9999px; border: 1px solid ${badgeColor}44;">${badgeText}</span>
+      <div style="background-color: #ffffff; border-left: 4px solid ${badgeBorder}; border-top: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; padding: 20px; margin-bottom: 16px; border-radius: 8px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">${change.course_code}</span>
+          <span style="background-color: ${badgeBg}; color: ${badgeTextCol}; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; letter-spacing: 0.05em;">${badgeText}</span>
         </div>
-        <h4 style="margin: 0 0 6px 0; color: #f8fafc; font-size: 16px;">${change.course_name}</h4>
-        <p style="margin: 0; color: #cbd5e1; font-size: 13px;">${statusDesc}</p>
+        <h4 style="margin: 0 0 8px 0; color: #0f172a; font-size: 16px; font-weight: 700;">${change.course_name}</h4>
+        <p style="margin: 0; color: #475569; font-size: 14px;">${statusDesc}</p>
       </div>
     `;
   });
 
   // Build entire courses overview list
-  let overviewHtml = '<table style="width: 100%; border-collapse: collapse; margin-top: 16px;">';
+  let overviewHtml = '<table style="width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 16px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">';
   overviewHtml += `
     <thead>
-      <tr style="border-bottom: 1px solid #334155; text-align: left;">
-        <th style="padding: 8px; color: #94a3b8; font-size: 12px;">Course</th>
-        <th style="padding: 8px; color: #94a3b8; font-size: 12px; text-align: center;">Attended</th>
-        <th style="padding: 8px; color: #94a3b8; font-size: 12px; text-align: center;">Total</th>
-        <th style="padding: 8px; color: #94a3b8; font-size: 12px; text-align: right;">Attendance %</th>
+      <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+        <th style="padding: 12px 16px; color: #475569; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #e2e8f0;">Course</th>
+        <th style="padding: 12px 16px; color: #475569; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; border-bottom: 1px solid #e2e8f0;">Attended</th>
+        <th style="padding: 12px 16px; color: #475569; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; border-bottom: 1px solid #e2e8f0;">Total</th>
+        <th style="padding: 12px 16px; color: #475569; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; text-align: right; border-bottom: 1px solid #e2e8f0;">Attendance %</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody style="background-color: #ffffff;">
   `;
 
-  allCourses.forEach(course => {
+  allCourses.forEach((course, index) => {
     const percentage = course.total_classes > 0 
       ? Math.round((course.classes_attended / course.total_classes) * 100)
       : 100;
     
-    let percentColor = '#10b981'; // Green (80%+)
+    let percentColor = '#10b981'; // Green
     if (percentage < 80) {
-      percentColor = '#f43f5e'; // Red (< 80%)
+      percentColor = '#ef4444'; // Red
     }
 
-    // Calculate bunk limit
     const bunkRequired = course.target_percentage || 80;
     let bunkStatusText = '';
     if (percentage >= bunkRequired) {
       const maxBunks = Math.floor((course.classes_attended * 100) / bunkRequired) - course.total_classes;
       bunkStatusText = maxBunks > 0 
-        ? `<span style="color: #10b981; font-size: 11px; display: block;">Can bunk ${maxBunks} classes</span>`
-        : `<span style="color: #eab308; font-size: 11px; display: block;">Limit reached (0 bunks)</span>`;
+        ? `<span style="color: #059669; font-size: 11px; display: block; font-weight: 500; margin-top: 4px;">+${maxBunks} classes safe</span>`
+        : `<span style="color: #d97706; font-size: 11px; display: block; font-weight: 500; margin-top: 4px;">Limit Reached</span>`;
     } else {
       const needed = Math.ceil((bunkRequired * course.total_classes - 100 * course.classes_attended) / (100 - bunkRequired));
-      bunkStatusText = `<span style="color: #f43f5e; font-size: 11px; display: block;">Attend next ${needed} classes</span>`;
+      bunkStatusText = `<span style="color: #dc2626; font-size: 11px; display: block; font-weight: 500; margin-top: 4px;">Need ${needed} classes</span>`;
     }
 
+    const borderStyle = index !== allCourses.length - 1 ? 'border-bottom: 1px solid #f1f5f9;' : '';
+
     overviewHtml += `
-      <tr style="border-bottom: 1px solid #1e293b;">
-        <td style="padding: 10px 8px; color: #f8fafc; font-size: 13px; font-weight: 500;">
+      <tr>
+        <td style="padding: 14px 16px; color: #0f172a; font-size: 13px; font-weight: 600; ${borderStyle}">
           ${course.course_name}
-          <div style="font-size: 10px; color: #64748b; font-weight: normal; margin-top: 2px;">${course.course_code}</div>
+          <div style="font-size: 11px; color: #64748b; font-weight: 500; margin-top: 4px;">${course.course_code}</div>
         </td>
-        <td style="padding: 10px 8px; color: #e2e8f0; font-size: 13px; text-align: center;">${course.classes_attended}</td>
-        <td style="padding: 10px 8px; color: #e2e8f0; font-size: 13px; text-align: center;">${course.total_classes}</td>
-        <td style="padding: 10px 8px; text-align: right; font-size: 13px; font-weight: bold; color: ${percentColor};">
+        <td style="padding: 14px 16px; color: #334155; font-size: 14px; text-align: center; ${borderStyle}">
+          ${course.classes_attended}
+        </td>
+        <td style="padding: 14px 16px; color: #334155; font-size: 14px; text-align: center; ${borderStyle}">
+          ${course.total_classes}
+        </td>
+        <td style="padding: 14px 16px; text-align: right; font-size: 15px; font-weight: 700; color: ${percentColor}; ${borderStyle}">
           ${percentage}%
           ${bunkStatusText}
         </td>
@@ -95,73 +104,40 @@ async function sendAttendanceReport(toEmail, changes, allCourses) {
   });
   overviewHtml += '</tbody></table>';
 
-  // Compose gorgeous premium HTML email layout
-  const emailHtml = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>ARMS Attendance Notification</title>
-    </head>
-    <body style="margin: 0; padding: 0; background-color: #0b0f19; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
-      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #0b0f19; padding: 32px 16px;">
-        <tr>
-          <td align="center">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #0f172a; border-radius: 12px; border: 1px solid #1e293b; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);">
-              
-              <!-- Header -->
-              <tr>
-                <td style="background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); padding: 32px 24px; text-align: center; border-bottom: 1px solid #1e293b;">
-                  <h2 style="margin: 0; font-size: 24px; font-weight: 800; color: #f8fafc; letter-spacing: -0.025em; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
-                    <span style="color: #6366f1;">ARMS</span> Live Attendance Sync
-                  </h2>
-                  <p style="margin: 6px 0 0 0; color: #94a3b8; font-size: 13px;">Automated 5:00 PM Portal Sync Alert</p>
-                </td>
-              </tr>
-              
-              <!-- Content Body -->
-              <tr>
-                <td style="padding: 24px;">
-                  <h3 style="margin: 0 0 16px 0; color: #f8fafc; font-size: 18px; border-bottom: 2px solid #334155; padding-bottom: 8px;">
-                    🔔 Attendance Updates Detected
-                  </h3>
-                  
-                  ${changesHtml}
-                  
-                  <h3 style="margin: 32px 0 12px 0; color: #f8fafc; font-size: 18px; border-bottom: 2px solid #334155; padding-bottom: 8px;">
-                    📊 Complete Attendance Summary
-                  </h3>
-                  <p style="margin: 0 0 12px 0; font-size: 12px; color: #94a3b8;">Required Attendance threshold: <b>80%</b> globally.</p>
-                  
-                  ${overviewHtml}
-                </td>
-              </tr>
-              
-              <!-- Footer -->
-              <tr>
-                <td style="background-color: #020617; padding: 20px 24px; text-align: center; border-top: 1px solid #1e293b;">
-                  <p style="margin: 0; font-size: 11px; color: #475569; line-height: 1.5;">
-                    This is an automated background alert generated by your Local Attendance Manager.<br>
-                    Saveetha ARMS portal connection was securely opened, parsed, and logged out in 20 seconds.
-                  </p>
-                </td>
-              </tr>
+  // Load customized email template
+  const templatePath = path.join(__dirname, '../email.html');
+  let emailHtml = fs.readFileSync(templatePath, 'utf8');
 
-            </table>
-          </td>
-        </tr>
-      </table>
-    </body>
-    </html>
-  `;
+  // Inject dynamic content
+  emailHtml = emailHtml.replace('{{changesHtml}}', changesHtml);
+  emailHtml = emailHtml.replace('{{overviewHtml}}', overviewHtml);
+  
+  // Replace image references with CIDs
+  emailHtml = emailHtml.replace(/images\//g, 'cid:');
 
   // Send the email
   const mailOptions = {
     from: `"Attendance Assistant" <${process.env.SMTP_USER}>`,
     to: toEmail,
     subject: `🔔 ARMS Attendance Alert: ${changes.length} New Update(s)!`,
-    html: emailHtml
+    html: emailHtml,
+    attachments: [
+      {
+        filename: '58459ea2130c2028b7b6fb8127293836.png',
+        path: path.join(__dirname, '../images/58459ea2130c2028b7b6fb8127293836.png'),
+        cid: '58459ea2130c2028b7b6fb8127293836.png'
+      },
+      {
+        filename: '59f9944ebe18e63281bdcd253928ae24.png',
+        path: path.join(__dirname, '../images/59f9944ebe18e63281bdcd253928ae24.png'),
+        cid: '59f9944ebe18e63281bdcd253928ae24.png'
+      },
+      {
+        filename: 'b788157aeee49ec22522d96fa1dbb433.png',
+        path: path.join(__dirname, '../images/b788157aeee49ec22522d96fa1dbb433.png'),
+        cid: 'b788157aeee49ec22522d96fa1dbb433.png'
+      }
+    ]
   };
 
   try {
@@ -180,24 +156,39 @@ async function sendAttendanceReport(toEmail, changes, allCourses) {
 async function sendTestEmail(toEmail) {
   if (!toEmail) throw new Error('Recipient email is required');
 
-  const testHtml = `
-    <div style="background-color: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 32px; border-radius: 8px; border: 1px solid #1e293b; max-width: 500px; margin: 0 auto;">
-      <h2 style="color: #6366f1; margin-top: 0;">✅ Alert Service Activated!</h2>
-      <p style="color: #cbd5e1; font-size: 14px; line-height: 1.6;">
-        Congratulations! Your email notification settings are correctly configured. You will now receive background updates from the <b>Saveetha ARMS Attendance Portal</b> daily at 5:00 PM.
-      </p>
-      <hr style="border-color: #1e293b; margin: 20px 0;">
-      <p style="color: #64748b; font-size: 11px;">
-        Local Sync Server Running Successfully.
-      </p>
-    </div>
-  `;
+  // Load customized email template for test email as well
+  const templatePath = path.join(__dirname, '../email.html');
+  let testHtml = fs.readFileSync(templatePath, 'utf8');
+
+  // Inject dynamic content (just some sample texts for the test)
+  testHtml = testHtml.replace('{{changesHtml}}', '<div style="background-color: #ffffff; padding: 20px; border-radius: 8px; text-align: center; color: #10b981; font-weight: bold; font-size: 18px;">✅ Alert Service Online</div>');
+  testHtml = testHtml.replace('{{overviewHtml}}', '<p style="color: #475569; font-size: 15px; text-align: center;">Your notification settings are perfectly configured. You will now receive highly secure, background attendance updates directly from the Saveetha ARMS Portal.</p>');
+  
+  // Replace image references with CIDs
+  testHtml = testHtml.replace(/images\//g, 'cid:');
 
   const mailOptions = {
     from: `"Attendance Assistant" <${process.env.SMTP_USER}>`,
     to: toEmail,
     subject: '✅ Attendance Alerts Activated!',
-    html: testHtml
+    html: testHtml,
+    attachments: [
+      {
+        filename: '58459ea2130c2028b7b6fb8127293836.png',
+        path: path.join(__dirname, '../images/58459ea2130c2028b7b6fb8127293836.png'),
+        cid: '58459ea2130c2028b7b6fb8127293836.png'
+      },
+      {
+        filename: '59f9944ebe18e63281bdcd253928ae24.png',
+        path: path.join(__dirname, '../images/59f9944ebe18e63281bdcd253928ae24.png'),
+        cid: '59f9944ebe18e63281bdcd253928ae24.png'
+      },
+      {
+        filename: 'b788157aeee49ec22522d96fa1dbb433.png',
+        path: path.join(__dirname, '../images/b788157aeee49ec22522d96fa1dbb433.png'),
+        cid: 'b788157aeee49ec22522d96fa1dbb433.png'
+      }
+    ]
   };
 
   try {

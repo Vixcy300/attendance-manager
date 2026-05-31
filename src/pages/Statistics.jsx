@@ -147,8 +147,8 @@ const Statistics = () => {
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 shadow-lg">
-          <p className="text-white font-medium">{payload[0].payload.name || payload[0].payload.day || payload[0].payload.month}</p>
+        <div className="bg-white dark:bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 shadow-lg">
+          <p className="text-neutral-900 dark:text-white font-medium">{payload[0].payload.name || payload[0].payload.day || payload[0].payload.month}</p>
           <p className="text-emerald-400 text-sm">{payload[0].value.toFixed(1)}%</p>
         </div>
       );
@@ -167,7 +167,7 @@ const Statistics = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
             <BarChart2 className="text-emerald-400" size={24} />
             Statistics
           </h1>
@@ -176,14 +176,14 @@ const Statistics = () => {
         <div className="flex gap-2">
           <button
             onClick={handleExportPDF}
-            className="bg-neutral-800 hover:bg-neutral-700 text-white py-2 px-3 rounded-lg transition-colors flex items-center gap-2 text-sm"
+            className="bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 text-neutral-900 dark:text-white py-2 px-3 rounded-lg transition-colors flex items-center gap-2 text-sm"
           >
             <Download size={16} />
             PDF
           </button>
           <button
             onClick={handleExportExcel}
-            className="bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-3 rounded-lg transition-colors flex items-center gap-2 text-sm"
+            className="bg-emerald-500 hover:bg-emerald-600 text-neutral-900 dark:text-white py-2 px-3 rounded-lg transition-colors flex items-center gap-2 text-sm"
           >
             <Download size={16} />
             Excel
@@ -192,7 +192,7 @@ const Statistics = () => {
       </div>
 
       {/* Tab Navigation */}
-      <div className="stat-card flex bg-neutral-900 border border-neutral-800 rounded-xl p-1 overflow-x-auto">
+      <div className="stat-card flex bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-1 overflow-x-auto">
         {tabs.map(tab => (
           <button
             key={tab.id}
@@ -200,7 +200,7 @@ const Statistics = () => {
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
               activeTab === tab.id
                 ? 'bg-emerald-500 text-white shadow-lg'
-                : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
+                : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:text-white hover:bg-gray-100 dark:bg-neutral-800'
             }`}
           >
             <tab.icon size={16} />
@@ -256,8 +256,8 @@ const Statistics = () => {
           {/* Charts Row */}
           <div className="grid lg:grid-cols-2 gap-4">
             {/* Bar Chart */}
-            <div className="stat-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-              <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+            <div className="stat-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
+              <h2 className="font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
                 <BarChart2 size={18} className="text-emerald-400" />
                 Course Rankings
               </h2>
@@ -283,8 +283,8 @@ const Statistics = () => {
             </div>
 
             {/* Pie Chart */}
-            <div className="stat-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-              <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+            <div className="stat-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
+              <h2 className="font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
                 <PieChartIcon size={18} className="text-blue-400" />
                 Attendance Distribution
               </h2>
@@ -317,8 +317,8 @@ const Statistics = () => {
           </div>
 
           {/* Performance Summary */}
-          <div className="stat-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-            <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="stat-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
+            <h2 className="font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
               <Award className="text-amber-400" size={20} />
               Performance Insights
             </h2>
@@ -326,7 +326,7 @@ const Statistics = () => {
               <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <CheckCircle size={14} className="text-emerald-400" />
-                  <p className="text-neutral-400 text-xs">Above Target</p>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-xs">Above Target</p>
                 </div>
                 <p className="text-xl font-bold text-emerald-400">{coursesAboveTarget}</p>
                 <p className="text-xs text-neutral-500">of {courses.length} courses</p>
@@ -334,7 +334,7 @@ const Statistics = () => {
               <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <AlertTriangle size={14} className="text-red-400" />
-                  <p className="text-neutral-400 text-xs">Below Target</p>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-xs">Below Target</p>
                 </div>
                 <p className="text-xl font-bold text-red-400">{coursesBelowTarget}</p>
                 <p className="text-xs text-neutral-500">need attention</p>
@@ -342,7 +342,7 @@ const Statistics = () => {
               <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <Target size={14} className="text-amber-400" />
-                  <p className="text-neutral-400 text-xs">Average Target</p>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-xs">Average Target</p>
                 </div>
                 <p className="text-xl font-bold text-amber-400">{averageTarget.toFixed(0)}%</p>
                 <p className="text-xs text-neutral-500">across all courses</p>
@@ -350,7 +350,7 @@ const Statistics = () => {
               <div className="bg-violet-500/10 border border-violet-500/20 rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <Flame size={14} className="text-violet-400" />
-                  <p className="text-neutral-400 text-xs">Best Course</p>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-xs">Best Course</p>
                 </div>
                 <p className="text-xl font-bold text-violet-400 truncate">
                   {courseData[0]?.name || '-'}
@@ -365,8 +365,8 @@ const Statistics = () => {
       {activeTab === 'trends' && (
         <>
           {/* Weekly Trend */}
-          <div className="stat-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-            <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="stat-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
+            <h2 className="font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
               <Activity size={18} className="text-emerald-400" />
               Weekly Attendance Trend
             </h2>
@@ -390,8 +390,8 @@ const Statistics = () => {
           </div>
 
           {/* Monthly Trend */}
-          <div className="stat-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-            <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="stat-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
+            <h2 className="font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
               <Calendar size={18} className="text-blue-400" />
               Monthly Performance
             </h2>
@@ -413,8 +413,8 @@ const Statistics = () => {
       {activeTab === 'analysis' && (
         <>
           {/* Radial Chart */}
-          <div className="stat-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-            <h2 className="font-semibold text-white mb-4">Top 5 Courses Comparison</h2>
+          <div className="stat-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
+            <h2 className="font-semibold text-neutral-900 dark:text-white mb-4">Top 5 Courses Comparison</h2>
             {radialData.length > 0 ? (
               <div className="h-72">
                 <ResponsiveContainer width="100%" height="100%">
@@ -443,9 +443,9 @@ const Statistics = () => {
                     const pct = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
                     const needed = calculateClassesNeeded(course.classes_attended, course.total_classes, course.target_percentage);
                     return (
-                      <div key={course.id} className="bg-neutral-950 rounded-lg p-3">
+                      <div key={course.id} className="bg-gray-50 dark:bg-neutral-950 rounded-lg p-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-white font-medium text-sm">{course.course_code}</span>
+                          <span className="text-neutral-900 dark:text-white font-medium text-sm">{course.course_code}</span>
                           <span className="text-red-400 font-bold">{pct.toFixed(1)}%</span>
                         </div>
                         <p className="text-xs text-neutral-500 mt-1">Need {needed} classes to reach {course.target_percentage}%</p>
@@ -469,9 +469,9 @@ const Statistics = () => {
                     const pct = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
                     const canMiss = calculateClassesCanMiss(course.classes_attended, course.total_classes, course.target_percentage);
                     return (
-                      <div key={course.id} className="bg-neutral-950 rounded-lg p-3">
+                      <div key={course.id} className="bg-gray-50 dark:bg-neutral-950 rounded-lg p-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-white font-medium text-sm">{course.course_code}</span>
+                          <span className="text-neutral-900 dark:text-white font-medium text-sm">{course.course_code}</span>
                           <span className="text-emerald-400 font-bold">{pct.toFixed(1)}%</span>
                         </div>
                         <p className="text-xs text-neutral-500 mt-1">Can miss {canMiss} more classes</p>
@@ -489,12 +489,12 @@ const Statistics = () => {
 
       {/* Course Details Table */}
       {courses.length > 0 && (
-        <div className="stat-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
-          <h2 className="font-semibold text-white mb-4">Detailed Course Report</h2>
+        <div className="stat-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
+          <h2 className="font-semibold text-neutral-900 dark:text-white mb-4">Detailed Course Report</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-neutral-800">
+                <tr className="border-b border-gray-200 dark:border-neutral-800">
                   <th className="text-left py-2 px-3 text-neutral-500 font-medium">Course</th>
                   <th className="text-center py-2 px-3 text-neutral-500 font-medium">Attended</th>
                   <th className="text-center py-2 px-3 text-neutral-500 font-medium">Total</th>
@@ -511,15 +511,15 @@ const Statistics = () => {
                   return (
                     <tr key={course.id} className="border-b border-neutral-800/50 hover:bg-neutral-800/30 transition-colors">
                       <td className="py-2 px-3">
-                        <p className="text-white font-medium">{course.course_code}</p>
+                        <p className="text-neutral-900 dark:text-white font-medium">{course.course_code}</p>
                         <p className="text-neutral-500 text-xs truncate max-w-[150px]">{course.course_name}</p>
                       </td>
-                      <td className="text-center py-2 px-3 text-white">{course.classes_attended}</td>
-                      <td className="text-center py-2 px-3 text-white">{course.total_classes}</td>
+                      <td className="text-center py-2 px-3 text-neutral-900 dark:text-white">{course.classes_attended}</td>
+                      <td className="text-center py-2 px-3 text-neutral-900 dark:text-white">{course.total_classes}</td>
                       <td className={`text-center py-2 px-3 font-medium ${pct >= 85 ? 'text-emerald-400' : pct >= 75 ? 'text-amber-400' : 'text-red-400'}`}>
                         {pct.toFixed(1)}%
                       </td>
-                      <td className="text-center py-2 px-3 text-neutral-400">{course.target_percentage}%</td>
+                      <td className="text-center py-2 px-3 text-neutral-500 dark:text-neutral-400">{course.target_percentage}%</td>
                       <td className="text-center py-2 px-3">
                         <span className={`text-xs px-2 py-0.5 rounded ${isAbove ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
                           {isAbove ? 'On Track' : 'At Risk'}
@@ -536,13 +536,13 @@ const Statistics = () => {
                     <tr key={course.id} className="border-b border-neutral-800/50 bg-neutral-950/50 opacity-70">
                       <td className="py-2 px-3">
                         <div className="flex items-center gap-2">
-                          <p className="text-neutral-400 font-medium">{course.course_code}</p>
+                          <p className="text-neutral-500 dark:text-neutral-400 font-medium">{course.course_code}</p>
                           <span className="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded">Done</span>
                         </div>
                         <p className="text-neutral-600 text-xs truncate max-w-[150px]">{course.course_name}</p>
                       </td>
-                      <td className="text-center py-2 px-3 text-neutral-400">{course.classes_attended}</td>
-                      <td className="text-center py-2 px-3 text-neutral-400">{course.total_classes}</td>
+                      <td className="text-center py-2 px-3 text-neutral-500 dark:text-neutral-400">{course.classes_attended}</td>
+                      <td className="text-center py-2 px-3 text-neutral-500 dark:text-neutral-400">{course.total_classes}</td>
                       <td className={`text-center py-2 px-3 font-medium ${pct >= 85 ? 'text-emerald-400/70' : pct >= 75 ? 'text-amber-400/70' : 'text-red-400/70'}`}>
                         {pct.toFixed(1)}%
                       </td>

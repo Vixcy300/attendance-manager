@@ -384,30 +384,30 @@ const Calendar = () => {
   return (
     <div ref={containerRef} className="space-y-6">
       {/* Header */}
-      <div className="glass-card bg-neutral-900/40 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative overflow-hidden rounded-2xl border border-white/5 shadow-xl">
+      <div className="glass-card bg-white/80 dark:bg-neutral-900/40 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative overflow-hidden rounded-2xl border border-gray-200 dark:border-white/5 shadow-xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
 
         <div className="relative z-10">
-          <h1 className="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2 tracking-tight">
-            <div className="p-2.5 bg-indigo-500/20 rounded-xl backdrop-blur-md border border-white/10 shadow-lg shadow-indigo-500/20">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-neutral-900 dark:text-white flex items-center gap-2 tracking-tight">
+            <div className="p-2.5 bg-indigo-500/20 rounded-xl backdrop-blur-md border border-gray-300 dark:border-white/10 shadow-lg shadow-indigo-500/20">
               <CalendarDays className="text-indigo-400" size={24} />
             </div>
             Saveetha Calendar
           </h1>
-          <p className="text-neutral-400 text-sm mt-1 ml-12">Track academic events, exams & logs</p>
+          <p className="text-neutral-500 dark:text-neutral-400 text-sm mt-1 ml-12">Track academic events, exams & logs</p>
         </div>
 
         {/* Controls */}
         <div className="relative z-10 flex flex-wrap gap-3">
           {/* Batch Toggle */}
-          <div className="flex bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-1">
+          <div className="flex bg-white/90 dark:bg-neutral-900/60 backdrop-blur-md border border-gray-200 dark:border-white/5 rounded-xl p-1">
             {['2024', '2025'].map((b) => (
               <button
                 key={b}
                 onClick={() => handleBatchChange(b)}
                 className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${batch === b
                   ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
-                  : 'text-neutral-400 hover:text-white hover:bg-white/5'
+                  : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:text-white hover:bg-white/5'
                   }`}
               >
                 {b} Batch
@@ -416,12 +416,12 @@ const Calendar = () => {
           </div>
 
           {/* Student Type Toggle */}
-          <div className="flex bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-1">
+          <div className="flex bg-white/90 dark:bg-neutral-900/60 backdrop-blur-md border border-gray-200 dark:border-white/5 rounded-xl p-1">
             <button
               onClick={() => handleStudentTypeChange('dayScholar')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${studentType === 'dayScholar'
                 ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
-                : 'text-neutral-400 hover:text-white hover:bg-white/5'
+                : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:text-white hover:bg-white/5'
                 }`}
             >
               <Home size={14} />
@@ -431,7 +431,7 @@ const Calendar = () => {
               onClick={() => handleStudentTypeChange('hosteler')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${studentType === 'hosteler'
                 ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
-                : 'text-neutral-400 hover:text-white hover:bg-white/5'
+                : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:text-white hover:bg-white/5'
                 }`}
             >
               <Building size={14} />
@@ -442,7 +442,7 @@ const Calendar = () => {
       </div>
 
       {/* Stats Overview */}
-      <div className="glass-card grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-2xl border border-white/5 bg-neutral-900/20">
+      <div className="glass-card grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-2xl border border-gray-200 dark:border-white/5 bg-neutral-900/20">
         <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-4 text-center hover:bg-indigo-500/20 transition-all cursor-default hover:scale-[1.02] duration-300">
           <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-wider mb-1">Overall Attendance</p>
           <p className="text-2xl font-black text-indigo-400">{overallPercentage}%</p>
@@ -465,7 +465,7 @@ const Calendar = () => {
       <div className="flex justify-end">
         <button
           onClick={() => setShowBulkMark(true)}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-6 rounded-full transition-all shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98] text-sm"
+          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-neutral-900 dark:text-white font-bold py-3.5 px-6 rounded-full transition-all shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98] text-sm"
         >
           <Sparkles size={16} /> Quick Mark Attendance
         </button>
@@ -473,24 +473,24 @@ const Calendar = () => {
 
       {/* Upcoming Events Alerts */}
       {upcomingEvents.length > 0 && (
-        <div className="glass-card border-l-4 border-l-amber-500 p-5 rounded-2xl border border-white/5 bg-neutral-900/20">
+        <div className="glass-card border-l-4 border-l-amber-500 p-5 rounded-2xl border border-gray-200 dark:border-white/5 bg-neutral-900/20">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-1.5 bg-amber-500/10 rounded-lg">
               <Bell size={18} className="text-amber-400" />
             </div>
-            <h3 className="font-bold text-white tracking-wide">Upcoming Academic Events</h3>
+            <h3 className="font-bold text-neutral-900 dark:text-white tracking-wide">Upcoming Academic Events</h3>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {upcomingEvents.map((event, idx) => (
               <div
                 key={idx}
-                className="bg-neutral-900/60 border border-white/5 rounded-xl p-3 hover:border-white/10 hover:bg-neutral-800/60 transition-all group cursor-default"
+                className="bg-white/90 dark:bg-neutral-900/60 border border-gray-200 dark:border-white/5 rounded-xl p-3 hover:border-gray-300 dark:border-white/10 hover:bg-neutral-800/60 transition-all group cursor-default"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-xl group-hover:scale-110 transition-transform duration-300">{getEventIcon(event.type)}</span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-white text-xs font-semibold truncate group-hover:text-indigo-300 transition-colors">{event.event}</p>
-                    <p className="text-neutral-400 text-[10px] mt-0.5 font-medium">
+                    <p className="text-neutral-900 dark:text-white text-xs font-semibold truncate group-hover:text-indigo-300 transition-colors">{event.event}</p>
+                    <p className="text-neutral-500 dark:text-neutral-400 text-[10px] mt-0.5 font-medium">
                       {new Date(event.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                     </p>
                   </div>
@@ -516,24 +516,24 @@ const Calendar = () => {
       {/* Bulk Mark Attendance Modal */}
       {showBulkMark && (
         <div className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-[200] p-4">
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl w-full max-w-md shadow-2xl animate-scale-in">
-            <div className="flex items-center justify-between p-5 border-b border-neutral-800">
+          <div className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-2xl w-full max-w-md shadow-2xl animate-scale-in">
+            <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-neutral-800">
               <div>
-                <h2 className="font-extrabold text-white text-lg">Quick Mark Attendance</h2>
+                <h2 className="font-extrabold text-neutral-900 dark:text-white text-lg">Quick Mark Attendance</h2>
                 <p className="text-xs text-neutral-500 mt-0.5">Logs attendance for today ({formatDate(new Date())})</p>
               </div>
-              <button onClick={() => setShowBulkMark(false)} className="p-2 hover:bg-neutral-800 rounded-lg transition-colors">
-                <X size={18} className="text-neutral-400" />
+              <button onClick={() => setShowBulkMark(false)} className="p-2 hover:bg-gray-100 dark:bg-neutral-800 rounded-lg transition-colors">
+                <X size={18} className="text-neutral-500 dark:text-neutral-400" />
               </button>
             </div>
 
             <div className="p-5">
-              <p className="text-sm font-semibold text-neutral-400 mb-3">Select courses to log today's status:</p>
+              <p className="text-sm font-semibold text-neutral-500 dark:text-neutral-400 mb-3">Select courses to log today's status:</p>
               <div className="space-y-2 max-h-48 overflow-y-auto mb-5 pr-1">
                 {courses.map(course => {
                   const pct = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
                   return (
-                    <label key={course.id} className="flex items-center gap-3 p-3 bg-neutral-950 rounded-xl cursor-pointer hover:bg-neutral-800/80 transition-colors border border-white/5">
+                    <label key={course.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-neutral-950 rounded-xl cursor-pointer hover:bg-neutral-800/80 transition-colors border border-gray-200 dark:border-white/5">
                       <input
                         type="checkbox"
                         checked={selectedCourses.includes(course.id)}
@@ -544,10 +544,10 @@ const Calendar = () => {
                             setSelectedCourses(selectedCourses.filter(id => id !== course.id));
                           }
                         }}
-                        className="w-4 h-4 rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-indigo-500"
+                        className="w-4 h-4 rounded border-neutral-700 bg-white dark:bg-neutral-900 text-indigo-500 focus:ring-indigo-500"
                       />
                       <div className="flex-1 min-w-0">
-                        <span className="text-white text-sm font-bold">{course.course_code}</span>
+                        <span className="text-neutral-900 dark:text-white text-sm font-bold">{course.course_code}</span>
                         <span className={`ml-2 text-xs font-semibold ${pct >= 80 ? 'text-indigo-400' : pct >= 75 ? 'text-amber-400' : 'text-red-400'}`}>
                           {pct.toFixed(0)}%
                         </span>
@@ -560,14 +560,14 @@ const Calendar = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => handleBulkMark('present')}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-indigo-600/20"
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-neutral-900 dark:text-white py-3.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-indigo-600/20"
                 >
                   <CheckCircle size={18} />
                   Present
                 </button>
                 <button
                   onClick={() => handleBulkMark('absent')}
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-red-600/20"
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-neutral-900 dark:text-white py-3.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-red-600/20"
                 >
                   <XCircle size={18} />
                   Absent

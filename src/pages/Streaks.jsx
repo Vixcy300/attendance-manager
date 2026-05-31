@@ -218,7 +218,7 @@ const Streaks = () => {
       {/* Header with Level */}
       <div className="streak-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
             <Sparkles className="text-amber-400" size={24} />
             Streaks & Achievements
           </h1>
@@ -231,19 +231,19 @@ const Streaks = () => {
             {isEditing ? (
               <>
                 <button onClick={handleSaveEdit} className="p-2 bg-emerald-500 hover:bg-emerald-600 rounded-lg transition-colors">
-                  <Check size={18} className="text-white" />
+                  <Check size={18} className="text-neutral-900 dark:text-white" />
                 </button>
-                <button onClick={handleCancelEdit} className="p-2 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors">
-                  <X size={18} className="text-white" />
+                <button onClick={handleCancelEdit} className="p-2 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors">
+                  <X size={18} className="text-neutral-900 dark:text-white" />
                 </button>
               </>
             ) : (
               <>
-                <button onClick={handleStartEdit} className="p-2 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors" title="Edit streaks">
-                  <Edit3 size={18} className="text-neutral-400" />
+                <button onClick={handleStartEdit} className="p-2 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors" title="Edit streaks">
+                  <Edit3 size={18} className="text-neutral-500 dark:text-neutral-400" />
                 </button>
-                <button onClick={handleResetStreaks} className="p-2 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors" title="Reset streaks">
-                  <RotateCcw size={18} className="text-neutral-400" />
+                <button onClick={handleResetStreaks} className="p-2 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors" title="Reset streaks">
+                  <RotateCcw size={18} className="text-neutral-500 dark:text-neutral-400" />
                 </button>
               </>
             )}
@@ -252,7 +252,7 @@ const Streaks = () => {
           {/* Level Badge */}
           <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl">
             <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-              <span className="text-lg font-bold text-white">{level}</span>
+              <span className="text-lg font-bold text-neutral-900 dark:text-white">{level}</span>
             </div>
             <div>
               <p className="text-xs text-white/80">Level</p>
@@ -271,14 +271,14 @@ const Streaks = () => {
       <div className="streak-card flex flex-wrap gap-3">
         <button
           onClick={handleIncrementStreak}
-          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-4 py-2.5 rounded-xl transition-all hover:scale-105 shadow-lg shadow-orange-500/25"
+          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-neutral-900 dark:text-white px-4 py-2.5 rounded-xl transition-all hover:scale-105 shadow-lg shadow-orange-500/25"
         >
           <Flame size={18} className="streak-flame" />
           Add Attendance Day
         </button>
         <button
           onClick={handleDecrementStreak}
-          className="flex items-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white px-4 py-2.5 rounded-xl transition-colors"
+          className="flex items-center gap-2 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 text-neutral-900 dark:text-white px-4 py-2.5 rounded-xl transition-colors"
         >
           <Minus size={18} />
           Missed a Day
@@ -287,7 +287,7 @@ const Streaks = () => {
 
       {/* Streak Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="streak-card bg-gradient-to-br from-orange-500 to-red-500 rounded-xl p-4 text-white relative overflow-hidden">
+        <div className="streak-card bg-gradient-to-br from-orange-500 to-red-500 rounded-xl p-4 text-neutral-900 dark:text-white relative overflow-hidden">
           <div className="absolute top-2 right-2 opacity-20">
             <Flame size={48} />
           </div>
@@ -306,7 +306,7 @@ const Streaks = () => {
           <p className="text-white/60 text-xs">days</p>
         </div>
 
-        <div className="streak-card bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl p-4 text-white relative overflow-hidden">
+        <div className="streak-card bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl p-4 text-neutral-900 dark:text-white relative overflow-hidden">
           <div className="absolute top-2 right-2 opacity-20">
             <Trophy size={48} />
           </div>
@@ -325,7 +325,7 @@ const Streaks = () => {
           <p className="text-white/60 text-xs">days</p>
         </div>
 
-        <div className="streak-card bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl p-4 text-white relative overflow-hidden">
+        <div className="streak-card bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl p-4 text-neutral-900 dark:text-white relative overflow-hidden">
           <div className="absolute top-2 right-2 opacity-20">
             <TrendingUp size={48} />
           </div>
@@ -363,7 +363,7 @@ const Streaks = () => {
           </div>
         </div>
 
-        <div className="streak-card bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl p-4 text-white relative overflow-hidden">
+        <div className="streak-card bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl p-4 text-neutral-900 dark:text-white relative overflow-hidden">
           <div className="absolute top-2 right-2 opacity-20">
             <Calendar size={48} />
           </div>
@@ -375,11 +375,11 @@ const Streaks = () => {
       </div>
 
       {/* Custom Goals */}
-      <div className="streak-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+      <div className="streak-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Target className="text-emerald-400" size={20} />
-            <h2 className="font-semibold text-white">Custom Goals</h2>
+            <h2 className="font-semibold text-neutral-900 dark:text-white">Custom Goals</h2>
           </div>
           <button
             onClick={() => setShowAddGoal(!showAddGoal)}
@@ -391,14 +391,14 @@ const Streaks = () => {
         </div>
 
         {showAddGoal && (
-          <div className="bg-neutral-950 rounded-xl p-4 mb-4 border border-neutral-800">
+          <div className="bg-gray-50 dark:bg-neutral-950 rounded-xl p-4 mb-4 border border-gray-200 dark:border-neutral-800">
             <div className="flex flex-wrap gap-3">
               <input
                 type="text"
                 placeholder="Goal name (e.g., Attend all labs)"
                 value={newGoalName}
                 onChange={(e) => setNewGoalName(e.target.value)}
-                className="flex-1 min-w-[200px] bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-emerald-500"
+                className="flex-1 min-w-[200px] bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-lg px-3 py-2 text-neutral-900 dark:text-white text-sm focus:outline-none focus:border-emerald-500"
               />
               <div className="flex items-center gap-2">
                 <span className="text-neutral-500 text-sm">Target:</span>
@@ -406,13 +406,13 @@ const Streaks = () => {
                   type="number"
                   value={newGoalTarget}
                   onChange={(e) => setNewGoalTarget(parseInt(e.target.value) || 0)}
-                  className="w-16 bg-neutral-900 border border-neutral-800 rounded-lg px-2 py-2 text-white text-sm text-center focus:outline-none focus:border-emerald-500"
+                  className="w-16 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-lg px-2 py-2 text-neutral-900 dark:text-white text-sm text-center focus:outline-none focus:border-emerald-500"
                 />
                 <span className="text-neutral-500 text-sm">%</span>
               </div>
               <button
                 onClick={handleAddGoal}
-                className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                className="bg-emerald-500 hover:bg-emerald-600 text-neutral-900 dark:text-white px-4 py-2 rounded-lg text-sm transition-colors"
               >
                 Add
               </button>
@@ -423,11 +423,11 @@ const Streaks = () => {
         {streakData.customGoals.length > 0 ? (
           <div className="space-y-3">
             {streakData.customGoals.map((goal) => (
-              <div key={goal.id} className="bg-neutral-950 rounded-xl p-4 border border-neutral-800">
+              <div key={goal.id} className="bg-gray-50 dark:bg-neutral-950 rounded-xl p-4 border border-gray-200 dark:border-neutral-800">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     {goal.completed && <Check size={16} className="text-emerald-400" />}
-                    <span className={`font-medium ${goal.completed ? 'text-emerald-400' : 'text-white'}`}>{goal.name}</span>
+                    <span className={`font-medium ${goal.completed ? 'text-emerald-400' : 'text-neutral-900 dark:text-white'}`}>{goal.name}</span>
                   </div>
                   <button onClick={() => handleDeleteGoal(goal.id)} className="text-neutral-600 hover:text-red-400 transition-colors">
                     <X size={16} />
@@ -439,7 +439,7 @@ const Streaks = () => {
                       <span>{goal.progress}%</span>
                       <span>Target: {goal.target}%</span>
                     </div>
-                    <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                    <div className="w-full h-2 bg-gray-100 dark:bg-neutral-800 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${goal.completed ? 'bg-emerald-500' : 'bg-blue-500'}`}
                         style={{ width: `${goal.progress}%` }}
@@ -449,15 +449,15 @@ const Streaks = () => {
                   <div className="flex gap-1">
                     <button
                       onClick={() => handleUpdateGoalProgress(goal.id, -10)}
-                      className="p-1.5 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors"
+                      className="p-1.5 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors"
                     >
-                      <Minus size={14} className="text-neutral-400" />
+                      <Minus size={14} className="text-neutral-500 dark:text-neutral-400" />
                     </button>
                     <button
                       onClick={() => handleUpdateGoalProgress(goal.id, 10)}
-                      className="p-1.5 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors"
+                      className="p-1.5 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors"
                     >
-                      <Plus size={14} className="text-neutral-400" />
+                      <Plus size={14} className="text-neutral-500 dark:text-neutral-400" />
                     </button>
                   </div>
                 </div>
@@ -474,10 +474,10 @@ const Streaks = () => {
       </div>
 
       {/* Achievements */}
-      <div className="streak-card bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+      <div className="streak-card bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
         <div className="flex items-center gap-2 mb-4">
           <Award className="text-amber-400" size={20} />
-          <h2 className="font-semibold text-white">Achievements</h2>
+          <h2 className="font-semibold text-neutral-900 dark:text-white">Achievements</h2>
           <span className="text-xs text-neutral-500 ml-auto">
             {achievements.filter(a => a.unlocked).length}/{achievements.length} unlocked
           </span>
@@ -490,21 +490,21 @@ const Streaks = () => {
               className={`p-4 rounded-xl border transition-all ${
                 achievement.unlocked 
                   ? `border-neutral-700 ${bgColorMap[achievement.color]}` 
-                  : 'border-dashed border-neutral-800 bg-neutral-900/50'
+                  : 'border-dashed border-gray-200 dark:border-neutral-800 bg-neutral-900/50'
               }`}
             >
               <div className="flex items-start gap-3">
-                <div className={`p-2.5 rounded-xl ${achievement.unlocked ? colorMap[achievement.color] : 'bg-neutral-800'}`}>
-                  <achievement.icon className="text-white" size={18} />
+                <div className={`p-2.5 rounded-xl ${achievement.unlocked ? colorMap[achievement.color] : 'bg-gray-100 dark:bg-neutral-800'}`}>
+                  <achievement.icon className="text-neutral-900 dark:text-white" size={18} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className={`font-medium text-sm ${achievement.unlocked ? 'text-white' : 'text-neutral-500'}`}>
+                  <h3 className={`font-medium text-sm ${achievement.unlocked ? 'text-neutral-900 dark:text-white' : 'text-neutral-500'}`}>
                     {achievement.title}
                   </h3>
                   <p className="text-xs text-neutral-500 mt-0.5">{achievement.description}</p>
                   {!achievement.unlocked && (
                     <div className="mt-2">
-                      <div className="w-full h-1 bg-neutral-800 rounded-full overflow-hidden">
+                      <div className="w-full h-1 bg-gray-100 dark:bg-neutral-800 rounded-full overflow-hidden">
                         <div 
                           className={`h-full ${colorMap[achievement.color]} rounded-full transition-all duration-500`}
                           style={{ width: `${achievement.progress}%` }}
@@ -516,7 +516,7 @@ const Streaks = () => {
                 </div>
                 {achievement.unlocked && (
                   <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/30">
-                    <Check size={14} className="text-white" />
+                    <Check size={14} className="text-neutral-900 dark:text-white" />
                   </div>
                 )}
               </div>

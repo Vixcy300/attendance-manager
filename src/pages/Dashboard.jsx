@@ -1,9 +1,39 @@
 import { useEffect, useState } from 'react';
-import { TrendingUp, TrendingDown, Target, BookOpen, Calendar as CalendarIcon, Flame, ArrowRight, Trophy } from 'lucide-react';
+import { TrendingUp, TrendingDown, Target, BookOpen, Calendar as CalendarIcon, Flame, ArrowRight, Trophy, ChevronRight, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
 import { calculatePercentage, getStatusInfo, getStatusBadgeClass, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
+
+/* ─── tiny circular progress ring ─── */
+const ProgressRing = ({ percentage, size = 56, stroke = 5, color }) => {
+  const radius = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (Math.min(percentage, 100) / 100) * circumference;
+
+  return (
+    <svg width={size} height={size} className="drop-shadow-lg -rotate-90">
+      <circle
+        cx={size / 2} cy={size / 2} r={radius}
+        fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth={stroke}
+      />
+      <circle
+        cx={size / 2} cy={size / 2} r={radius}
+        fill="none" stroke={color} strokeWidth={stroke}
+        strokeDasharray={circumference} strokeDashoffset={offset}
+        strokeLinecap="round"
+        className="transition-all duration-1000 ease-out"
+        style={{ filter: `drop-shadow(0 0 6px ${color}40)` }}
+      />
+    </svg>
+  );
+};
+
+const ringColor = (pct, target) => {
+  if (pct >= target) return '#10b981';      // emerald
+  if (pct >= target - 10) return '#f59e0b'; // amber
+  return '#ef4444';                          // red
+};
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -33,147 +63,160 @@ const Dashboard = () => {
   const classesNeeded = calculateClassesNeeded(stats.classesAttended, stats.totalClasses, 80);
   const classesCanMiss = calculateClassesCanMiss(stats.classesAttended, stats.totalClasses, 80);
 
+  /* ─── palette for stat cards ─── */
   const statCards = [
     {
-      title: 'Overall Attendance',
+      label: 'Overall',
       value: `${stats.overallPercentage.toFixed(1)}%`,
+      sub: statusInfo.text,
       icon: Target,
-      color: stats.overallPercentage >= 75 ? 'emerald' : stats.overallPercentage >= 65 ? 'amber' : 'red',
-      badge: statusInfo.text,
+      gradient: 'from-emerald-500/20 to-teal-500/20',
+      accent: 'text-emerald-400',
+      border: 'border-emerald-500/10',
+      glow: 'hover:shadow-emerald-500/10',
     },
-    { title: 'Total Courses', value: stats.totalCourses, icon: BookOpen, color: 'blue' },
-    { title: 'Classes Attended', value: `${stats.classesAttended}/${stats.totalClasses}`, icon: TrendingUp, color: 'violet' },
     {
-      title: stats.overallPercentage >= 80 ? 'Can Miss' : 'Need to Attend',
-      value: stats.overallPercentage >= 80 ? `${classesCanMiss} classes` : `${classesNeeded} classes`,
-      icon: stats.overallPercentage >= 80 ? TrendingDown : TrendingUp,
-      color: stats.overallPercentage >= 80 ? 'emerald' : 'cyan',
+      label: 'Courses',
+      value: stats.totalCourses,
+      sub: 'Active',
+      icon: BookOpen,
+      gradient: 'from-blue-500/20 to-indigo-500/20',
+      accent: 'text-blue-400',
+      border: 'border-blue-500/10',
+      glow: 'hover:shadow-blue-500/10',
+    },
+    {
+      label: 'Attended',
+      value: `${stats.classesAttended}/${stats.totalClasses}`,
+      sub: 'Classes',
+      icon: TrendingUp,
+      gradient: 'from-violet-500/20 to-purple-500/20',
+      accent: 'text-violet-400',
+      border: 'border-violet-500/10',
+      glow: 'hover:shadow-violet-500/10',
+    },
+    {
+      label: stats.overallPercentage >= 80 ? 'Can Skip' : 'Need',
+      value: stats.overallPercentage >= 80 ? classesCanMiss : classesNeeded,
+      sub: stats.overallPercentage >= 80 ? 'Buffer classes' : 'More classes',
+      icon: stats.overallPercentage >= 80 ? TrendingDown : Zap,
+      gradient: stats.overallPercentage >= 80 ? 'from-emerald-500/20 to-green-500/20' : 'from-cyan-500/20 to-sky-500/20',
+      accent: stats.overallPercentage >= 80 ? 'text-emerald-400' : 'text-cyan-400',
+      border: stats.overallPercentage >= 80 ? 'border-emerald-500/10' : 'border-cyan-500/10',
+      glow: stats.overallPercentage >= 80 ? 'hover:shadow-emerald-500/10' : 'hover:shadow-cyan-500/10',
     },
   ];
 
-  const colorMap = {
-    emerald: 'bg-emerald-500',
-    amber: 'bg-amber-500',
-    red: 'bg-red-500',
-    blue: 'bg-blue-500',
-    violet: 'bg-violet-500',
-    cyan: 'bg-cyan-500',
-  };
-
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div className="space-y-8">
+      {/* ─── HEADER ─── */}
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-neutral-500 text-sm mt-0.5">Your attendance overview</p>
+          <p className="text-xs uppercase tracking-widest text-neutral-500 mb-1 font-semibold">Dashboard</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight leading-tight">
+            Welcome back{user?.user_metadata?.full_name ? `, ${user.user_metadata.full_name.split(' ')[0]}` : ''}
+          </h1>
         </div>
         <button
           onClick={() => navigate('/streaks')}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 transition-colors w-fit"
+          className="group inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-neutral-900 dark:text-white text-sm font-semibold rounded-xl hover:brightness-110 transition-all shadow-lg shadow-orange-500/20 w-fit"
         >
-          <Flame size={16} />
-          View Streaks
+          <Flame size={16} className="group-hover:animate-pulse" />
+          Streaks
+          <ChevronRight size={14} className="opacity-60" />
         </button>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {statCards.map((stat) => (
-          <div key={stat.title} className="glass-card flex flex-col justify-between hover:border-white/20 transition-all duration-300">
-            <div className="flex items-start justify-between">
-              <div className="flex-1 min-w-0">
-                <p className="text-xs sm:text-sm text-neutral-400 truncate font-medium">{stat.title}</p>
-                <h3 className="text-lg sm:text-2xl font-bold text-white mt-1 tracking-tight">{stat.value}</h3>
-              </div>
-              <div className={`p-2.5 rounded-xl ${colorMap[stat.color]} bg-opacity-20`}>
-                <stat.icon className={`text-${stat.color}-400`} size={20} />
-              </div>
+      {/* ─── STAT CARDS ─── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {statCards.map((s) => (
+          <div
+            key={s.label}
+            className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${s.gradient} border ${s.border} p-4 transition-all duration-300 ${s.glow} hover:shadow-xl group`}
+          >
+            {/* background icon watermark */}
+            <s.icon
+              size={64}
+              className="absolute -bottom-2 -right-2 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity"
+            />
+            <div className="flex items-center gap-2 mb-3">
+              <s.icon size={16} className={s.accent} />
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">{s.label}</span>
             </div>
-            {stat.badge && (
-              <div className="mt-3">
-                <span className={`text-[10px] px-2.5 py-1 rounded-lg font-semibold border ${stat.color === 'emerald' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                  stat.color === 'amber' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
-                    'bg-red-500/10 text-red-400 border-red-500/20'
-                  }`}>
-                  {stat.badge}
-                </span>
-              </div>
-            )}
+            <p className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white tracking-tight leading-none">{s.value}</p>
+            <p className="text-[11px] text-neutral-500 mt-1 font-medium">{s.sub}</p>
           </div>
         ))}
       </div>
 
-      {/* Courses */}
-      <div className="glass-card">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <BookOpen size={20} className="text-blue-400" />
+      {/* ─── COURSES SECTION ─── */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-base font-bold text-neutral-900 dark:text-white tracking-tight flex items-center gap-2">
+            <BookOpen size={18} className="text-indigo-400" />
             Your Courses
           </h2>
           <button
             onClick={() => navigate('/courses')}
-            className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center gap-1 transition-colors"
+            className="text-indigo-400 hover:text-indigo-300 text-xs font-semibold flex items-center gap-1 transition-colors uppercase tracking-wider"
           >
-            View All <ArrowRight size={14} />
+            View All <ArrowRight size={12} />
           </button>
         </div>
 
         {courses.length === 0 ? (
-          <div className="text-center py-12 bg-neutral-900/40 rounded-xl border border-white/5 border-dashed">
-            <BookOpen size={48} className="mx-auto text-neutral-700 mb-4" />
-            <p className="text-neutral-400 mb-5 font-medium">No courses added yet</p>
-            <button
-              onClick={() => navigate('/courses')}
-              className="btn-primary"
-            >
-              Add Course
+          <div className="text-center py-16 rounded-2xl border border-dashed border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
+            <BookOpen size={40} className="mx-auto text-neutral-700 mb-4" />
+            <p className="text-neutral-500 mb-5 text-sm font-medium">No courses added yet</p>
+            <button onClick={() => navigate('/courses')} className="btn-primary text-sm">
+              Add Your First Course
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
             {courses.slice(0, 6).map((course) => {
-              const percentage = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
-              const status = getStatusInfo(percentage);
-              const classesNeeded = calculateClassesNeeded(course.classes_attended, course.total_classes, course.target_percentage);
-              const classesCanMiss = calculateClassesCanMiss(course.classes_attended, course.total_classes, course.target_percentage);
+              const pct = parseFloat(calculatePercentage(course.classes_attended, course.total_classes));
+              const needed = calculateClassesNeeded(course.classes_attended, course.total_classes, course.target_percentage);
+              const canMiss = calculateClassesCanMiss(course.classes_attended, course.total_classes, course.target_percentage);
+              const safe = pct >= course.target_percentage;
+              const color = ringColor(pct, course.target_percentage);
 
               return (
-                <div key={course.id} className="p-4 rounded-xl border border-white/5 hover:border-white/10 transition-all duration-300 bg-neutral-900/40 hover:bg-neutral-900/60 group">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-white text-sm truncate group-hover:text-blue-400 transition-colors">{course.course_code}</h3>
-                      <p className="text-xs text-neutral-500 truncate">{course.course_name}</p>
+                <div
+                  key={course.id}
+                  onClick={() => navigate('/courses')}
+                  className="group relative flex items-center gap-4 p-4 rounded-2xl bg-gray-100 dark:bg-white/[0.03] border border-white/[0.06] hover:border-white/15 hover:bg-white/[0.06] transition-all duration-300 cursor-pointer"
+                >
+                  {/* ── ring ── */}
+                  <div className="relative flex-shrink-0">
+                    <ProgressRing percentage={pct} size={56} stroke={5} color={color} />
+                    <span
+                      className="absolute inset-0 flex items-center justify-center text-[11px] font-bold text-neutral-900 dark:text-white"
+                      style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
+                    >
+                      {pct.toFixed(0)}%
+                    </span>
+                  </div>
+
+                  {/* ── info ── */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-bold text-neutral-900 dark:text-white truncate group-hover:text-indigo-300 transition-colors leading-tight">
+                      {course.course_code}
+                    </h3>
+                    <p className="text-[11px] text-neutral-500 truncate mt-0.5 leading-tight">{course.course_name}</p>
+
+                    <div className="flex items-center gap-3 mt-2">
+                      <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-medium">
+                        {course.classes_attended}<span className="text-neutral-600">/</span>{course.total_classes}
+                      </span>
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${safe ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>
+                        {safe ? `+${canMiss} safe` : `−${needed} needed`}
+                      </span>
                     </div>
-                    <span className={status.color}>{status.icon}</span>
                   </div>
 
-                  <div className="flex justify-between text-xs mb-2.5">
-                    <span className="text-neutral-400">Attendance</span>
-                    <span className="text-white font-medium">{course.classes_attended}/{course.total_classes}</span>
-                  </div>
-
-                  <div className="h-2 bg-neutral-800 rounded-full overflow-hidden mb-3">
-                    <div
-                      className={`h-full rounded-full transition-all duration-500 ${percentage >= 75 ? 'bg-emerald-500' : percentage >= 65 ? 'bg-amber-500' : 'bg-red-500'
-                        }`}
-                      style={{ width: `${Math.min(percentage, 100)}%` }}
-                    />
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-lg font-bold text-white tracking-tight">{percentage.toFixed(1)}%</span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-lg bg-neutral-800 text-neutral-400 font-medium">
-                      Target: {course.target_percentage}%
-                    </span>
-                  </div>
-
-                  <div className="mt-3 pt-3 border-t border-white/5 flex justify-between text-xs">
-                    <span className="text-neutral-500">{percentage >= course.target_percentage ? 'Buffer' : 'Deficit'}</span>
-                    <span className={`font-medium ${percentage >= course.target_percentage ? 'text-emerald-400' : 'text-cyan-400'}`}>
-                      {percentage >= course.target_percentage ? `+${classesCanMiss} safe` : `-${classesNeeded} needed`}
-                    </span>
-                  </div>
+                  {/* ── arrow ── */}
+                  <ChevronRight size={14} className="text-neutral-700 group-hover:text-neutral-500 dark:text-neutral-400 transition-colors flex-shrink-0" />
                 </div>
               );
             })}
@@ -181,41 +224,25 @@ const Dashboard = () => {
         )}
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-3 gap-4">
-        <button
-          onClick={() => navigate('/courses')}
-          className="glass-card text-left hover:bg-white/5 transition-colors group p-5"
-        >
-          <div className="p-3 rounded-xl bg-emerald-500/10 w-fit mb-3 group-hover:scale-110 transition-transform">
-            <BookOpen className="text-emerald-400" size={24} />
-          </div>
-          <h3 className="font-semibold text-white text-sm group-hover:text-emerald-400 transition-colors">Courses</h3>
-          <p className="text-xs text-neutral-500 mt-1 hidden sm:block">Manage subjects</p>
-        </button>
-
-        <button
-          onClick={() => navigate('/calendar')}
-          className="glass-card text-left hover:bg-white/5 transition-colors group p-5"
-        >
-          <div className="p-3 rounded-xl bg-blue-500/10 w-fit mb-3 group-hover:scale-110 transition-transform">
-            <CalendarIcon className="text-blue-400" size={24} />
-          </div>
-          <h3 className="font-semibold text-white text-sm group-hover:text-blue-400 transition-colors">Calendar</h3>
-          <p className="text-xs text-neutral-500 mt-1 hidden sm:block">View schedule</p>
-        </button>
-
-        <button
-          onClick={() => navigate('/achievements')}
-          className="glass-card text-left hover:bg-white/5 transition-colors group p-5"
-        >
-          <div className="p-3 rounded-xl bg-orange-500/10 w-fit mb-3 group-hover:scale-110 transition-transform">
-            {/* Note using Trophy here instead of Flame to match new Achievements theme */}
-            <Trophy className="text-orange-400" size={24} />
-          </div>
-          <h3 className="font-semibold text-white text-sm group-hover:text-orange-400 transition-colors">Achievements</h3>
-          <p className="text-xs text-neutral-500 mt-1 hidden sm:block">Track badges</p>
-        </button>
+      {/* ─── QUICK ACTIONS ─── */}
+      <div className="grid grid-cols-3 gap-3">
+        {[
+          { label: 'Courses', desc: 'Manage subjects', icon: BookOpen, to: '/courses', accent: 'text-emerald-400', bg: 'bg-emerald-500/10', hover: 'hover:border-emerald-500/20' },
+          { label: 'Calendar', desc: 'View schedule', icon: CalendarIcon, to: '/calendar', accent: 'text-blue-400', bg: 'bg-blue-500/10', hover: 'hover:border-blue-500/20' },
+          { label: 'Achievements', desc: 'Track badges', icon: Trophy, to: '/achievements', accent: 'text-amber-400', bg: 'bg-amber-500/10', hover: 'hover:border-amber-500/20' },
+        ].map((a) => (
+          <button
+            key={a.label}
+            onClick={() => navigate(a.to)}
+            className={`group rounded-2xl border border-white/[0.06] bg-gray-50 dark:bg-white/[0.02] ${a.hover} p-4 sm:p-5 text-left transition-all duration-300 hover:bg-white/[0.04]`}
+          >
+            <div className={`${a.bg} w-10 h-10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+              <a.icon className={a.accent} size={20} />
+            </div>
+            <h3 className="text-sm font-bold text-neutral-900 dark:text-white group-hover:text-white/90 transition-colors">{a.label}</h3>
+            <p className="text-[11px] text-neutral-600 mt-0.5 hidden sm:block">{a.desc}</p>
+          </button>
+        ))}
       </div>
     </div>
   );

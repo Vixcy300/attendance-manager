@@ -15,3 +15,5 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 .vercel
+server/rate_limit.json
+

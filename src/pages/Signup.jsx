@@ -67,15 +67,15 @@ const Signup = () => {
             alt="SIMATS" 
             className="w-24 h-24 mx-auto mb-4 object-contain"
           />
-          <h1 className="text-2xl font-bold text-white">Join SIMATS AM</h1>
-          <p className="text-neutral-400 mt-1">Start tracking your attendance today</p>
+          <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">Join SIMATS AM</h1>
+          <p className="text-neutral-500 dark:text-neutral-400 mt-1">Start tracking your attendance today</p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">Full Name</label>
+              <label className="block text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-2">Full Name</label>
               <div className="relative">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                 <input
@@ -83,7 +83,7 @@ const Signup = () => {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                  className="w-full pl-12 pr-4 py-3 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-neutral-900 dark:text-white placeholder-neutral-500"
                   placeholder="Enter your name"
                 />
               </div>
@@ -91,7 +91,7 @@ const Signup = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">Roll Number</label>
+              <label className="block text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-2">Roll Number</label>
               <div className="relative">
                 <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                 <input
@@ -99,7 +99,7 @@ const Signup = () => {
                   required
                   value={formData.rollNumber}
                   onChange={(e) => setFormData({ ...formData, rollNumber: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                  className="w-full pl-12 pr-4 py-3 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-neutral-900 dark:text-white placeholder-neutral-500"
                   placeholder="e.g. 21EUCS001"
                 />
               </div>
@@ -108,7 +108,7 @@ const Signup = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-neutral-300 mb-2">University Email</label>
+            <label className="block text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-2">University Email</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
               <input
@@ -116,7 +116,7 @@ const Signup = () => {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                className="w-full pl-12 pr-4 py-3 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-neutral-900 dark:text-white placeholder-neutral-500"
                 placeholder="your.email@simats.edu.in"
               />
             </div>
@@ -124,7 +124,7 @@ const Signup = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-neutral-300 mb-2">University/College</label>
+            <label className="block text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-2">University/College</label>
             <div className="relative">
               <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
               <input
@@ -132,7 +132,7 @@ const Signup = () => {
                 list="colleges-list"
                 value={formData.university}
                 onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-                className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                className="w-full pl-12 pr-4 py-3 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-neutral-900 dark:text-white placeholder-neutral-500"
                 placeholder="Search your institution..."
               />
               <datalist id="colleges-list">
@@ -153,7 +153,7 @@ const Signup = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">Password</label>
+              <label className="block text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-2">Password</label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                 <input
@@ -161,13 +161,13 @@ const Signup = () => {
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full pl-12 pr-12 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                  className="w-full pl-12 pr-12 py-3 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-neutral-900 dark:text-white placeholder-neutral-500"
                   placeholder="Min 6 characters"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-600 dark:text-neutral-300"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -176,7 +176,7 @@ const Signup = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-2">Confirm Password</label>
+              <label className="block text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-2">Confirm Password</label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={20} />
                 <input
@@ -184,7 +184,7 @@ const Signup = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-white placeholder-neutral-500"
+                  className="w-full pl-12 pr-4 py-3 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl focus:outline-none focus:border-emerald-500 text-neutral-900 dark:text-white placeholder-neutral-500"
                   placeholder="Confirm password"
                 />
               </div>
@@ -195,7 +195,7 @@ const Signup = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3.5 px-6 rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50 mt-6"
+            className="w-full bg-emerald-500 hover:bg-emerald-600 text-neutral-900 dark:text-white font-semibold py-3.5 px-6 rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50 mt-6"
           >
             {loading ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -207,7 +207,7 @@ const Signup = () => {
             )}
           </button>
 
-          <p className="text-center text-neutral-400 pt-2">
+          <p className="text-center text-neutral-500 dark:text-neutral-400 pt-2">
             Already have an account?{' '}
             <Link to="/login" className="text-emerald-500 hover:text-emerald-400 font-semibold">
               Sign In

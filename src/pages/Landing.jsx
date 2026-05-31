@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { FaqDialog } from "@/components/ui/faq-dialog";
 import { ShieldCheck } from "lucide-react";
+import { CinematicFooter } from "@/components/ui/motion-footer";
+import { Accordion05 } from "@/components/ui/accordion-05";
 
 const Landing = () => {
   const { user, isGuest } = useAuthStore();
@@ -21,7 +23,7 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <Sparkles className="text-white size-4" />
+              <Sparkles className="text-neutral-900 dark:text-white size-4" />
             </div>
             <span className="font-extrabold text-xl text-neutral-900 tracking-tight">
               Saveetha<span className="text-indigo-600">AM</span>
@@ -38,7 +40,7 @@ const Landing = () => {
         </div>
       </header>
 
-      <main className="pb-16">
+      <main className="relative z-10 bg-white shadow-xl rounded-b-[2rem] border-b border-neutral-200 pb-16">
         {/* Aceternity Hero Section */}
         <HeroHighlight containerClassName="min-h-screen md:h-[45rem] flex items-center pt-24">
           <div className="max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8 flex flex-col items-center">
@@ -87,7 +89,7 @@ const Landing = () => {
             >
               <Link
                 to="/signup"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-indigo-600/20 hover:shadow-indigo-600/30 hover:-translate-y-0.5 active:scale-95"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-neutral-900 dark:text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-indigo-600/20 hover:shadow-indigo-600/30 hover:-translate-y-0.5 active:scale-95"
               >
                 Start Tracking Now <ArrowRight size={20} />
               </Link>
@@ -175,17 +177,8 @@ const Landing = () => {
         </section>
       </main>
 
-      <footer className="bg-white border-t border-neutral-200 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-          <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center mb-4">
-            <Sparkles size={16} className="text-neutral-600" />
-          </div>
-          <p className="text-neutral-900 font-bold mb-2">Saveetha Attendance Manager</p>
-          <p className="text-xs text-neutral-500 max-w-md">
-            Not an official Saveetha University application. Built by students, for students to make attendance calculation reliable and beautiful.
-          </p>
-        </div>
-      </footer>
+      <Accordion05 />
+      <CinematicFooter />
     </div>
   );
 };

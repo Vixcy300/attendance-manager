@@ -57,15 +57,6 @@ export function FaqDialog() {
 
                   <div className="space-y-1">
                     <p>
-                      <strong>How is the live portal sync handled?</strong>
-                    </p>
-                    <p>
-                      When you initiate a live portal sync, our servers act as a secure proxy to fetch data directly from `arms.sec.saveetha.com`. The connection between our server and the university portal is established over HTTPS, ensuring data integrity during transit.
-                    </p>
-                  </div>
-
-                  <div className="space-y-1">
-                    <p>
                       <strong>What happens if I delete my account?</strong>
                     </p>
                     <p>
@@ -88,7 +79,7 @@ export function FaqDialog() {
           </DialogHeader>
           <DialogFooter className="px-6 pb-6 sm:justify-start">
             <DialogClose asChild>
-              <Button type="button" className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-6">
+              <Button type="button" className="bg-indigo-600 hover:bg-indigo-700 text-neutral-900 dark:text-white rounded-full px-6">
                 Understood
               </Button>
             </DialogClose>

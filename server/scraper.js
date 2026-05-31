@@ -13,6 +13,17 @@ async function scrapeAttendanceData(username, password) {
     browser = await puppeteer.launch({ headless: 'new' });
     const page = await browser.newPage();
 
+    // Optimize by blocking images, fonts, and stylesheets
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+      const resourceType = req.resourceType();
+      if (['image', 'stylesheet', 'font', 'media'].includes(resourceType)) {
+        req.abort();
+      } else {
+        req.continue();
+      }
+    });
+
     // 1. Navigate to the Login Page
     // TODO: REPLACE THIS URL WITH YOUR ACTUAL COLLEGE LOGIN URL (e.g. https://arms.sse.saveetha.com)
     const LOGIN_URL = 'https://arms.sse.saveetha.com/';

@@ -15,7 +15,7 @@ const FloatingButtons = () => {
       {/* Calculator Button */}
       <button
         onClick={() => setShowCalculator(true)}
-        className="fixed z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-3 rounded-xl shadow-lg transition-colors"
+        className="fixed z-50 bg-emerald-500 hover:bg-emerald-600 text-neutral-900 dark:text-white p-3 rounded-xl shadow-lg transition-colors"
         title="Quick Calculator"
         style={{ bottom: '5rem', right: '1rem' }}
       >
@@ -25,7 +25,7 @@ const FloatingButtons = () => {
       {/* Feedback Button */}
       <button
         onClick={() => navigate('/feedback')}
-        className="fixed z-50 bg-neutral-800 hover:bg-neutral-700 text-white p-3 rounded-xl shadow-lg transition-colors"
+        className="fixed z-50 bg-gray-100 dark:bg-neutral-800 hover:bg-neutral-700 text-neutral-900 dark:text-white p-3 rounded-xl shadow-lg transition-colors"
         title="Feedback"
         style={{ bottom: '1rem', right: '1rem' }}
       >

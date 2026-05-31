@@ -74,16 +74,8 @@ const Feedback = () => {
         type: formData.type,
         subject: formData.subject,
         description: formData.description,
-        type: formData.type,
-        subject: formData.subject,
-        description: formData.description,
-        type: formData.type,
-        subject: formData.subject,
-        description: formData.description,
         categories: formData.categories,
         priority: formData.priority,
-        // browser_info removed as column does not exist in DB
-        // status removed to use DB default
       };
 
       const { error } = await db.createFeedback(feedbackData);
@@ -119,7 +111,7 @@ const Feedback = () => {
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-xl sm:text-2xl font-bold text-white">Send Feedback</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white">Send Feedback</h1>
         <p className="text-neutral-500 text-sm mt-0.5">Help us improve the app</p>
         <p className="text-xs text-neutral-600 mt-1">Submissions today: {submissionCount}/10</p>
       </div>
@@ -128,7 +120,7 @@ const Feedback = () => {
       <form onSubmit={handleSubmit} className="glass-card space-y-5">
         {/* Feedback Type */}
         <div>
-          <label className="block text-sm text-neutral-400 mb-2">Feedback Type</label>
+          <label className="block text-sm text-neutral-500 dark:text-neutral-400 mb-2">Feedback Type</label>
           <div className="grid grid-cols-3 gap-2">
             {feedbackTypes.map(type => (
               <button
@@ -137,12 +129,12 @@ const Feedback = () => {
                 onClick={() => setFormData({ ...formData, type: type.value })}
                 className={`p-3 rounded-lg border text-center transition-all duration-300 ${formData.type === type.value
                   ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_10px_rgba(59,130,246,0.2)]'
-                  : 'border-white/5 bg-neutral-900/40 hover:bg-neutral-800/60 hover:border-white/10'
+                  : 'border-gray-200 dark:border-white/5 bg-white/80 dark:bg-neutral-900/40 hover:bg-neutral-800/60 hover:border-gray-300 dark:border-white/10'
                   }`}
               >
                 <type.icon className={`w-5 h-5 mx-auto mb-1 ${formData.type === type.value ? 'text-blue-400' : type.color
                   }`} />
-                <span className={`text-xs ${formData.type === type.value ? 'text-white font-medium' : 'text-neutral-400'}`}>
+                <span className={`text-xs ${formData.type === type.value ? 'text-neutral-900 dark:text-white font-medium' : 'text-neutral-500 dark:text-neutral-400'}`}>
                   {type.value.split(' ')[0]}
                 </span>
               </button>
@@ -152,7 +144,7 @@ const Feedback = () => {
 
         {/* Subject */}
         <div>
-          <label className="block text-sm text-neutral-400 mb-1.5">Subject *</label>
+          <label className="block text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">Subject *</label>
           <input
             type="text"
             value={formData.subject}
@@ -167,7 +159,7 @@ const Feedback = () => {
 
         {/* Description */}
         <div>
-          <label className="block text-sm text-neutral-400 mb-1.5">Description *</label>
+          <label className="block text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">Description *</label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -181,7 +173,7 @@ const Feedback = () => {
 
         {/* Categories */}
         <div>
-          <label className="block text-sm text-neutral-400 mb-2">Related to (optional)</label>
+          <label className="block text-sm text-neutral-500 dark:text-neutral-400 mb-2">Related to (optional)</label>
           <div className="flex flex-wrap gap-2">
             {categories.map(cat => (
               <button
@@ -189,8 +181,8 @@ const Feedback = () => {
                 type="button"
                 onClick={() => toggleCategory(cat)}
                 className={`px-3 py-1 rounded-full text-xs transition-all duration-300 border ${formData.categories.includes(cat)
-                  ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/20'
-                  : 'bg-neutral-900/40 border-white/5 text-neutral-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-blue-600 border-blue-500 text-neutral-900 dark:text-white shadow-lg shadow-blue-500/20'
+                  : 'bg-white/80 dark:bg-neutral-900/40 border-gray-200 dark:border-white/5 text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:text-white hover:bg-white/5'
                   }`}
               >
                 {cat}
@@ -201,8 +193,8 @@ const Feedback = () => {
 
         {/* Priority */}
         <div>
-          <label className="block text-sm text-neutral-400 mb-2">Priority</label>
-          <div className="flex gap-2 bg-neutral-900/40 p-1 rounded-xl border border-white/5">
+          <label className="block text-sm text-neutral-500 dark:text-neutral-400 mb-2">Priority</label>
+          <div className="flex gap-2 bg-white/80 dark:bg-neutral-900/40 p-1 rounded-xl border border-gray-200 dark:border-white/5">
             {priorities.map(priority => (
               <button
                 key={priority}
@@ -212,9 +204,9 @@ const Feedback = () => {
                   ? priority === 'High'
                     ? 'bg-red-500 text-white shadow-lg shadow-red-500/20'
                     : priority === 'Medium'
-                      ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20'
-                      : 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
-                  : 'text-neutral-500 hover:text-white hover:bg-white/5'
+                      ? 'bg-amber-500 text-neutral-900 dark:text-white shadow-lg shadow-amber-500/20'
+                      : 'bg-blue-500 text-neutral-900 dark:text-white shadow-lg shadow-blue-500/20'
+                  : 'text-neutral-500 hover:text-neutral-900 dark:text-white hover:bg-white/5'
                   }`}
               >
                 {priority}
@@ -236,7 +228,7 @@ const Feedback = () => {
 
       {/* Info */}
       <div className="glass-card text-center">
-        <p className="text-neutral-400 text-sm">
+        <p className="text-neutral-500 dark:text-neutral-400 text-sm">
           Your feedback helps us improve! All submissions are reviewed by our team.
         </p>
       </div>
