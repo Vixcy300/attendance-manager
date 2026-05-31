@@ -3,6 +3,8 @@ import { useAuthStore } from '../store/authStore';
 import { ArrowRight, CheckCircle2, BarChart3, Clock, Sparkles } from 'lucide-react';
 import { motion } from "framer-motion";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
+import { FaqDialog } from "@/components/ui/faq-dialog";
+import { ShieldCheck } from "lucide-react";
 
 const Landing = () => {
   const { user, isGuest } = useAuthStore();
@@ -96,6 +98,16 @@ const Landing = () => {
                 Try the Demo
               </Link>
             </motion.div>
+            
+            {/* Quick FAQ Trigger */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="mt-12"
+            >
+              <FaqDialog />
+            </motion.div>
           </div>
         </HeroHighlight>
 
@@ -143,6 +155,20 @@ const Landing = () => {
                 <p className="text-neutral-500 leading-relaxed text-sm">
                   Receive email alerts and notifications every day at 5:00 PM if your attendance changes. Plan your leaves and attendances ahead.
                 </p>
+              </div>
+            </div>
+
+            {/* Enterprise Security Section */}
+            <div className="mt-12 bg-white p-8 md:p-12 rounded-3xl border border-neutral-200 shadow-sm flex flex-col md:flex-row items-center gap-10">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-green-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-green-600">
+                <ShieldCheck size={36} />
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-2xl font-extrabold text-neutral-900 mb-4">Bank-Grade Security & Absolute Privacy</h3>
+                <p className="text-neutral-500 leading-relaxed text-base md:text-lg mb-6 max-w-3xl">
+                  We take your data storage and privacy seriously. All your passwords used for automated syncing are encrypted with AES-256 before saving to the database. We never share, sell, or expose your attendance or personal details. Your academic data is 100% yours.
+                </p>
+                <FaqDialog />
               </div>
             </div>
           </div>
