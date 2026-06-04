@@ -17,6 +17,7 @@
     "express": "^4.18.2",
     "node-cron": "^4.2.1",
     "nodemailer": "^8.0.10",
-    "puppeteer": "^21.0.0"
+    "puppeteer-core": "^21.0.0",
+    "@sparticuz/chromium": "^119.0.2"
   }
 }

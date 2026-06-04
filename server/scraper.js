@@ -1,5 +1,13 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const cheerio = require('cheerio');
+
+// Use @sparticuz/chromium for cloud environments (Render, AWS Lambda, etc.)
+let chromium;
+try {
+  chromium = require('@sparticuz/chromium');
+} catch (e) {
+  chromium = null;
+}
 
 /**
  * Scrapes attendance data using a headless browser to handle logins.
@@ -9,10 +17,31 @@ const cheerio = require('cheerio');
 async function scrapeAttendanceData(username, password) {
   let browser;
   try {
+    // Determine executable path based on environment
+    let executablePath;
+    if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+      // Explicit path set in env (manual override)
+      executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+    } else if (chromium) {
+      // Cloud environment: use @sparticuz/chromium
+      executablePath = await chromium.executablePath();
+    } else {
+      // Local dev fallback: try common Chrome paths
+      const possiblePaths = [
+        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium-browser',
+      ];
+      const fs = require('fs');
+      executablePath = possiblePaths.find(p => fs.existsSync(p)) || null;
+    }
+
     // Launch headless browser with cloud-compatible flags
     browser = await puppeteer.launch({
       headless: 'new',
-      args: [
+      executablePath,
+      args: chromium ? chromium.args : [
         '--no-sandbox',
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
@@ -20,10 +49,7 @@ async function scrapeAttendanceData(username, password) {
         '--disable-software-rasterizer',
         '--single-process',
       ],
-      // Use the system-installed Chromium if PUPPETEER_EXECUTABLE_PATH is set (for Render)
-      ...(process.env.PUPPETEER_EXECUTABLE_PATH && {
-        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
-      })
+      defaultViewport: chromium ? chromium.defaultViewport : { width: 1280, height: 720 },
     });
     const page = await browser.newPage();
 
