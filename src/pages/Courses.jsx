@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
-import { Plus, Edit2, Trash2, X, Check, Minus, CheckCircle, Archive, Upload, Settings, Mail, Bell, Clock, ShieldCheck, AlertCircle, RefreshCw } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Check, Minus, CheckCircle, Archive, Upload, Settings, Mail, Bell, Clock, ShieldCheck, AlertCircle, RefreshCw, Wifi, WifiOff } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
 import { calculatePercentage, getStatusInfo, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
 import { parsePortalHTML } from '../utils/htmlParser';
+import { apiFetch, checkBackendHealth } from '../utils/api';
 import toast from 'react-hot-toast';
 
 const Courses = () => {
@@ -33,11 +34,12 @@ const Courses = () => {
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [isRunningManualCheck, setIsRunningManualCheck] = useState(false);
   const [rememberCreds, setRememberCreds] = useState(false);
+  const [backendStatus, setBackendStatus] = useState({ online: null, latency: null }); // null = checking
 
   const fetchSchedulerStatus = async () => {
     if (isGuest) return;
     try {
-      const response = await fetch('http://localhost:5000/api/config/status');
+      const response = await apiFetch('/api/config/status');
       const data = await response.json();
       if (data.success) {
         setSchedulerStatus(data.scheduler);
@@ -66,6 +68,15 @@ const Courses = () => {
     fetchSchedulerStatus();
   }, [showLiveSyncModal]);
 
+  // Check backend health on mount and when modal opens
+  useEffect(() => {
+    const checkHealth = async () => {
+      const status = await checkBackendHealth();
+      setBackendStatus(status);
+    };
+    checkHealth();
+  }, [showLiveSyncModal]);
+
   const handleSaveAutomation = async (e) => {
     e.preventDefault();
     if (!automationConfig.username || !automationConfig.password || !automationConfig.email) {
@@ -75,9 +86,8 @@ const Courses = () => {
 
     setIsSavingAutomation(true);
     try {
-      const response = await fetch('http://localhost:5000/api/config/schedule', {
+      const response = await apiFetch('/api/config/schedule', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(automationConfig),
       });
 
@@ -101,9 +111,8 @@ const Courses = () => {
 
     setIsSendingTest(true);
     try {
-      const response = await fetch('http://localhost:5000/api/config/test-email', {
+      const response = await apiFetch('/api/config/test-email', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: automationConfig.email }),
       });
 
@@ -122,7 +131,7 @@ const Courses = () => {
     setIsRunningManualCheck(true);
     const loadingToast = toast.loading('Running portal sync and checking for changes...');
     try {
-      const response = await fetch('http://localhost:5000/api/config/run-now', {
+      const response = await apiFetch('/api/config/run-now', {
         method: 'POST',
       });
 
@@ -162,12 +171,12 @@ const Courses = () => {
   useEffect(() => {
     const triggerAutoSync = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/config/status');
+        const response = await apiFetch('/api/config/status');
         const statusData = await response.json();
         
         if (statusData.success && statusData.scheduler.enabled) {
           console.log('[Auto-Sync] Saved credentials found. Triggering background update...');
-          const syncRes = await fetch('http://localhost:5000/api/config/run-now', {
+          const syncRes = await apiFetch('/api/config/run-now', {
             method: 'POST'
           });
           if (syncRes.ok) {
@@ -332,11 +341,8 @@ const Courses = () => {
     }, 2500);
 
     try {
-      const response = await fetch('http://localhost:5000/api/sync', {
+      const response = await apiFetch('/api/sync', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(syncCreds),
       });
 
@@ -352,9 +358,8 @@ const Courses = () => {
         // Silently save credentials to backend config if Remember is checked
         if (rememberCreds) {
           try {
-            await fetch('http://localhost:5000/api/config/schedule', {
+            await apiFetch('/api/config/schedule', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 username: syncCreds.username,
                 password: syncCreds.password,
@@ -766,9 +771,28 @@ const Courses = () => {
                 </h2>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Automatically import attendance data from Saveetha portal.</p>
               </div>
-              <button onClick={() => setShowLiveSyncModal(false)} className="p-2 hover:bg-neutral-200/50 dark:hover:bg-neutral-800 rounded-full transition-colors self-start">
-                <X size={18} className="text-neutral-500" />
-              </button>
+              <div className="flex items-center gap-3">
+                {/* Backend Status Pill */}
+                <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase ${
+                  backendStatus.online === null 
+                    ? 'bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400' 
+                    : backendStatus.online 
+                      ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400' 
+                      : 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400'
+                }`}>
+                  {backendStatus.online === null ? (
+                    <div className="w-2 h-2 rounded-full bg-neutral-400 animate-pulse" />
+                  ) : backendStatus.online ? (
+                    <Wifi size={10} />
+                  ) : (
+                    <WifiOff size={10} />
+                  )}
+                  {backendStatus.online === null ? 'Checking...' : backendStatus.online ? 'Online' : 'Offline'}
+                </div>
+                <button onClick={() => setShowLiveSyncModal(false)} className="p-2 hover:bg-neutral-200/50 dark:hover:bg-neutral-800 rounded-full transition-colors self-start">
+                  <X size={18} className="text-neutral-500" />
+                </button>
+              </div>
             </div>
 
             {/* Tab Navigation */}

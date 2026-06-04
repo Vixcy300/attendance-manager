@@ -1,0 +1,25 @@
+# Render.com Blueprint — One-click deployment for ARMS Sync Backend
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: attendance-manager-api
+    runtime: node
+    region: singapore  # Closest to India for low latency
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: SMTP_USER
+        sync: false  # Must be set manually in Render dashboard
+      - key: SMTP_PASS
+        sync: false  # Must be set manually in Render dashboard
+      - key: ENCRYPTION_KEY
+        sync: false  # Must be set manually in Render dashboard
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /api/health
+    autoDeploy: true

@@ -9,8 +9,22 @@ const cheerio = require('cheerio');
 async function scrapeAttendanceData(username, password) {
   let browser;
   try {
-    // Launch headless browser
-    browser = await puppeteer.launch({ headless: 'new' });
+    // Launch headless browser with cloud-compatible flags
+    browser = await puppeteer.launch({
+      headless: 'new',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-software-rasterizer',
+        '--single-process',
+      ],
+      // Use the system-installed Chromium if PUPPETEER_EXECUTABLE_PATH is set (for Render)
+      ...(process.env.PUPPETEER_EXECUTABLE_PATH && {
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
+      })
+    });
     const page = await browser.newPage();
 
     // Optimize by blocking images, fonts, and stylesheets

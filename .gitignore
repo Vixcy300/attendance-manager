@@ -16,4 +16,6 @@ pnpm-debug.log*
 lerna-debug.log*
 .vercel
 server/rate_limit.json
-
+server/credentials.json
+server/cache.json
+server/.env
