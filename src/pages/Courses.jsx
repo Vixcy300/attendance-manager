@@ -444,16 +444,16 @@ const Courses = () => {
           <button
             onClick={() => {
               if (isGuest) {
-                toast('Please Sign In to use ARMS Sync', { icon: '🔒' });
+                toast('Sign up for a free account to unlock ARMS Sync!', { icon: '🔒' });
                 return;
               }
               setShowLiveSyncModal(true);
             }}
-            className="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(99,102,241,0.4)] hover:shadow-[0_0_25px_rgba(99,102,241,0.6)]"
+            className={`${isGuest ? 'bg-indigo-500/50 cursor-not-allowed' : 'bg-indigo-500 hover:bg-indigo-600 hover:shadow-[0_0_25px_rgba(99,102,241,0.6)]'} text-white font-medium py-2 px-4 rounded-lg transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(99,102,241,0.4)]`}
           >
-            <Upload size={18} />
-            ARMS Sync
-            <span className="bg-white/20 text-[10px] font-bold px-1.5 py-0.5 rounded text-white tracking-wide uppercase">Beta</span>
+            {isGuest ? <ShieldCheck size={18} className="opacity-70" /> : <Upload size={18} />}
+            {isGuest ? 'ARMS Sync Locked' : 'ARMS Sync'}
+            {!isGuest && <span className="bg-white/20 text-[10px] font-bold px-1.5 py-0.5 rounded text-white tracking-wide uppercase">Beta</span>}
           </button>
           <button
             onClick={() => handleOpenModal()}
@@ -495,16 +495,16 @@ const Courses = () => {
             <button
               onClick={() => {
                 if (isGuest) {
-                  toast('Please Sign In to use ARMS Sync', { icon: '🔒' });
+                  toast('Sign up for a free account to unlock ARMS Sync!', { icon: '🔒' });
                   return;
                 }
                 setShowLiveSyncModal(true);
               }}
-              className="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg transition-all inline-flex items-center gap-2 shadow-[0_0_15px_rgba(99,102,241,0.4)] hover:shadow-[0_0_25px_rgba(99,102,241,0.6)]"
+              className={`${isGuest ? 'bg-indigo-500/50 cursor-not-allowed' : 'bg-indigo-500 hover:bg-indigo-600 hover:shadow-[0_0_25px_rgba(99,102,241,0.6)]'} text-white font-medium py-2 px-4 rounded-lg transition-all inline-flex items-center gap-2 shadow-[0_0_15px_rgba(99,102,241,0.4)]`}
             >
-              <Upload size={18} />
-              ARMS Sync
-              <span className="bg-white/20 text-[10px] font-bold px-1.5 py-0.5 rounded text-white tracking-wide uppercase">Beta</span>
+              {isGuest ? <ShieldCheck size={18} className="opacity-70" /> : <Upload size={18} />}
+              {isGuest ? 'ARMS Sync Locked' : 'ARMS Sync'}
+              {!isGuest && <span className="bg-white/20 text-[10px] font-bold px-1.5 py-0.5 rounded text-white tracking-wide uppercase">Beta</span>}
             </button>
             <button
               onClick={() => handleOpenModal()}
