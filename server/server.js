@@ -58,7 +58,32 @@ app.post('/api/sync', async (req, res) => {
     res.json({ success: true, courses });
   } catch (error) {
     console.error('Sync Error:', error);
-    res.status(500).json({ error: error.message || 'Failed to sync data from the portal' });
+    res.status(500).json({ error: error.message || 'Failed to sync data from the portal', stack: error.stack });
+  }
+});
+
+app.get('/api/debug/browser', async (req, res) => {
+  const puppeteer = require('puppeteer-core');
+  let chromium;
+  try {
+    chromium = require('@sparticuz/chromium');
+  } catch (e) {
+    return res.status(500).json({ error: 'Sparticuz not installed' });
+  }
+  
+  try {
+    const executablePath = await chromium.executablePath();
+    const browser = await puppeteer.launch({
+      headless: 'new',
+      executablePath,
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+    });
+    const version = await browser.version();
+    await browser.close();
+    res.json({ success: true, executablePath, version });
+  } catch (error) {
+    res.status(500).json({ error: error.message, stack: error.stack });
   }
 });
 

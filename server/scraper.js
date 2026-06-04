@@ -67,23 +67,40 @@ async function scrapeAttendanceData(username, password) {
     // 1. Navigate to the Login Page
     // TODO: REPLACE THIS URL WITH YOUR ACTUAL COLLEGE LOGIN URL (e.g. https://arms.sse.saveetha.com)
     const LOGIN_URL = 'https://arms.sse.saveetha.com/';
-    await page.goto(LOGIN_URL, { waitUntil: 'networkidle2' });
+    try {
+      await page.goto(LOGIN_URL, { waitUntil: 'networkidle2', timeout: 60000 });
+    } catch (e) {
+      throw new Error('Failed to load login page: ' + e.message);
+    }
 
     // 2. Perform Login using precise Saveetha portal selectors
-    await page.waitForSelector('#txtusername', { visible: true });
+    try {
+      await page.waitForSelector('#txtusername', { visible: true, timeout: 15000 });
+    } catch (e) {
+      throw new Error('Login form not found on the page. The portal might be down or blocking the server IP.');
+    }
+    
     await page.type('#txtusername', username);
     await page.type('#txtpassword', password);
     
     // Click submit and wait for navigation
-    await Promise.all([
-      page.waitForNavigation({ waitUntil: 'networkidle2' }),
-      page.click('#btnlogin')
-    ]);
+    try {
+      await Promise.all([
+        page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 }),
+        page.click('#btnlogin')
+      ]);
+    } catch (e) {
+      throw new Error('Timeout waiting for dashboard after login: ' + e.message);
+    }
 
     // 3. Navigate to Attendance Report Page
     // TODO: REPLACE THIS URL WITH YOUR ACTUAL ATTENDANCE REPORT URL
     const ATTENDANCE_URL = 'https://arms.sse.saveetha.com/StudentPortal/AttendanceReport.aspx';
-    await page.goto(ATTENDANCE_URL, { waitUntil: 'networkidle2' });
+    try {
+      await page.goto(ATTENDANCE_URL, { waitUntil: 'networkidle2', timeout: 60000 });
+    } catch (e) {
+      throw new Error('Failed to load attendance page: ' + e.message);
+    }
 
     // 4. Extract HTML content
     const htmlContent = await page.content();
