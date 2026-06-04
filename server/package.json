@@ -2,6 +2,7 @@
   "name": "attendance-manager-server",
   "version": "1.0.0",
   "description": "Backend Proxy for ARMS Sync — deployed on Render.com",
+  "type": "commonjs",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
