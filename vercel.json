@@ -19,7 +19,7 @@
       "dest": "/logo.png"
     },
     {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$)",
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|txt|xml|html)$)",
       "dest": "/$1"
     },
     {
