@@ -8,8 +8,10 @@ import { calculatePercentage, calculateClassesNeeded, calculateClassesCanMiss } 
 import { exportToPDF, exportToExcel } from '../utils/export';
 import toast from 'react-hot-toast';
 import gsap from 'gsap';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Statistics = () => {
+  usePageTitle('Statistics & Analytics');
   const { user } = useAuthStore();
   const { courses, fetchCourses } = useCourseStore();
   const [attendanceRecords, setAttendanceRecords] = useState([]);

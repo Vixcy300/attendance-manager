@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
 import { calculatePercentage, getStatusInfo, getStatusBadgeClass, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 /* ─── tiny circular progress ring ─── */
 const ProgressRing = ({ percentage, size = 56, stroke = 5, color }) => {
@@ -37,6 +38,7 @@ const ringColor = (pct, target) => {
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  usePageTitle('Dashboard');
   const { user } = useAuthStore();
   const { courses, fetchCourses } = useCourseStore();
   const [stats, setStats] = useState({

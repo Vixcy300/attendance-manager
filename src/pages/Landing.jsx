@@ -1,15 +1,18 @@
 import { Link, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { ArrowRight, CheckCircle2, BarChart3, Clock, Sparkles } from 'lucide-react';
+import { ArrowRight, CheckCircle2, BarChart3, Clock, Sparkles, Users, Calculator, Mail, Zap } from 'lucide-react';
 import { motion } from "framer-motion";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { FaqDialog } from "@/components/ui/faq-dialog";
 import { ShieldCheck } from "lucide-react";
 import { CinematicFooter } from "@/components/ui/motion-footer";
 import { Accordion05 } from "@/components/ui/accordion-05";
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Landing = () => {
   const { user, isGuest } = useAuthStore();
+
+  usePageTitle(null); // Uses the default full title for the homepage
 
   // Redirect to dashboard if already logged in
   if (user || isGuest) {
@@ -176,6 +179,88 @@ const Landing = () => {
           </div>
         </section>
       </main>
+
+      {/* SEO Content Section — Natural keyword-rich content for Google */}
+      <section className="bg-white py-20 border-b border-neutral-200">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-extrabold text-neutral-900 tracking-tight mb-4">
+              How SaveethaAM Works
+            </h2>
+            <p className="text-neutral-500 max-w-2xl mx-auto">
+              A step-by-step guide to taking control of your attendance at SIMATS and Saveetha Engineering College.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              {
+                icon: <Users size={24} />,
+                step: '01',
+                title: 'Create Your Account',
+                desc: 'Sign up free with your email or use Google. Try our demo mode to explore features instantly without registering.'
+              },
+              {
+                icon: <Calculator size={24} />,
+                step: '02',
+                title: 'Add Your Courses',
+                desc: 'Enter your subjects and current attendance, or sync directly from the SIMATS ARMS portal with one click.'
+              },
+              {
+                icon: <Zap size={24} />,
+                step: '03',
+                title: 'Calculate & Simulate',
+                desc: 'Instantly see how many classes you can bunk or need to attend. Run what-if scenarios to plan ahead.'
+              },
+              {
+                icon: <Mail size={24} />,
+                step: '04',
+                title: 'Get Daily Reports',
+                desc: 'Receive automated email alerts at 5:00 PM whenever your attendance changes on the university portal.'
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="bg-neutral-50 p-6 rounded-2xl border border-neutral-200 text-center hover:shadow-md transition-shadow"
+              >
+                <div className="text-indigo-600 mb-4 flex justify-center">{item.icon}</div>
+                <span className="text-xs font-bold text-indigo-400 tracking-widest uppercase">Step {item.step}</span>
+                <h3 className="text-lg font-bold text-neutral-900 mt-2 mb-2">{item.title}</h3>
+                <p className="text-neutral-500 text-sm leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Natural SEO paragraph — visible, well-designed, not hidden */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-16 bg-indigo-50 border border-indigo-100 rounded-2xl p-8 md:p-10 text-center"
+          >
+            <p className="text-neutral-600 text-sm md:text-base leading-relaxed max-w-3xl mx-auto">
+              <strong className="text-neutral-900">SaveethaAM</strong> is a free, open-source attendance calculator built by students of{' '}
+              <strong className="text-neutral-900">SIMATS (Saveetha Institute of Medical and Technical Sciences)</strong> for students of{' '}
+              <strong className="text-neutral-900">Saveetha Engineering College</strong>. Whether you need to calculate how many classes you can skip while maintaining{' '}
+              <strong className="text-neutral-900">80% attendance</strong>, sync your attendance data from the{' '}
+              <strong className="text-neutral-900">ARMS portal</strong>, or receive automated daily email reports — SaveethaAM handles it all.
+              Track your <strong className="text-neutral-900">attendance percentage</strong>, set goals, earn streak badges, and plan your schedule with our interactive calendar.
+              Your data is protected with <strong className="text-neutral-900">AES-256 encryption</strong> and we never share your information with third parties.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
       <Accordion05 />
       <CinematicFooter />

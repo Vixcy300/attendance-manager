@@ -4,8 +4,10 @@ import { useAuthStore } from '../store/authStore';
 import { useCourseStore } from '../store/courseStore';
 import { calculatePercentage, calculateClassesNeeded, calculateClassesCanMiss } from '../utils/helpers';
 import toast from 'react-hot-toast';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Achievements = () => {
+    usePageTitle('Achievements & Badges');
     const { user } = useAuthStore();
     const { courses, fetchCourses } = useCourseStore();
     const [activeTab, setActiveTab] = useState('badges');

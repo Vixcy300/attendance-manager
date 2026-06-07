@@ -6,8 +6,10 @@ import { calculatePercentage, getStatusInfo, calculateClassesNeeded, calculateCl
 import { parsePortalHTML } from '../utils/htmlParser';
 import { apiFetch, checkBackendHealth } from '../utils/api';
 import toast from 'react-hot-toast';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Courses = () => {
+  usePageTitle('My Courses');
   const { user, isGuest } = useAuthStore();
   const { courses, fetchCourses, addCourse, updateCourse, deleteCourse, batchImportCourses } = useCourseStore();
   const [showModal, setShowModal] = useState(false);

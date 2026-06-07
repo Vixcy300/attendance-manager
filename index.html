@@ -2,58 +2,83 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
     
-    <!-- Google Fonts -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+
+    <!-- Font Preloading (Critical for Core Web Vitals) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Primary SEO Metadata -->
+    <!-- ============================================ -->
+    <!-- PRIMARY SEO METADATA                         -->
+    <!-- ============================================ -->
     <title>SIMATS Attendance Manager | Saveetha Attendance Calculator & Tracker</title>
     <meta name="title" content="SIMATS Attendance Manager | Saveetha Attendance Calculator & Tracker" />
-    <meta name="description" content="Calculate and manage your SIMATS & Saveetha University student attendance. View required classes, set custom goals, analyze statistics, and unlock gamified streaks. The absolute best tool for Saveetha Engineering College, SIMATS, and SEC student portal users." />
-    <meta name="keywords" content="simats attendance manager, simats attendance, saveetha attendance, saveetha attendance calculator, saveetha attendance tracker, attendance manager, saveetha university, saveetha engineering college, saveetha school of engineering, SIMATS student portal, attendance calculation, college attendance tracker, attendance streaks, academic goals, SIMATS calendar, saveetha college attendance, attendance calculator, saveetha university attendance, simats portal, sec attendance calculator" />
-    <meta name="robots" content="index, follow" />
+    <meta name="description" content="Free attendance calculator for SIMATS & Saveetha Engineering College students. Track attendance percentage, calculate how many classes you can bunk, simulate schedules, get daily email reports, and sync directly from the ARMS portal. Never miss the 80% mark again." />
+    <meta name="keywords" content="simats attendance calculator, saveetha attendance tracker, simats attendance manager, saveetha attendance calculator, attendance calculator, simats portal, saveetha engineering college attendance, SIMATS student portal, saveetha university attendance, college attendance tracker, 80% attendance calculator, bunk calculator, arms portal attendance, sec attendance calculator, saveetha school of engineering, simats attendance, saveetha attendance, attendance manager" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="language" content="English" />
     <meta name="author" content="Vignesh" />
-    <meta name="theme-color" content="#0f766e" />
+    <meta name="theme-color" content="#4F46E5" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://attendance-manger-vignesh.vercel.app/" />
-    <meta property="og:title" content="SIMATS Attendance Manager | Saveetha Attendance Calculator & Tracker" />
-    <meta property="og:description" content="Optimize your academic planner for SIMATS and Saveetha University. Calculate target classes, track attendance metrics, view schedules on our calendar, and maintain 75%/80% requirements easily." />
-    <meta property="og:image" content="https://attendance-manger-vignesh.vercel.app/logo.png" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://attendance-manger-vignesh.vercel.app/" />
-    <meta property="twitter:title" content="SIMATS Attendance Manager | Saveetha Attendance Calculator & Tracker" />
-    <meta property="twitter:description" content="Optimize your academic planner for SIMATS and Saveetha University. Calculate target classes, track attendance metrics, view schedules on our calendar, and maintain 75%/80% requirements easily." />
-    <meta property="twitter:image" content="https://attendance-manger-vignesh.vercel.app/logo.png" />
+    <meta name="apple-mobile-web-app-title" content="SaveethaAM" />
+    <meta name="application-name" content="SaveethaAM" />
 
     <!-- Canonical Link -->
-    <link rel="canonical" href="https://attendance-manger-vignesh.vercel.app/" />
+    <link rel="canonical" href="https://saveetha-attendance.vercel.app/" />
 
-    <!-- Structured Data (JSON-LD) - Schema.org -->
+    <!-- ============================================ -->
+    <!-- OPEN GRAPH / SOCIAL SHARING                  -->
+    <!-- ============================================ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://saveetha-attendance.vercel.app/" />
+    <meta property="og:title" content="SIMATS Attendance Manager | Free Calculator for Saveetha Students" />
+    <meta property="og:description" content="Never worry about your 80% attendance mark again. Calculate bunks, simulate schedules, sync from ARMS portal, and get daily email reports. Built for SIMATS & Saveetha Engineering students." />
+    <meta property="og:image" content="https://saveetha-attendance.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="SaveethaAM - SIMATS Attendance Calculator & Tracker" />
+    <meta property="og:site_name" content="SaveethaAM" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://saveetha-attendance.vercel.app/" />
+    <meta name="twitter:title" content="SIMATS Attendance Manager | Free Calculator for Saveetha Students" />
+    <meta name="twitter:description" content="Never worry about your 80% attendance mark again. Calculate bunks, simulate schedules, sync from ARMS portal, and get daily email reports." />
+    <meta name="twitter:image" content="https://saveetha-attendance.vercel.app/og-image.png" />
+
+    <!-- ============================================ -->
+    <!-- GOOGLE SEARCH CONSOLE VERIFICATION           -->
+    <!-- Replace content value after GSC setup         -->
+    <!-- ============================================ -->
+    <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" /> -->
+
+    <!-- ============================================ -->
+    <!-- STRUCTURED DATA (JSON-LD) — Schema.org        -->
+    <!-- ============================================ -->
+
+    <!-- 1. WebApplication Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "SIMATS Attendance Manager",
       "alternateName": [
+        "SaveethaAM",
         "Saveetha Attendance Calculator",
         "SIMATS Attendance Tracker",
-        "SIMATS Attendance Portal",
-        "SIMATS Attendance Assistant"
+        "SIMATS Attendance Calculator",
+        "Saveetha Attendance Manager"
       ],
-      "url": "https://attendance-manger-vignesh.vercel.app/",
-      "description": "An advanced, ultra-optimized attendance calculator and tracker designed specifically for SIMATS (Saveetha Institute of Medical and Technical Sciences) and Saveetha University students. Calculate required classes, manage goals, earn badges, and track your attendance streaks.",
+      "url": "https://saveetha-attendance.vercel.app/",
+      "description": "Free attendance calculator and tracker designed for SIMATS (Saveetha Institute of Medical and Technical Sciences) and Saveetha Engineering College students. Calculate required classes, track bunk limits, simulate schedules, sync from ARMS portal, and get daily email attendance reports.",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "All",
       "browserRequirements": "Requires HTML5 compatible browser",
@@ -63,22 +88,166 @@
         "priceCurrency": "INR"
       },
       "featureList": [
-        "Real-time Attendance Calculation & Simulation",
-        "Saveetha University Attendance Policies Support",
-        "Goal Tracker & Goal Setting",
-        "Interactive SIMATS Calendar & Schedule Planner",
-        "Gamified Streaks and Achievements Badge System",
-        "Detailed Course-wise Attendance Analytics"
+        "Live ARMS Portal Attendance Sync",
+        "Real-time Attendance Percentage Calculator",
+        "Bunk & Skip Class Calculator",
+        "Daily Email Attendance Reports",
+        "Interactive Schedule Calendar & Planner",
+        "Attendance Goal Tracker & Streaks",
+        "Course-wise Analytics & Statistics",
+        "Gamified Achievement Badge System",
+        "AES-256 Encrypted Credential Storage"
       ],
+      "screenshot": "https://saveetha-attendance.vercel.app/og-image.png",
+      "softwareVersion": "4.0.0",
       "author": {
         "@type": "Person",
         "name": "Vignesh"
+      },
+      "audience": {
+        "@type": "EducationalAudience",
+        "educationalRole": "student"
       }
+    }
+    </script>
+
+    <!-- 2. Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SaveethaAM",
+      "url": "https://saveetha-attendance.vercel.app/",
+      "logo": "https://saveetha-attendance.vercel.app/og-image.png",
+      "description": "Free attendance calculator built for SIMATS & Saveetha Engineering College students",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://saveetha-attendance.vercel.app/contact"
+      }
+    }
+    </script>
+
+    <!-- 3. FAQPage Schema (Rich Results in Google Search!) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is SaveethaAM?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SaveethaAM is a dedicated attendance management and simulation tool built specifically for students of Saveetha Engineering College. It acts as an intelligent companion that tracks your attendance logs, calculates how many classes you can bunk or must attend to stay safe, and keeps you prepared for exams without fear of the strict 80% portal requirement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get started with SaveethaAM?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "To get started, simply sign up with your email, add your courses, and set your target attendance percentage. You can also try the features instantly using our Demo mode without creating an account."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my attendance data secure on SaveethaAM?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. Your portal credentials are never stored in plain text. We encrypt them using advanced AES-256 encryption. Our databases are strictly guarded, and we never share, sell, or distribute your records, passwords, or personal details to any third-party services. Your data remains completely yours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What analytics features does SaveethaAM offer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SaveethaAM provides visual representations of your attendance trends, interactive bunk/target simulators, and custom goal settings. You can instantly see your overall vs. individual course metrics, track your streaks, and use our smart calculators to run what-if scenarios before making decisions to skip a class."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Daily Smart Checking?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our background cron system securely logs into the portal daily at 5:00 PM to fetch updates. If it notices any change in your attendance (like a newly marked present or absent class), it performs automatic recalculations and emails you a clean, beautifully formatted summary report so you stay updated effortlessly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is SaveethaAM officially affiliated with Saveetha University?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, Saveetha Attendance Manager is an independent project built by students, for students. It is designed to be a reliable and beautiful companion to the official portal, but it is not officially endorsed or managed by Saveetha University."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- 4. BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://saveetha-attendance.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Privacy Policy",
+          "item": "https://saveetha-attendance.vercel.app/privacy"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Terms of Service",
+          "item": "https://saveetha-attendance.vercel.app/terms"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Contact",
+          "item": "https://saveetha-attendance.vercel.app/contact"
+        }
+      ]
     }
     </script>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Noscript fallback: Crawlers without JS can still see key content -->
+    <noscript>
+      <div style="max-width:800px;margin:40px auto;padding:20px;font-family:sans-serif;">
+        <h1>SIMATS Attendance Manager | SaveethaAM</h1>
+        <p>SaveethaAM is a free attendance calculator and tracker built specifically for SIMATS and Saveetha Engineering College students.</p>
+        <h2>Features</h2>
+        <ul>
+          <li>Live Portal Sync — Fetch attendance directly from arms.sec.saveetha.com</li>
+          <li>Attendance Calculator — Calculate how many classes you can bunk and still maintain 80%</li>
+          <li>Daily Email Reports — Get automated attendance change alerts at 5:00 PM every day</li>
+          <li>Advanced Analytics — Visual charts, trends, and course-wise statistics</li>
+          <li>Schedule Calendar — Plan your attendance and leaves ahead</li>
+          <li>Achievement Badges — Gamified attendance streaks and milestones</li>
+        </ul>
+        <h2>Frequently Asked Questions</h2>
+        <h3>What is SaveethaAM?</h3>
+        <p>SaveethaAM is a dedicated attendance management and simulation tool built specifically for students of Saveetha Engineering College. It tracks your attendance logs, calculates how many classes you can bunk or must attend, and keeps you prepared without fear of the strict 80% portal requirement.</p>
+        <h3>Is my data secure?</h3>
+        <p>Absolutely. Your portal credentials are never stored in plain text. We encrypt them using advanced AES-256 encryption. We never share, sell, or distribute your records to any third-party services.</p>
+        <h3>How do I get started?</h3>
+        <p>Sign up with your email, add your courses, and set your target attendance percentage. You can also try the Demo mode without creating an account.</p>
+        <p><a href="https://saveetha-attendance.vercel.app/privacy">Privacy Policy</a> | <a href="https://saveetha-attendance.vercel.app/terms">Terms of Service</a> | <a href="https://saveetha-attendance.vercel.app/contact">Contact Us</a></p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

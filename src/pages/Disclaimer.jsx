@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { AlertTriangle, Home, Github, Mail, Shield, Info, Database, CheckCircle, XCircle, Heart, Sparkles } from 'lucide-react';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Disclaimer = () => {
+  usePageTitle('Disclaimer', 'Important disclaimer about SaveethaAM — an independent project not affiliated with Saveetha University or SIMATS.');
   const containerRef = useRef(null);
 
   useEffect(() => {

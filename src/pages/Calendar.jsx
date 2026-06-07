@@ -7,6 +7,7 @@ import { db } from '../lib/supabase';
 import toast from 'react-hot-toast';
 import { formatDate, calculatePercentage } from '../utils/helpers';
 import { EventManager } from '../components/ui/event-manager';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 // Exam Schedule - JAN 2026 to MAR 2026
 const examSchedule = {
@@ -111,6 +112,7 @@ const fixedHolidays = [
 ];
 
 const Calendar = () => {
+  usePageTitle('Calendar & Schedule');
   const { user } = useAuthStore();
   const { courses, fetchCourses } = useCourseStore();
   const [attendanceRecords, setAttendanceRecords] = useState([]);

@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CinematicFooter } from '../components/ui/motion-footer';
 import { Shield, Sparkles } from 'lucide-react';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function Privacy() {
+  usePageTitle('Privacy Policy', 'Read how SaveethaAM protects your data with AES-256 encryption. We never share your SIMATS attendance data or credentials with third parties.');
   return (
     <div className="relative w-full bg-white dark:bg-black text-neutral-900 dark:text-neutral-100 min-h-screen font-sans selection:bg-indigo-200 overflow-x-hidden">
       {/* Header */}

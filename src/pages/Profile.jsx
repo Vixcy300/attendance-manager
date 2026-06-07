@@ -3,8 +3,10 @@ import { User, Mail, Hash, Building2, Save, Shield } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { db } from '../lib/supabase';
 import toast from 'react-hot-toast';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Profile = () => {
+  usePageTitle('My Profile');
   const { user, updateProfile } = useAuthStore();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);

@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CinematicFooter } from '../components/ui/motion-footer';
 import { FileText, Sparkles } from 'lucide-react';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function Terms() {
+  usePageTitle('Terms of Service', 'Terms of Service for SaveethaAM — the free SIMATS attendance calculator and tracker for Saveetha Engineering College students.');
   return (
     <div className="relative w-full bg-white dark:bg-black text-neutral-900 dark:text-neutral-100 min-h-screen font-sans selection:bg-indigo-200 overflow-x-hidden">
       {/* Header */}

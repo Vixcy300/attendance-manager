@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CinematicFooter } from '../components/ui/motion-footer';
 import { Mail, Sparkles, MessageCircle, MapPin } from 'lucide-react';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export default function Contact() {
+  usePageTitle('Contact Us', 'Get in touch with the SaveethaAM team. Report bugs, request features, or ask questions about the SIMATS attendance calculator.');
   return (
     <div className="relative w-full bg-white dark:bg-black text-neutral-900 dark:text-neutral-100 min-h-screen font-sans selection:bg-indigo-200 overflow-x-hidden">
       {/* Header */}

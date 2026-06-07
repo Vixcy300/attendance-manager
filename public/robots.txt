@@ -1,4 +1,22 @@
 User-agent: *
 Allow: /
+Allow: /privacy
+Allow: /terms
+Allow: /contact
+Allow: /disclaimer
+Allow: /login
+Allow: /signup
 
-Sitemap: https://attendance-manger-vignesh.vercel.app/sitemap.xml
+# Disallow authenticated-only app pages (Google can't access them)
+Disallow: /dashboard
+Disallow: /courses
+Disallow: /calendar
+Disallow: /statistics
+Disallow: /achievements
+Disallow: /streaks
+Disallow: /goals
+Disallow: /profile
+Disallow: /feedback
+Disallow: /feedback-history
+
+Sitemap: https://saveetha-attendance.vercel.app/sitemap.xml

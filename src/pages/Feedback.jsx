@@ -4,8 +4,10 @@ import { useAuthStore } from '../store/authStore';
 import { db } from '../lib/supabase';
 import toast from 'react-hot-toast';
 import { getBrowserInfo } from '../utils/helpers';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Feedback = () => {
+  usePageTitle('Feedback');
   const { user } = useAuthStore();
   const [userData, setUserData] = useState(null);
   const [submissionCount, setSubmissionCount] = useState(0);
