@@ -75,27 +75,26 @@ function CreditPopup({ type, word, onDone }) {
   const isGood = type === 'good';
   return (
     <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none">
-      <div className={cn(
-        "credit-popup px-6 py-4 rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] border bg-white/90 backdrop-blur-xl text-center min-w-[280px]",
-        isGood ? "border-emerald-200" : "border-rose-200"
-      )}>
+      <div className={`credit-popup px-6 py-4 rounded-2xl shadow-2xl border-2 text-center min-w-[260px] ${
+        isGood
+          ? 'bg-red-600 border-red-800 text-white'
+          : 'bg-red-800 border-red-900 text-white'
+      }`}>
         {isGood ? (
           <>
-            <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <TrendingUp className="text-emerald-600 size-5" />
-            </div>
-            <div className="text-base font-bold text-slate-900 tracking-tight">Standing Increased</div>
-            <div className="text-xs font-medium text-emerald-600 mt-1 uppercase tracking-wider">+100 Trust Score</div>
-            <div className="text-xs text-slate-500 mt-2">Positive engagement detected for "{word}"</div>
+            <div className="text-3xl mb-1">🎖️⭐🏅</div>
+            <div className="text-lg font-black tracking-wide">社会信用 +100</div>
+            <div className="text-sm font-bold opacity-90">SOCIAL CREDIT INCREASED</div>
+            <div className="text-xs opacity-75 mt-1">良好公民！GOOD CITIZEN! 🇨🇳</div>
+            <div className="text-xs italic opacity-75">"{word}" detected — you love learning!</div>
           </>
         ) : (
           <>
-            <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <ShieldAlert className="text-rose-600 size-5" />
-            </div>
-            <div className="text-base font-bold text-slate-900 tracking-tight">Standing Decreased</div>
-            <div className="text-xs font-medium text-rose-600 mt-1 uppercase tracking-wider">-50 Trust Score</div>
-            <div className="text-xs text-slate-500 mt-2">Guideline violation detected</div>
+            <div className="text-3xl mb-1">🚨❌🚓</div>
+            <div className="text-lg font-black tracking-wide">社会信用 -50</div>
+            <div className="text-sm font-bold opacity-90">SOCIAL CREDIT REDUCED</div>
+            <div className="text-xs opacity-75 mt-1">不良行为！BAD BEHAVIOUR! 🇨🇳</div>
+            <div className="text-xs italic opacity-75">"{word}" is not tolerated here</div>
           </>
         )}
       </div>
@@ -122,24 +121,20 @@ function BanScreen({ onExpired }) {
   const secs = secondsLeft % 60;
 
   return (
-    <div className="fixed inset-0 z-[9998] bg-slate-50 flex flex-col items-center justify-center text-slate-900 select-none px-4">
-      <div className="w-20 h-20 bg-rose-100 rounded-3xl flex items-center justify-center mb-8 shadow-sm">
-        <ShieldAlert className="text-rose-600 size-10" />
-      </div>
-      <h1 className="text-3xl font-extrabold tracking-tight mb-3 text-center">Account Suspended</h1>
-      <p className="text-base text-slate-500 mb-10 text-center max-w-md leading-relaxed">
-        Your account has been temporarily suspended due to repeated violations of our community guidelines.
-      </p>
-      
-      <div className="bg-white rounded-3xl px-12 py-8 text-center border border-slate-200 shadow-sm">
-        <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">Cooldown Remaining</div>
-        <div className="text-5xl font-mono font-bold text-slate-800 tracking-tighter tabular-nums">
+    <div className="fixed inset-0 z-[9998] bg-red-900 flex flex-col items-center justify-center text-white select-none">
+      <div className="text-8xl mb-4 animate-bounce">🚓</div>
+      <div className="text-6xl font-black mb-2">你已被封禁</div>
+      <div className="text-3xl font-bold mb-1">YOU HAVE BEEN BANNED</div>
+      <div className="text-lg opacity-75 mb-8 text-center px-4">Inappropriate content detected. Social credit system activated.</div>
+      <div className="bg-black/30 rounded-2xl px-10 py-6 text-center border-2 border-red-600">
+        <div className="text-sm uppercase tracking-widest opacity-75 mb-2">Ban expires in</div>
+        <div className="text-6xl font-mono font-black tabular-nums">
           {String(mins).padStart(2,'0')}:{String(secs).padStart(2,'0')}
         </div>
+        <div className="text-sm opacity-60 mt-2">2.8 minutes community cooldown</div>
       </div>
-      
-      <div className="mt-12 text-sm text-slate-400 font-medium">
-        Access will be automatically restored.
+      <div className="mt-8 text-sm opacity-50 italic">
+        🇨🇳 The SaveethaAM Social Credit System thanks you for your cooperation.
       </div>
     </div>
   );
@@ -271,14 +266,14 @@ function MoodSelector({ selected, onSelect }) {
 // ---------------------------------------------------------------------------
 function SocialCreditBar({ score }) {
   const pct = Math.min(100, Math.max(0, score));
-  const color = pct >= 70 ? 'bg-emerald-500' : pct >= 40 ? 'bg-amber-500' : 'bg-rose-500';
-  const textColor = pct >= 70 ? 'text-emerald-600' : pct >= 40 ? 'text-amber-600' : 'text-rose-600';
+  const color = pct >= 70 ? 'bg-green-500' : pct >= 40 ? 'bg-amber-500' : 'bg-red-500';
+  const textColor = pct >= 70 ? 'text-green-600' : pct >= 40 ? 'text-amber-600' : 'text-red-600';
   
   return (
     <div className="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">
       <div className="flex items-center gap-1.5 shrink-0">
         <ShieldCheck size={14} className={textColor} />
-        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Trust Score</span>
+        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">🇨🇳 Social Credit</span>
       </div>
       <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden flex">
         <motion.div
