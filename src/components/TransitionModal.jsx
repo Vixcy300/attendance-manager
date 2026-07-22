@@ -4,6 +4,8 @@ import {
   Activity,
   Wrench,
   Users,
+  AlertTriangle,
+  Clock,
 } from "lucide-react";
 import {
   Dialog,
@@ -14,6 +16,42 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BellRing } from "lucide-react";
 
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState("");
+
+  useEffect(() => {
+    // 7 days from now (July 29, 2026)
+    const targetDate = new Date("2026-07-29T23:59:59").getTime();
+    
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      
+      if (distance < 0) {
+        clearInterval(timer);
+        setTimeLeft("0d 0h 0m 0s");
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
+
+  if (!timeLeft) return null;
+  return (
+    <span className="inline-block mt-2 font-mono bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 px-3 py-1 rounded-md text-xs font-bold border border-indigo-200 dark:border-indigo-800">
+      {timeLeft}
+    </span>
+  );
+};
+
 const steps = [
   {
     icon: ServerCrash,
@@ -23,7 +61,23 @@ const steps = [
   {
     icon: Activity,
     title: "SaveethaAM is Impacted",
-    copy: "Because our calculator relies heavily on syncing with the ARMS portal, the recent university changes have caused our auto-sync features to break. Until a major update, some advanced features may not work due to financial and user base constraints. However, basic features will still work, and we are striving hard to fix everything!",
+    copy: "Because our calculator relies heavily on syncing with the ARMS portal, the recent university changes have caused our auto-sync features to break.",
+  },
+  {
+    icon: AlertTriangle,
+    title: "Feature Limitations",
+    copy: "Until a major update, some advanced features may not work due to financial and user base constraints. However, basic features will still work, and we are striving hard to fix everything!",
+  },
+  {
+    icon: Clock,
+    title: "Login Notice",
+    copy: (
+      <div>
+        For the next week, third-party logins (like Google) will not work. Please use the Guest Login instead while we perform maintenance.
+        <br />
+        <CountdownTimer />
+      </div>
+    ),
   },
   {
     icon: Wrench,
