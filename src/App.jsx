@@ -27,6 +27,7 @@ import QuickCalculator from './components/QuickCalculator';
 import FloatingButtons from './components/FloatingButtons';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Spinner } from './components/ui/ios-spinner';
+import TransitionModal from './components/TransitionModal';
 
 function App() {
   const { initialize, loading } = useAuthStore();
@@ -102,6 +103,7 @@ function App() {
       {/* Global Floating Components */}
       <FloatingButtons />
       <QuickCalculator />
+      <TransitionModal />
     </Router>
   );
 }
