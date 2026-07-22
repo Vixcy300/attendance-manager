@@ -3,9 +3,9 @@ const fs = require('fs');
 const path = 'src/pages/Community.jsx';
 let content = fs.readFileSync(path, 'utf8');
 
-// Replace all instances of slate-900 and slate-800 with blue-900 and blue-800
-content = content.replace(/slate-900/g, 'blue-900');
-content = content.replace(/slate-800/g, 'blue-800');
+// Replace blue-900 with blue-700 and blue-800 with blue-600 to make it slightly lighter
+content = content.replace(/blue-900/g, 'blue-700');
+content = content.replace(/blue-800/g, 'blue-600');
 
 fs.writeFileSync(path, content, 'utf8');
-console.log('Colors replaced successfully!');
+console.log('Lighter blue colors applied successfully!');
