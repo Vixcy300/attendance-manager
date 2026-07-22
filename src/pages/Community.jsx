@@ -767,7 +767,7 @@ export default function Community() {
               <div className="flex items-center gap-2">
                 <input value={nickDraft} onChange={e => setNickDraft(e.target.value.slice(0, NICK_MAX_CHARS))}
                   onKeyDown={e => { if (e.key === 'Enter') { saveNickname(nickDraft); setNickname(nickDraft); setEditingNick(false); } }}
-                  autoFocus className="text-xs border border-indigo-300 rounded-lg px-2 py-1.5 w-32 outline-none focus:ring-2 focus:ring-indigo-400 bg-white" />
+                  autoFocus className="text-xs border border-indigo-300 rounded-lg px-2 py-1.5 w-32 outline-none focus:ring-2 focus:ring-indigo-400 bg-white text-neutral-900" />
                 <button onClick={() => { saveNickname(nickDraft); setNickname(nickDraft); setEditingNick(false); }}
                   className="text-xs bg-indigo-600 text-white px-2.5 py-1.5 rounded-lg font-medium">Save</button>
                 <button onClick={() => setEditingNick(false)}><X size={14} className="text-neutral-400" /></button>
