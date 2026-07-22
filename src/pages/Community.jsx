@@ -4,13 +4,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles, Send, Heart, ThumbsUp, Flame, Search, AlertCircle,
   Clock, RefreshCw, MessageSquare, Pencil, ShieldCheck, X, TrendingUp,
-  Users, CornerDownRight, Plus, MessageCircle, ChevronDown, Zap, Tag
+  Users, CornerDownRight, Plus, MessageCircle, ChevronDown, Zap, Tag, ShieldAlert
 } from 'lucide-react';
 import {
   community, hasProfanity, canPost, recordPost,
   isDuplicate, recordHash, getOrCreateNickname, saveNickname,
   avatarGradient, POST_MAX_CHARS, REPLY_MAX_CHARS, NICK_MAX_CHARS,
 } from '../lib/community';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
 
 // ---------------------------------------------------------------------------
 // Constants & Config
@@ -28,13 +34,13 @@ const COMMUNITY_TAGS = [
 ];
 
 const MOODS = [
-  { id: 0, label: 'Love it', emoji: '😍', color: 'hover:bg-rose-50 hover:border-rose-300', active: 'bg-rose-100 border-rose-400 text-rose-700' },
-  { id: 1, label: "It's OK", emoji: '😐', color: 'hover:bg-amber-50 hover:border-amber-300', active: 'bg-amber-100 border-amber-400 text-amber-700' },
-  { id: 2, label: 'Not great', emoji: '😕', color: 'hover:bg-orange-50 hover:border-orange-300', active: 'bg-orange-100 border-orange-400 text-orange-700' },
-  { id: 3, label: 'Help!', emoji: '😰', color: 'hover:bg-indigo-50 hover:border-indigo-300', active: 'bg-indigo-100 border-indigo-400 text-indigo-700' },
+  { id: 0, label: 'Love it', emoji: '😍', color: 'hover:bg-slate-100', active: 'bg-slate-900 text-white ring-1 ring-slate-900 ring-offset-1' },
+  { id: 1, label: "It's OK", emoji: '😐', color: 'hover:bg-slate-100', active: 'bg-slate-900 text-white ring-1 ring-slate-900 ring-offset-1' },
+  { id: 2, label: 'Not great', emoji: '😕', color: 'hover:bg-slate-100', active: 'bg-slate-900 text-white ring-1 ring-slate-900 ring-offset-1' },
+  { id: 3, label: 'Help!', emoji: '😰', color: 'hover:bg-slate-100', active: 'bg-slate-900 text-white ring-1 ring-slate-900 ring-offset-1' },
 ];
 
-// Social Credit System
+// Social Credit System (Professional wording)
 const BAD_WORDS = [
   'sex', 'porn', 'boobs', 'nude', 'nsfw', 'cock', 'dick', 'pussy', 'vagina',
   'penis', 'naked', 'xxx', 'erotic', 'fuck', 'fucking', 'shit', 'bitch',
@@ -69,26 +75,27 @@ function CreditPopup({ type, word, onDone }) {
   const isGood = type === 'good';
   return (
     <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none">
-      <div className={`credit-popup px-6 py-4 rounded-2xl shadow-2xl border-2 text-center min-w-[260px] ${
-        isGood
-          ? 'bg-red-600 border-red-800 text-white'
-          : 'bg-red-800 border-red-900 text-white'
-      }`}>
+      <div className={cn(
+        "credit-popup px-6 py-4 rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] border bg-white/90 backdrop-blur-xl text-center min-w-[280px]",
+        isGood ? "border-emerald-200" : "border-rose-200"
+      )}>
         {isGood ? (
           <>
-            <div className="text-3xl mb-1">🎖️⭐🏅</div>
-            <div className="text-lg font-black tracking-wide">社会信用 +100</div>
-            <div className="text-sm font-bold opacity-90">SOCIAL CREDIT INCREASED</div>
-            <div className="text-xs opacity-75 mt-1">良好公民！GOOD CITIZEN! 🇨🇳</div>
-            <div className="text-xs italic opacity-75">"{word}" detected — you love learning!</div>
+            <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <TrendingUp className="text-emerald-600 size-5" />
+            </div>
+            <div className="text-base font-bold text-slate-900 tracking-tight">Standing Increased</div>
+            <div className="text-xs font-medium text-emerald-600 mt-1 uppercase tracking-wider">+100 Trust Score</div>
+            <div className="text-xs text-slate-500 mt-2">Positive engagement detected for "{word}"</div>
           </>
         ) : (
           <>
-            <div className="text-3xl mb-1">🚨❌🚓</div>
-            <div className="text-lg font-black tracking-wide">社会信用 -50</div>
-            <div className="text-sm font-bold opacity-90">SOCIAL CREDIT REDUCED</div>
-            <div className="text-xs opacity-75 mt-1">不良行为！BAD BEHAVIOUR! 🇨🇳</div>
-            <div className="text-xs italic opacity-75">"{word}" is not tolerated here</div>
+            <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <ShieldAlert className="text-rose-600 size-5" />
+            </div>
+            <div className="text-base font-bold text-slate-900 tracking-tight">Standing Decreased</div>
+            <div className="text-xs font-medium text-rose-600 mt-1 uppercase tracking-wider">-50 Trust Score</div>
+            <div className="text-xs text-slate-500 mt-2">Guideline violation detected</div>
           </>
         )}
       </div>
@@ -115,20 +122,24 @@ function BanScreen({ onExpired }) {
   const secs = secondsLeft % 60;
 
   return (
-    <div className="fixed inset-0 z-[9998] bg-red-900 flex flex-col items-center justify-center text-white select-none">
-      <div className="text-8xl mb-4 animate-bounce">🚓</div>
-      <div className="text-6xl font-black mb-2">你已被封禁</div>
-      <div className="text-3xl font-bold mb-1">YOU HAVE BEEN BANNED</div>
-      <div className="text-lg opacity-75 mb-8">Inappropriate content detected. Social credit system activated.</div>
-      <div className="bg-black/30 rounded-2xl px-10 py-6 text-center border-2 border-red-600">
-        <div className="text-sm uppercase tracking-widest opacity-75 mb-2">Ban expires in</div>
-        <div className="text-6xl font-mono font-black tabular-nums">
+    <div className="fixed inset-0 z-[9998] bg-slate-50 flex flex-col items-center justify-center text-slate-900 select-none px-4">
+      <div className="w-20 h-20 bg-rose-100 rounded-3xl flex items-center justify-center mb-8 shadow-sm">
+        <ShieldAlert className="text-rose-600 size-10" />
+      </div>
+      <h1 className="text-3xl font-extrabold tracking-tight mb-3 text-center">Account Suspended</h1>
+      <p className="text-base text-slate-500 mb-10 text-center max-w-md leading-relaxed">
+        Your account has been temporarily suspended due to repeated violations of our community guidelines.
+      </p>
+      
+      <div className="bg-white rounded-3xl px-12 py-8 text-center border border-slate-200 shadow-sm">
+        <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">Cooldown Remaining</div>
+        <div className="text-5xl font-mono font-bold text-slate-800 tracking-tighter tabular-nums">
           {String(mins).padStart(2,'0')}:{String(secs).padStart(2,'0')}
         </div>
-        <div className="text-sm opacity-60 mt-2">2.8 minutes community cooldown</div>
       </div>
-      <div className="mt-8 text-sm opacity-50 italic">
-        🇨🇳 The SaveethaAM Social Credit System thanks you for your cooperation.
+      
+      <div className="mt-12 text-sm text-slate-400 font-medium">
+        Access will be automatically restored.
       </div>
     </div>
   );
@@ -140,20 +151,20 @@ function BanScreen({ onExpired }) {
 function timeAgo(ts) {
   const diff = Date.now() - new Date(ts).getTime();
   const s = Math.floor(diff / 1000);
-  if (s < 60) return `${s}s ago`;
+  if (s < 60) return `Just now`;
   const m = Math.floor(s / 60);
-  if (m < 60) return `${m}m ago`;
+  if (m < 60) return `${m}m`;
   const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h ago`;
-  return `${Math.floor(h / 24)}d ago`;
+  if (h < 24) return `${h}h`;
+  return `${Math.floor(h / 24)}d`;
 }
 
 const CAT_COLORS = {
-  General: 'bg-slate-100 text-slate-600', Help: 'bg-amber-50 text-amber-700',
-  Tips: 'bg-emerald-50 text-emerald-700', 'V-Study': 'bg-violet-50 text-violet-700',
-  ARMS: 'bg-red-50 text-red-700', Announcements: 'bg-indigo-50 text-indigo-700',
-  Funny: 'bg-yellow-50 text-yellow-700', Rant: 'bg-orange-50 text-orange-700',
-  Question: 'bg-blue-50 text-blue-700',
+  General: 'bg-slate-100 text-slate-600 border-slate-200', Help: 'bg-rose-50 text-rose-700 border-rose-200',
+  Tips: 'bg-emerald-50 text-emerald-700 border-emerald-200', 'V-Study': 'bg-violet-50 text-violet-700 border-violet-200',
+  ARMS: 'bg-sky-50 text-sky-700 border-sky-200', Announcements: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+  Funny: 'bg-amber-50 text-amber-700 border-amber-200', Rant: 'bg-orange-50 text-orange-700 border-orange-200',
+  Question: 'bg-blue-50 text-blue-700 border-blue-200',
 };
 
 // ---------------------------------------------------------------------------
@@ -161,9 +172,13 @@ const CAT_COLORS = {
 // ---------------------------------------------------------------------------
 function Avatar({ name, size = 'sm' }) {
   const gradient = avatarGradient(name);
-  const dim = size === 'sm' ? 'w-8 h-8 text-xs' : 'w-10 h-10 text-sm';
+  const dim = size === 'sm' ? 'w-9 h-9 text-xs' : 'w-11 h-11 text-sm';
   return (
-    <div className={`${dim} rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold shrink-0 shadow-sm`}>
+    <div className={cn(
+      dim, 
+      "rounded-full bg-gradient-to-br flex items-center justify-center text-white font-bold shrink-0 shadow-sm border border-white/20",
+      gradient
+    )}>
       {(name || 'A')[0].toUpperCase()}
     </div>
   );
@@ -184,39 +199,37 @@ function TagsSelector({ selected, onSelect, onDeselect }) {
 
   return (
     <div className="w-full">
-      {/* Selected tags row */}
       <motion.div
         ref={containerRef}
         layout
-        className="w-full flex items-center gap-1.5 border border-neutral-200 bg-white rounded-xl h-12 px-2 mb-2 overflow-x-auto no-scrollbar"
+        className="w-full flex items-center gap-2 bg-slate-50/50 border border-slate-200/60 rounded-2xl p-2 mb-3 overflow-x-auto no-scrollbar min-h-[52px]"
       >
         {selected.length === 0 && (
-          <span className="text-xs text-neutral-400 px-2">Select topics for your post…</span>
+          <span className="text-sm text-slate-400 px-3 font-medium">Select relevant topics...</span>
         )}
         {selected.map(tag => (
           <motion.div
             key={tag.id}
             layoutId={`tag-${tag.id}`}
-            className="flex items-center gap-1 pl-3 pr-1.5 py-1 bg-indigo-600 text-white rounded-lg shrink-0 text-xs font-semibold h-8"
+            className="flex items-center gap-1.5 pl-3 pr-1.5 py-1.5 bg-slate-900 text-white rounded-xl shrink-0 text-xs font-semibold"
           >
             <motion.span layoutId={`tag-label-${tag.id}`}>{tag.label}</motion.span>
-            <button onClick={() => onDeselect(tag.id)} className="p-0.5 rounded-full hover:bg-indigo-700 ml-0.5">
-              <X size={11} />
+            <button type="button" onClick={() => onDeselect(tag.id)} className="p-0.5 rounded-full hover:bg-slate-700 transition-colors">
+              <X size={12} />
             </button>
           </motion.div>
         ))}
       </motion.div>
 
-      {/* Available tags */}
       {unselected.length > 0 && (
-        <motion.div layout className="flex flex-wrap gap-1.5">
+        <motion.div layout className="flex flex-wrap gap-2">
           {unselected.map(tag => (
             <motion.button
               key={tag.id}
               layoutId={`tag-${tag.id}`}
               type="button"
               onClick={() => onSelect(tag)}
-              className="flex items-center gap-1 px-3 py-1.5 bg-neutral-100 text-neutral-600 rounded-lg text-xs font-medium hover:bg-indigo-50 hover:text-indigo-700 transition-colors border border-transparent hover:border-indigo-200"
+              className="flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-medium hover:border-slate-300 hover:shadow-sm hover:text-slate-900 transition-all"
             >
               <motion.span layoutId={`tag-label-${tag.id}`}>{tag.label}</motion.span>
             </motion.button>
@@ -228,7 +241,7 @@ function TagsSelector({ selected, onSelect, onDeselect }) {
 }
 
 // ---------------------------------------------------------------------------
-// Mood Selector (emoji reaction bar)
+// Mood Selector
 // ---------------------------------------------------------------------------
 function MoodSelector({ selected, onSelect }) {
   return (
@@ -238,10 +251,14 @@ function MoodSelector({ selected, onSelect }) {
           key={m.id}
           type="button"
           onClick={() => onSelect(selected === m.id ? null : m.id)}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-sm font-medium transition-all
-            ${selected === m.id ? m.active : `border-neutral-200 bg-neutral-50 text-neutral-500 ${m.color}`}`}
+          className={cn(
+            "flex items-center gap-2 px-3.5 py-2 rounded-xl border text-sm font-semibold transition-all duration-200",
+            selected === m.id 
+              ? m.active 
+              : `border-slate-200 bg-white text-slate-600 ${m.color}`
+          )}
         >
-          <span className="text-base">{m.emoji}</span>
+          <span className="text-lg leading-none">{m.emoji}</span>
           <span>{m.label}</span>
         </button>
       ))}
@@ -250,23 +267,28 @@ function MoodSelector({ selected, onSelect }) {
 }
 
 // ---------------------------------------------------------------------------
-// Social Credit Bar
+// Social Credit Bar (Trust Score)
 // ---------------------------------------------------------------------------
 function SocialCreditBar({ score }) {
   const pct = Math.min(100, Math.max(0, score));
-  const color = pct >= 70 ? 'bg-green-500' : pct >= 40 ? 'bg-amber-500' : 'bg-red-500';
+  const color = pct >= 70 ? 'bg-emerald-500' : pct >= 40 ? 'bg-amber-500' : 'bg-rose-500';
+  const textColor = pct >= 70 ? 'text-emerald-600' : pct >= 40 ? 'text-amber-600' : 'text-rose-600';
+  
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-xs text-neutral-400 shrink-0">🇨🇳 Social Credit:</span>
-      <div className="flex-1 h-1.5 bg-neutral-200 rounded-full overflow-hidden">
+    <div className="flex items-center gap-3 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">
+      <div className="flex items-center gap-1.5 shrink-0">
+        <ShieldCheck size={14} className={textColor} />
+        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Trust Score</span>
+      </div>
+      <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden flex">
         <motion.div
           className={`h-full ${color} rounded-full`}
           animate={{ width: `${pct}%` }}
           transition={{ type: 'spring', stiffness: 80 }}
         />
       </div>
-      <span className={`text-xs font-bold ${pct >= 70 ? 'text-green-600' : pct >= 40 ? 'text-amber-600' : 'text-red-600'}`}>
-        {score}
+      <span className={cn("text-xs font-bold tabular-nums", textColor)}>
+        {score} / 100
       </span>
     </div>
   );
@@ -282,11 +304,10 @@ function ComposeModal({ nickname, onClose, onPosted }) {
   const [posting, setPosting]       = useState(false);
   const [error, setError]           = useState('');
   const [creditScore, setCreditScore] = useState(getCredit());
-  const [creditPopup, setCreditPopup] = useState(null); // { type, word }
+  const [creditPopup, setCreditPopup] = useState(null);
   const [textareaClass, setTextareaClass] = useState('');
   const [bannedNow, setBannedNow]   = useState(isBanned());
   const popupTimer = useRef(null);
-  // Track which words already penalised this compose session (avoid double-hits)
   const detectedBad  = useRef(new Set());
   const detectedGood = useRef(new Set());
 
@@ -301,7 +322,6 @@ function ComposeModal({ nickname, onClose, onPosted }) {
     setContent(val);
     const lower = val.toLowerCase();
 
-    // ── Bad word check ── penalise only once per unique word per session
     for (const word of BAD_WORDS) {
       if (lower.includes(word) && !detectedBad.current.has(word)) {
         detectedBad.current.add(word);
@@ -317,11 +337,10 @@ function ComposeModal({ nickname, onClose, onPosted }) {
           setCreditPopup(null);
           setTimeout(() => setBannedNow(true), 500);
         }
-        return; // one penalty per keystroke
+        return;
       }
     }
 
-    // ── Good trigger check ──
     for (const trigger of GOOD_TRIGGERS) {
       if (lower.includes(trigger) && !detectedGood.current.has(trigger)) {
         detectedGood.current.add(trigger);
@@ -383,85 +402,90 @@ function ComposeModal({ nickname, onClose, onPosted }) {
       </AnimatePresence>
 
       <div
-        className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm"
+        className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center bg-slate-900/40 backdrop-blur-sm sm:p-4"
         onClick={e => e.target === e.currentTarget && onClose()}
       >
         <motion.div
-          initial={{ y: 60, opacity: 0 }}
+          initial={{ y: "100%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 60, opacity: 0 }}
+          exit={{ y: "100%", opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="w-full sm:max-w-xl bg-white sm:rounded-2xl shadow-2xl border border-neutral-200 overflow-hidden"
+          className="w-full sm:max-w-2xl bg-white sm:rounded-[2rem] rounded-t-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
+          <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-white/50 backdrop-blur-md shrink-0">
             <div className="flex items-center gap-3">
               <Avatar name={nickname} />
               <div>
-                <p className="text-sm font-bold text-neutral-800">{nickname}</p>
-                <p className="text-xs text-neutral-400">Posting anonymously · No login required</p>
+                <p className="text-sm font-bold text-slate-900">{nickname}</p>
+                <p className="text-xs font-medium text-slate-500">Posting to community</p>
               </div>
             </div>
-            <button onClick={onClose} className="p-2 rounded-xl hover:bg-neutral-100 transition-colors">
-              <X size={18} className="text-neutral-500" />
+            <button type="button" onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 text-slate-400 transition-colors">
+              <X size={20} />
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-5 space-y-4">
-
-            {/* Mood / Emoji reaction bar */}
-            <div>
-              <p className="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">How are you feeling?</p>
-              <MoodSelector selected={mood} onSelect={setMood} />
-            </div>
-
-            {/* Content */}
-            <div className="relative">
-              <textarea
-                value={content}
-                onChange={handleContentChange}
-                placeholder="What's on your mind? Share a tip, ask for help, post about V-Study or ARMS…"
-                rows={5}
-                autoFocus
-                maxLength={POST_MAX_CHARS}
-                className={`w-full text-sm border border-neutral-200 rounded-xl px-4 py-3 bg-neutral-50 text-neutral-800 placeholder-neutral-400 resize-none outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent focus:bg-white transition-all leading-relaxed ${textareaClass}`}
-              />
-              <span className={`absolute bottom-2 right-3 text-xs ${charsLeft < 100 ? 'text-red-400' : 'text-neutral-300'}`}>{charsLeft}</span>
-            </div>
-
-            {/* Social credit bar */}
-            <SocialCreditBar score={creditScore} />
-
-            {/* Tags selector */}
-            <div>
-              <p className="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <Tag size={11} /> Topics
-              </p>
-              <TagsSelector
-                selected={tags}
-                onSelect={tag => setTags(prev => [...prev, tag])}
-                onDeselect={id => setTags(prev => prev.filter(t => t.id !== id))}
-              />
-            </div>
-
-            {error && (
-              <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-100 px-3 py-2.5 rounded-xl">
-                <AlertCircle size={14} /> {error}
+          <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-y-auto custom-scrollbar">
+            <div className="p-6 space-y-6 flex-1">
+              {/* Mood */}
+              <div>
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 block">Feeling</label>
+                <MoodSelector selected={mood} onSelect={setMood} />
               </div>
-            )}
+
+              {/* Textarea */}
+              <div className="relative">
+                <textarea
+                  value={content}
+                  onChange={handleContentChange}
+                  placeholder="What's on your mind? Share a tip, ask a question..."
+                  rows={4}
+                  autoFocus
+                  maxLength={POST_MAX_CHARS}
+                  className={cn(
+                    "w-full text-base border border-slate-200 rounded-2xl px-5 py-4 bg-white text-slate-900 placeholder-slate-400 resize-none outline-none focus:ring-4 focus:ring-slate-100 focus:border-slate-400 transition-all leading-relaxed",
+                    textareaClass
+                  )}
+                />
+                <span className={cn(
+                  "absolute bottom-3 right-4 text-xs font-medium",
+                  charsLeft < 100 ? 'text-rose-500' : 'text-slate-300'
+                )}>{charsLeft}</span>
+              </div>
+
+              {/* Tags */}
+              <div>
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 block">Topics</label>
+                <TagsSelector
+                  selected={tags}
+                  onSelect={tag => setTags(prev => [...prev, tag])}
+                  onDeselect={id => setTags(prev => prev.filter(t => t.id !== id))}
+                />
+              </div>
+
+              {/* Social credit bar */}
+              <SocialCreditBar score={creditScore} />
+
+              {error && (
+                <div className="flex items-center gap-2 text-sm font-medium text-rose-600 bg-rose-50 border border-rose-100 px-4 py-3 rounded-xl">
+                  <AlertCircle size={16} /> {error}
+                </div>
+              )}
+            </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between pt-1">
-              <span className="text-xs text-neutral-400 flex items-center gap-1.5">
-                <ShieldCheck size={12} className="text-green-500" />
+            <div className="p-6 pt-4 border-t border-slate-100 bg-slate-50/50 shrink-0 flex items-center justify-between">
+              <span className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
+                <ShieldCheck size={14} className="text-emerald-500" />
                 {canPost().remaining} post{canPost().remaining !== 1 ? 's' : ''} remaining
               </span>
               <button
                 type="submit"
                 disabled={posting || !content.trim()}
-                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-all shadow-sm"
+                className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white text-sm font-bold px-8 py-3 rounded-xl transition-all shadow-sm active:scale-[0.98]"
               >
-                {posting ? <><RefreshCw size={14} className="animate-spin" /> Posting…</> : <><Send size={14} /> Post</>}
+                {posting ? <><RefreshCw size={16} className="animate-spin" /> Posting...</> : <><Send size={16} /> Publish</>}
               </button>
             </div>
           </form>
@@ -478,38 +502,43 @@ function ReplyNode({ reply, allReplies, onReply, onLike, likedSet }) {
   const children = allReplies.filter(r => r.parent_id === reply.id);
   const liked = likedSet.has(reply.id);
   const [localLikes, setLocalLikes] = useState(reply.likes || 0);
+  
   const handleLike = () => { if (liked) return; setLocalLikes(l => l + 1); onLike(reply.id); };
+  
   return (
-    <div>
-      <div className="flex gap-3 py-3 group">
+    <div className="relative group/reply">
+      <div className="flex gap-3 py-3 relative z-10 bg-white">
         <Avatar name={reply.nickname} size="sm" />
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <span className="text-sm font-semibold text-neutral-800">{reply.nickname}</span>
+          <div className="flex items-baseline gap-2 mb-1 flex-wrap">
+            <span className="text-sm font-bold text-slate-900">{reply.nickname}</span>
             {reply.parent_id && (
-              <span className="text-xs text-neutral-400 flex items-center gap-0.5">
+              <span className="text-xs font-medium text-slate-400 flex items-center gap-0.5">
                 <CornerDownRight size={10} />
                 {allReplies.find(r => r.id === reply.parent_id)?.nickname || 'reply'}
               </span>
             )}
-            <span className="text-xs text-neutral-400">{timeAgo(reply.created_at)}</span>
+            <span className="text-xs font-medium text-slate-400">{timeAgo(reply.created_at)}</span>
           </div>
-          <p className="text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap break-words">{reply.content}</p>
-          <div className="flex items-center gap-3 mt-2">
+          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap break-words">{reply.content}</p>
+          <div className="flex items-center gap-4 mt-2">
             <button onClick={handleLike}
-              className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg transition-all
-                ${liked ? 'text-indigo-600 bg-indigo-50' : 'text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100'}`}>
-              <ThumbsUp size={11} /> {localLikes}
+              className={cn(
+                "flex items-center gap-1.5 text-xs font-bold transition-colors group/like",
+                liked ? 'text-slate-900' : 'text-slate-400 hover:text-slate-700'
+              )}>
+              <ThumbsUp size={12} className={cn("transition-transform group-active/like:scale-75", liked && "fill-slate-900")} /> 
+              {localLikes > 0 && localLikes}
             </button>
             <button onClick={() => onReply(reply)}
-              className="flex items-center gap-1 text-xs font-medium text-neutral-400 hover:text-indigo-600 px-2 py-1 rounded-lg hover:bg-indigo-50 transition-all">
-              <CornerDownRight size={11} /> Reply
+              className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">
+              <MessageSquare size={12} /> Reply
             </button>
           </div>
         </div>
       </div>
       {children.length > 0 && (
-        <div className="ml-11 border-l-2 border-neutral-100 pl-4">
+        <div className="ml-4 pl-7 border-l-2 border-slate-100 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:to-white before:pointer-events-none before:h-8 before:top-[-32px]">
           {children.map(child => (
             <ReplyNode key={child.id} reply={child} allReplies={allReplies}
               onReply={onReply} onLike={onLike} likedSet={likedSet} />
@@ -548,12 +577,12 @@ function ReplyThread({ postId, nickname }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isBanned()) return setError('You are currently banned. Wait for the cooldown.');
+    if (isBanned()) return setError('Account suspended. Wait for cooldown.');
     setError('');
     const trimmed = content.trim();
     if (!trimmed) return;
     if (trimmed.length > REPLY_MAX_CHARS) return setError(`Max ${REPLY_MAX_CHARS} chars.`);
-    if (hasProfanity(trimmed)) return setError('Inappropriate language detected.');
+    if (hasProfanity(trimmed)) return setError('Guideline violation detected.');
     const { badFound } = checkText(trimmed);
     if (badFound) return setError(`Remove "${badFound}" first.`);
     setPosting(true);
@@ -566,56 +595,61 @@ function ReplyThread({ postId, nickname }) {
   const topLevel = replies.filter(r => !r.parent_id);
 
   return (
-    <div className="border-t border-neutral-100 pt-4 mt-4">
-      <div className="flex items-center gap-2 mb-3">
-        <MessageCircle size={14} className="text-neutral-400" />
-        <span className="text-sm font-semibold text-neutral-600">
-          {replies.length === 0 ? 'No replies yet' : `${replies.length} ${replies.length === 1 ? 'reply' : 'replies'}`}
+    <div className="border-t border-slate-100 pt-5 mt-5">
+      <div className="flex items-center gap-2 mb-4">
+        <MessageCircle size={14} className="text-slate-400" />
+        <span className="text-sm font-bold text-slate-700">
+          {replies.length === 0 ? 'Be the first to reply' : `${replies.length} Comment${replies.length === 1 ? '' : 's'}`}
         </span>
       </div>
+      
       {loading ? (
-        <div className="space-y-3 py-2">
+        <div className="space-y-4 py-2">
           {[1, 2].map(i => (
             <div key={i} className="flex gap-3">
-              <div className="w-8 h-8 rounded-full bg-neutral-100 animate-pulse" />
-              <div className="flex-1 space-y-2">
-                <div className="h-3 bg-neutral-100 rounded w-24 animate-pulse" />
-                <div className="h-3 bg-neutral-100 rounded w-3/4 animate-pulse" />
+              <div className="w-9 h-9 rounded-full bg-slate-100 animate-pulse" />
+              <div className="flex-1 space-y-2 mt-1">
+                <div className="h-3 bg-slate-100 rounded-full w-24 animate-pulse" />
+                <div className="h-3 bg-slate-100 rounded-full w-3/4 animate-pulse" />
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="divide-y divide-neutral-50">
+        <div className="relative">
           {topLevel.map(r => <ReplyNode key={r.id} reply={r} allReplies={replies} onReply={setReplyingTo} onLike={handleLike} likedSet={likedSet} />)}
         </div>
       )}
-      <form onSubmit={handleSubmit} className="mt-4">
+      
+      <form onSubmit={handleSubmit} className="mt-5 bg-slate-50/50 p-3 sm:p-4 rounded-2xl border border-slate-100">
         {replyingTo && (
-          <div className="flex items-center gap-2 mb-2 text-xs text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg">
-            <CornerDownRight size={12} />
-            Replying to <strong>{replyingTo.nickname}</strong>
-            <button type="button" onClick={() => setReplyingTo(null)} className="ml-auto"><X size={12} /></button>
+          <div className="flex items-center gap-2 mb-3 text-xs font-medium text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-lg w-fit shadow-sm">
+            <CornerDownRight size={12} className="text-slate-400" />
+            Replying to <span className="font-bold text-slate-900">{replyingTo.nickname}</span>
+            <button type="button" onClick={() => setReplyingTo(null)} className="ml-1 p-0.5 hover:bg-slate-100 rounded-md transition-colors"><X size={12} /></button>
           </div>
         )}
         <div className="flex items-start gap-3">
           <Avatar name={nickname} size="sm" />
-          <div className="flex-1">
-            <div className="relative">
+          <div className="flex-1 min-w-0">
+            <div className="relative bg-white rounded-xl border border-slate-200 shadow-sm focus-within:ring-2 focus-within:ring-slate-200 focus-within:border-slate-300 transition-all overflow-hidden">
               <textarea ref={inputRef} value={content} onChange={e => setContent(e.target.value.slice(0, REPLY_MAX_CHARS))}
-                placeholder={replyingTo ? `Reply to ${replyingTo.nickname}…` : 'Write a reply…'}
+                placeholder={replyingTo ? `Reply to ${replyingTo.nickname}...` : 'Add to the discussion...'}
                 rows={2} maxLength={REPLY_MAX_CHARS}
-                className="w-full text-sm border border-neutral-200 rounded-xl px-4 py-3 bg-neutral-50 text-neutral-800 placeholder-neutral-400 resize-none outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent focus:bg-white transition-all" />
-              <span className="absolute bottom-2 right-3 text-xs text-neutral-300">{REPLY_MAX_CHARS - content.length}</span>
+                className="w-full text-sm px-4 py-3 bg-transparent text-slate-900 placeholder-slate-400 resize-none outline-none block" />
+              
+              <div className="flex items-center justify-between px-3 py-2 bg-slate-50 border-t border-slate-100">
+                <span className={cn("text-[10px] font-bold uppercase tracking-widest", (REPLY_MAX_CHARS - content.length) < 50 ? "text-rose-500" : "text-slate-400")}>
+                  {REPLY_MAX_CHARS - content.length}
+                </span>
+                <button type="submit" disabled={posting || !content.trim()}
+                  className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-slate-900 text-white text-xs font-bold px-4 py-1.5 rounded-lg transition-all active:scale-[0.98]">
+                  {posting ? <RefreshCw size={12} className="animate-spin" /> : <Send size={12} />}
+                  {posting ? 'Posting...' : 'Reply'}
+                </button>
+              </div>
             </div>
-            {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
-            <div className="flex justify-end mt-2">
-              <button type="submit" disabled={posting || !content.trim()}
-                className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">
-                {posting ? <RefreshCw size={12} className="animate-spin" /> : <Send size={12} />}
-                {posting ? 'Posting…' : 'Reply'}
-              </button>
-            </div>
+            {error && <p className="text-xs font-medium text-rose-500 mt-2 ml-1">{error}</p>}
           </div>
         </div>
       </form>
@@ -642,53 +676,87 @@ function PostCard({ post, nickname, expanded, onToggle }) {
   };
 
   return (
-    <article className={`bg-white border rounded-2xl transition-all duration-200 overflow-hidden
-      ${expanded ? 'border-indigo-200 shadow-md shadow-indigo-50' : 'border-neutral-200 hover:border-neutral-300 hover:shadow-sm'}`}>
-      <div className="p-5">
-        <div className="flex items-start gap-3">
-          <Avatar name={post.nickname} />
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-              <span className="text-sm font-semibold text-neutral-800">{post.nickname}</span>
-              {mood && <span title={mood.label} className="text-base">{mood.emoji}</span>}
-              <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${catColor}`}>{post.category}</span>
-              <div className="ml-auto flex items-center gap-2">
-                <span className="text-xs text-neutral-400 flex items-center gap-1">
-                  <Clock size={10} />{timeAgo(post.created_at)}
+    <article className={cn(
+      "bg-white border rounded-[1.5rem] transition-all duration-300 relative",
+      expanded 
+        ? 'border-slate-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] z-10' 
+        : 'border-slate-200/80 hover:border-slate-300 hover:shadow-sm shadow-sm'
+    )}>
+      <div className="p-4 sm:p-6">
+        <div className="flex gap-4">
+          <Avatar name={post.nickname} size="md" />
+          <div className="flex-1 min-w-0 pt-0.5">
+            <div className="flex items-center justify-between gap-4 mb-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-sm font-bold text-slate-900">{post.nickname}</span>
+                <span className="text-xs font-medium text-slate-400">&middot; {timeAgo(post.created_at)}</span>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0">
+                {mood && <span title={mood.label} className="text-base leading-none select-none">{mood.emoji}</span>}
+                <span className={cn("text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border", catColor)}>
+                  {post.category}
                 </span>
               </div>
             </div>
-            <p className={`text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap break-words mt-1 ${!expanded ? 'line-clamp-3' : ''}`}>
+            
+            <p className={cn(
+              "text-[15px] text-slate-700 leading-relaxed whitespace-pre-wrap break-words",
+              !expanded && 'line-clamp-4'
+            )}>
               {post.content}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 mt-4 flex-wrap">
+        
+        <div className="flex items-center gap-2 mt-5 sm:ml-[3.75rem] flex-wrap">
           {[
-            { field: 'likes', icon: ThumbsUp, active: 'text-indigo-600 bg-indigo-50' },
-            { field: 'hearts', icon: Heart, active: 'text-rose-600 bg-rose-50' },
-            { field: 'fires', icon: Flame, active: 'text-orange-600 bg-orange-50' },
-          ].map(({ field, icon: Icon, active }) => (
-            <button key={field} onClick={() => handleReact(field)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all select-none
-                ${reacted[post.id + field] ? `${active} cursor-default` : 'bg-neutral-50 text-neutral-500 hover:bg-neutral-100 cursor-pointer border border-neutral-100'}`}>
-              <Icon size={12} /> <span>{counts[field]}</span>
-            </button>
-          ))}
+            { field: 'likes', icon: ThumbsUp, active: 'text-blue-600 bg-blue-50 border-blue-100 fill-blue-600' },
+            { field: 'hearts', icon: Heart, active: 'text-rose-600 bg-rose-50 border-rose-100 fill-rose-600' },
+            { field: 'fires', icon: Flame, active: 'text-orange-600 bg-orange-50 border-orange-100 fill-orange-600' },
+          ].map(({ field, icon: Icon, active }) => {
+            const hasReacted = reacted[post.id + field];
+            return (
+              <button key={field} onClick={() => handleReact(field)}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all select-none border group/btn",
+                  hasReacted 
+                    ? active 
+                    : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                )}>
+                <Icon size={14} className={cn("transition-transform group-active/btn:scale-75", hasReacted && "fill-current")} /> 
+                {counts[field] > 0 && counts[field]}
+              </button>
+            )
+          })}
+          
           <button onClick={onToggle}
-            className={`ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all
-              ${expanded ? 'bg-indigo-600 text-white' : 'bg-neutral-50 border border-neutral-200 text-neutral-600 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200'}`}>
-            <MessageCircle size={12} />
-            {replyCount > 0 ? `${replyCount} ${replyCount === 1 ? 'reply' : 'replies'}` : 'Reply'}
-            {!expanded && <ChevronDown size={11} />}
+            className={cn(
+              "ml-auto flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-all border",
+              expanded 
+                ? 'bg-slate-900 text-white border-slate-900' 
+                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+            )}>
+            <MessageCircle size={14} />
+            {replyCount > 0 ? `${replyCount} Reply${replyCount > 1 ? 's' : ''}` : 'Reply'}
+            <ChevronDown size={14} className={cn("transition-transform", expanded && "rotate-180")} />
           </button>
         </div>
       </div>
-      {expanded && (
-        <div className="px-5 pb-5">
-          <ReplyThread postId={post.id} nickname={nickname} />
-        </div>
-      )}
+      
+      <AnimatePresence>
+        {expanded && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="px-4 sm:px-6 pb-6 pt-0">
+              <ReplyThread postId={post.id} nickname={nickname} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </article>
   );
 }
@@ -738,176 +806,216 @@ export default function Community() {
     return () => ch?.unsubscribe?.();
   }, []);
 
-  const handleDeletePost = async (postId) => {
-    const { error } = await community.deletePost(postId);
-    if (!error) {
-      setPosts(prev => prev.filter(p => p.id !== postId));
-    }
-  };
-
   if (showBan) return <BanScreen onExpired={() => setShowBan(false)} />;
 
   return (
-    <div className="min-h-screen bg-[#f8f9fb] font-sans selection:bg-indigo-100">
-      {/* Navbar */}
-      <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-[100] border-b border-neutral-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 mr-2">
-            <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center">
-              <Sparkles className="text-white size-3.5" />
+    <div className="min-h-screen bg-slate-50/50 font-sans selection:bg-slate-200">
+      {/* Navbar (Premium Frosted Glass) */}
+      <header className="fixed top-0 w-full bg-white/70 backdrop-blur-xl z-[100] border-b border-slate-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+        <div className="max-w-6xl mx-auto px-4 lg:px-6 h-16 flex items-center gap-4">
+          <Link to="/" className="flex items-center gap-2.5 mr-2 group">
+            <div className="w-8 h-8 rounded-xl bg-slate-900 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+              <Sparkles className="text-white size-4" />
             </div>
-            <span className="font-extrabold text-lg tracking-tight text-neutral-900">
-              Saveetha<span className="text-indigo-600">AM</span>
+            <span className="font-extrabold text-xl tracking-tight text-slate-900 hidden sm:block">
+              Saveetha<span className="text-slate-400 font-medium">AM</span>
             </span>
           </Link>
-          <span className="text-neutral-300 hidden sm:block">|</span>
-          <span className="font-semibold text-neutral-700 hidden sm:block text-sm">Community</span>
-          <div className="ml-auto flex items-center gap-3">
+          
+          <div className="h-5 w-px bg-slate-200 hidden sm:block mx-1"></div>
+          <span className="font-bold text-slate-800 hidden sm:block text-sm tracking-wide">Community</span>
+          
+          <div className="ml-auto flex items-center gap-3 sm:gap-4">
+            {/* Identity Control */}
             {editingNick ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
                 <input value={nickDraft} onChange={e => setNickDraft(e.target.value.slice(0, NICK_MAX_CHARS))}
                   onKeyDown={e => { if (e.key === 'Enter') { saveNickname(nickDraft); setNickname(nickDraft); setEditingNick(false); } }}
-                  autoFocus className="text-xs border border-indigo-300 rounded-lg px-2 py-1.5 w-32 outline-none focus:ring-2 focus:ring-indigo-400 bg-white text-neutral-900" />
+                  autoFocus className="text-sm font-semibold bg-transparent w-24 sm:w-32 outline-none px-2 text-slate-900 placeholder-slate-400" placeholder="Display name" />
                 <button onClick={() => { saveNickname(nickDraft); setNickname(nickDraft); setEditingNick(false); }}
-                  className="text-xs bg-indigo-600 text-white px-2.5 py-1.5 rounded-lg font-medium">Save</button>
-                <button onClick={() => setEditingNick(false)}><X size={14} className="text-neutral-400" /></button>
+                  className="text-xs bg-slate-900 text-white px-3 py-1.5 rounded-lg font-bold shadow-sm">Save</button>
               </div>
             ) : (
               <button onClick={() => { setNickDraft(nickname); setEditingNick(true); }}
-                className="hidden sm:flex items-center gap-1.5 text-xs text-neutral-500 hover:text-neutral-800 px-2 py-1.5 rounded-lg hover:bg-neutral-100 transition-all">
+                className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-slate-100 transition-colors group">
                 <Avatar name={nickname} size="sm" />
-                <span className="font-medium">{nickname}</span>
-                <Pencil size={10} />
+                <span className="font-bold text-sm text-slate-700 group-hover:text-slate-900 hidden sm:block">{nickname}</span>
               </button>
             )}
-            <span className="flex items-center gap-1.5 text-xs font-semibold text-green-600">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-              <span className="hidden sm:inline">Live</span>
-            </span>
+            
+            {/* Live Indicator */}
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-100">
+              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Live</span>
+            </div>
+            
+            {/* CTA */}
             <button onClick={() => { if (isBanned()) { setShowBan(true); return; } setShowCompose(true); }}
-              className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all shadow-sm active:scale-95">
-              <Plus size={15} /> New Post
+              className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl transition-all shadow-sm active:scale-[0.98]">
+              <Plus size={16} /> <span className="hidden sm:inline">New Post</span><span className="sm:hidden">Post</span>
             </button>
-            <Link to="/" className="hidden sm:block text-sm font-medium text-neutral-500 hover:text-neutral-800 transition-colors">← Back</Link>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-16">
-        <div className="grid lg:grid-cols-[260px_1fr] gap-6 mt-4">
-          {/* Sidebar */}
-          <aside className="hidden lg:block">
-            <div className="sticky top-20 space-y-4">
-              <div className="bg-white border border-neutral-200 rounded-2xl p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center">
-                    <Users size={14} className="text-white" />
+      <main className="max-w-6xl mx-auto px-4 lg:px-6 pt-24 pb-20">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+          
+          {/* Sidebar - Premium SaaS styling */}
+          <aside className="w-full lg:w-[280px] shrink-0 order-2 lg:order-1 mt-6 lg:mt-0">
+            <div className="sticky top-24 space-y-6">
+              
+              {/* Info Card */}
+              <div className="bg-white border border-slate-200/80 rounded-[1.5rem] p-5 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100">
+                    <Users size={20} className="text-slate-700" />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-neutral-800">Discussion Board</p>
-                    <p className="text-xs text-neutral-400">SIMATS Students</p>
+                    <h2 className="text-base font-bold text-slate-900 tracking-tight">Discussion Board</h2>
+                    <p className="text-xs font-medium text-slate-400">SIMATS Network</p>
                   </div>
                 </div>
-                <p className="text-xs text-neutral-500 leading-relaxed mb-3">
-                  Anonymous space to share tips, ask questions, and connect with fellow students. No login needed.
+                <p className="text-sm text-slate-500 leading-relaxed mb-5 font-medium">
+                  An open, anonymous space to share insights, ask questions, and connect with peers.
                 </p>
-                <div className="flex items-center gap-1.5 text-xs text-neutral-500">
-                  <TrendingUp size={11} className="text-indigo-500" />
-                  <span>{posts.length} posts loaded</span>
+                <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest border-t border-slate-100 pt-4">
+                  <TrendingUp size={14} className="text-slate-400" />
+                  {posts.length} entries active
                 </div>
               </div>
-              <div className="bg-white border border-neutral-200 rounded-2xl p-4">
-                <p className="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-3">Topics</p>
-                <div className="space-y-1">
-                  {['All', ...COMMUNITY_TAGS.map(t => t.id)].map(cat => (
-                    <button key={cat} onClick={() => setCategoryFilter(cat)}
-                      className={`w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all text-left
-                        ${categoryFilter === cat ? 'bg-indigo-600 text-white' : 'text-neutral-600 hover:bg-neutral-50'}`}>
-                      {cat === 'All' ? '🌐 All' : COMMUNITY_TAGS.find(t => t.id === cat)?.label || cat}
-                    </button>
-                  ))}
-                </div>
+
+              {/* Topics Nav */}
+              <div className="bg-white border border-slate-200/80 rounded-[1.5rem] p-3 shadow-sm hidden lg:block">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-3 pt-2">Categories</p>
+                <nav className="space-y-0.5">
+                  {['All', ...COMMUNITY_TAGS.map(t => t.id)].map(cat => {
+                    const isActive = categoryFilter === cat;
+                    return (
+                      <button key={cat} onClick={() => setCategoryFilter(cat)}
+                        className={cn(
+                          "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all text-left group",
+                          isActive 
+                            ? 'bg-slate-900 text-white shadow-sm' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                        )}>
+                        <span className={cn("text-base transition-transform group-hover:scale-110", isActive && "grayscale brightness-200 contrast-100")}>
+                          {cat === 'All' ? '🌐' : COMMUNITY_TAGS.find(t => t.id === cat)?.label.charAt(0)}
+                        </span>
+                        <span>{cat === 'All' ? 'Everything' : COMMUNITY_TAGS.find(t => t.id === cat)?.label.slice(2)}</span>
+                        {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white" />}
+                      </button>
+                    );
+                  })}
+                </nav>
               </div>
-              <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4">
-                <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                  <ShieldCheck size={12} /> Community Rules
-                </p>
-                <ul className="text-xs text-amber-700 space-y-1.5 leading-relaxed">
-                  <li>🚫 No inappropriate content (Social Credit system active)</li>
-                  <li>🚫 No spam or hate speech</li>
-                  <li>✅ Be kind — we're all students</li>
-                  <li>🎖️ Mention "Flexi Learning" for +100 social credit 😄</li>
-                  <li>🔒 Anonymous &amp; moderated</li>
+
+              {/* Guidelines */}
+              <div className="bg-slate-900 rounded-[1.5rem] p-5 shadow-sm text-white">
+                <div className="flex items-center gap-2 mb-4 text-emerald-400">
+                  <ShieldCheck size={18} />
+                  <h3 className="text-sm font-bold uppercase tracking-wider">Guidelines</h3>
+                </div>
+                <ul className="text-sm text-slate-300 space-y-3 font-medium">
+                  <li className="flex items-start gap-2"><span className="text-rose-400 mt-0.5">✕</span> Zero tolerance for toxicity</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">✓</span> Constructive discussion only</li>
+                  <li className="flex items-start gap-2"><span className="text-indigo-400 mt-0.5">✧</span> "Flexi Learning" boosts standing</li>
                 </ul>
               </div>
             </div>
           </aside>
 
-          {/* Feed */}
-          <div className="min-w-0">
-            <div className="flex items-center gap-3 mb-5 flex-wrap">
-              <div className="relative flex-1 min-w-[160px]">
-                <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
-                <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search posts…"
-                  className="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-neutral-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-400 transition-all" />
+          {/* Main Feed */}
+          <div className="flex-1 min-w-0 order-1 lg:order-2">
+            
+            {/* Controls Bar (Search + Sort + Mobile Filter) */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6">
+              
+              {/* Search - Pill shaped */}
+              <div className="relative flex-1 group">
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
+                <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search discussions..."
+                  className="w-full pl-11 pr-4 py-3 text-sm font-medium bg-white border border-slate-200/80 rounded-full outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-sm" />
               </div>
-              <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}
-                className="lg:hidden text-sm bg-white border border-neutral-200 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-400 appearance-none font-medium">
-                <option value="All">All Topics</option>
-                {COMMUNITY_TAGS.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
-              </select>
-              <div className="flex bg-white border border-neutral-200 rounded-xl overflow-hidden text-sm font-semibold shrink-0">
+
+              {/* Mobile Category Select */}
+              <div className="relative lg:hidden">
+                <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}
+                  className="w-full text-sm bg-white border border-slate-200/80 rounded-full pl-4 pr-10 py-3 outline-none focus:ring-2 focus:ring-slate-900 appearance-none font-bold text-slate-700 shadow-sm">
+                  <option value="All">All Categories</option>
+                  {COMMUNITY_TAGS.map(t => <option key={t.id} value={t.id}>{t.label.slice(2)}</option>)}
+                </select>
+                <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              </div>
+
+              {/* Segmented Control for Sort */}
+              <div className="flex bg-slate-200/50 p-1 rounded-full shrink-0 self-start sm:self-auto w-full sm:w-auto">
                 <button onClick={() => setSort('latest')}
-                  className={`px-4 py-2.5 flex items-center gap-1.5 transition-all ${sort === 'latest' ? 'bg-indigo-600 text-white' : 'text-neutral-600 hover:bg-neutral-50'}`}>
-                  <Clock size={13} /> Latest
+                  className={cn(
+                    "flex-1 sm:flex-none px-5 py-2 flex items-center justify-center gap-1.5 text-sm font-bold rounded-full transition-all duration-200",
+                    sort === 'latest' ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                  )}>
+                  <Clock size={14} /> Latest
                 </button>
                 <button onClick={() => setSort('hot')}
-                  className={`px-4 py-2.5 flex items-center gap-1.5 transition-all ${sort === 'hot' ? 'bg-indigo-600 text-white' : 'text-neutral-600 hover:bg-neutral-50'}`}>
-                  <Zap size={13} /> Hot
+                  className={cn(
+                    "flex-1 sm:flex-none px-5 py-2 flex items-center justify-center gap-1.5 text-sm font-bold rounded-full transition-all duration-200",
+                    sort === 'hot' ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                  )}>
+                  <Zap size={14} /> Hot
                 </button>
               </div>
             </div>
 
-            {liveCount > 0 && (
-              <button onClick={() => { setLiveCount(0); setPage(0); fetchPosts(0, categoryFilter, search, sort, true); }}
-                className="w-full mb-4 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-3 rounded-xl transition-all shadow-sm">
-                <RefreshCw size={14} />
-                {liveCount} new post{liveCount > 1 ? 's' : ''} — Click to refresh
-              </button>
-            )}
+            {/* Live Update Pill */}
+            <AnimatePresence>
+              {liveCount > 0 && (
+                <motion.div initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }} className="mb-6 flex justify-center">
+                  <button onClick={() => { setLiveCount(0); setPage(0); fetchPosts(0, categoryFilter, search, sort, true); }}
+                    className="flex items-center gap-2 bg-slate-900 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-transform hover:scale-105 shadow-md">
+                    <RefreshCw size={14} className="animate-spin" />
+                    Load {liveCount} new {liveCount > 1 ? 'entries' : 'entry'}
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
+            {/* Feed Content */}
             {loading ? (
-              <div className="space-y-3">
-                {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="bg-white border border-neutral-200 rounded-2xl p-5 space-y-3 animate-pulse">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-neutral-100" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-3 bg-neutral-100 rounded w-28" />
-                        <div className="h-3 bg-neutral-100 rounded w-3/4" />
-                        <div className="h-3 bg-neutral-100 rounded w-1/2" />
+              <div className="space-y-4">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="bg-white border border-slate-200/80 rounded-[1.5rem] p-6 animate-pulse">
+                    <div className="flex gap-4">
+                      <div className="w-11 h-11 rounded-full bg-slate-100 shrink-0" />
+                      <div className="flex-1 space-y-3 pt-1">
+                        <div className="h-4 bg-slate-100 rounded-full w-1/3" />
+                        <div className="h-3 bg-slate-100 rounded-full w-full" />
+                        <div className="h-3 bg-slate-100 rounded-full w-2/3" />
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             ) : posts.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-24 text-center bg-white border border-neutral-200 rounded-2xl">
-                <MessageSquare size={48} className="text-neutral-200 mb-4" />
-                <p className="text-neutral-600 font-bold text-lg">No posts yet</p>
-                <p className="text-neutral-400 text-sm mt-1">Be the first to start a conversation!</p>
+              <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-white border border-slate-200/80 rounded-[2rem] shadow-sm">
+                <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-5 border border-slate-100">
+                  <MessageSquare size={28} className="text-slate-300" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">No discussions found</h3>
+                <p className="text-sm font-medium text-slate-500 max-w-xs mx-auto mb-6">
+                  {search ? 'Try adjusting your filters or search terms.' : 'Be the first to start a conversation in this topic.'}
+                </p>
                 <button onClick={() => setShowCompose(true)}
-                  className="mt-5 flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-indigo-700 transition-all">
-                  <Plus size={15} /> Write a post
+                  className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-slate-800 transition-all shadow-sm active:scale-95">
+                  <Plus size={16} /> New Discussion
                 </button>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-4 lg:space-y-5">
                 {posts.map(post => (
                   <PostCard key={post.id} post={post} nickname={nickname}
                     expanded={expandedId === post.id}
-                    onToggle={() => setExpandedId(prev => prev === post.id ? null : post.id)}
-                    onDelete={handleDeletePost} />
+                    onToggle={() => setExpandedId(prev => prev === post.id ? null : post.id)} />
                 ))}
               </div>
             )}
@@ -915,9 +1023,9 @@ export default function Community() {
             {!loading && hasMore && posts.length > 0 && (
               <button onClick={() => { const next = page + 1; setPage(next); fetchPosts(next, categoryFilter, search, sort, false); }}
                 disabled={loadingMore}
-                className="w-full mt-5 flex items-center justify-center gap-2 text-sm font-semibold text-indigo-600 border border-indigo-200 hover:bg-indigo-50 rounded-xl py-3 transition-all disabled:opacity-50">
-                {loadingMore ? <RefreshCw size={14} className="animate-spin" /> : <ChevronDown size={14} />}
-                {loadingMore ? 'Loading…' : 'Load more'}
+                className="w-full mt-8 flex items-center justify-center gap-2 text-sm font-bold text-slate-900 bg-white border border-slate-200 hover:border-slate-300 rounded-xl py-4 transition-all shadow-sm disabled:opacity-50">
+                {loadingMore ? <RefreshCw size={16} className="animate-spin" /> : <ChevronDown size={16} />}
+                {loadingMore ? 'Loading more...' : 'Load older discussions'}
               </button>
             )}
           </div>

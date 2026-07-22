@@ -24,7 +24,7 @@
     "@supabase/supabase-js": "^2.39.0",
     "class-variance-authority": "^0.7.1",
     "date-fns": "^3.0.6",
-    "framer-motion": "^10.16.16",
+    "framer-motion": "^10.18.0",
     "gsap": "^3.14.1",
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
