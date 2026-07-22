@@ -26,7 +26,7 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <Sparkles className="text-neutral-900 dark:text-white size-4" />
+              <Sparkles className="text-neutral-900 size-4" />
             </div>
             <span className="font-extrabold text-xl text-neutral-900 tracking-tight">
               Saveetha<span className="text-indigo-600">AM</span>
@@ -95,7 +95,7 @@ const Landing = () => {
             >
               <Link
                 to="/signup"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-neutral-900 dark:text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-indigo-600/20 hover:shadow-indigo-600/30 hover:-translate-y-0.5 active:scale-95"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-neutral-900 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-indigo-600/20 hover:shadow-indigo-600/30 hover:-translate-y-0.5 active:scale-95"
               >
                 Start Tracking Now <ArrowRight size={20} />
               </Link>

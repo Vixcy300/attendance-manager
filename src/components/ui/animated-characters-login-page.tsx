@@ -563,7 +563,7 @@ export function LoginPage() {
                 onFocus={() => setIsTyping(true)}
                 onBlur={() => setIsTyping(false)}
                 required
-                className="h-12 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white border-gray-200 dark:border-neutral-800 focus:border-indigo-500 placeholder:text-neutral-500"
+                className="h-12 bg-white text-neutral-900 border-gray-200 focus:border-indigo-500 placeholder:text-neutral-500"
               />
             </div>
 
@@ -577,7 +577,7 @@ export function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="h-12 pr-10 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white border-gray-200 dark:border-neutral-800 focus:border-indigo-500 placeholder:text-neutral-500"
+                  className="h-12 pr-10 bg-white text-neutral-900 border-gray-200 focus:border-indigo-500 placeholder:text-neutral-500"
                 />
                 <button
                   type="button"
@@ -633,7 +633,7 @@ export function LoginPage() {
               variant="outline" 
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full h-12 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white border-gray-200 dark:border-neutral-800 hover:bg-gray-100 dark:bg-neutral-800"
+              className="w-full h-12 bg-white text-neutral-900 border-gray-200 hover:bg-gray-100"
               type="button"
             >
               <Mail className="mr-2 size-5" />
@@ -642,7 +642,7 @@ export function LoginPage() {
             <Button 
               variant="outline" 
               onClick={handleGuestLogin}
-              className="w-full h-12 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white border-gray-200 dark:border-neutral-800 hover:bg-gray-100 dark:bg-neutral-800"
+              className="w-full h-12 bg-white text-neutral-900 border-gray-200 hover:bg-gray-100"
               type="button"
             >
               Try as Guest

@@ -89,47 +89,47 @@ const BunkSquad = () => {
                     <Users className="w-6 h-6 text-pink-400" />
                 </div>
                 <div>
-                    <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">Bunk Squad Sync</h1>
-                    <p className="text-neutral-500 dark:text-neutral-400">Sync attendance with friends before skipping together</p>
+                    <h1 className="text-2xl font-bold text-neutral-900">Bunk Squad Sync</h1>
+                    <p className="text-neutral-500">Sync attendance with friends before skipping together</p>
                 </div>
             </div>
 
             {!inSquad ? (
                 <div className="grid md:grid-cols-2 gap-6">
                     {/* Create Squad */}
-                    <div className="glass-card p-8 border-gray-200 dark:border-neutral-800 text-center space-y-6">
+                    <div className="glass-card p-8 border-gray-200 text-center space-y-6">
                         <div className="w-16 h-16 bg-pink-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
                             <Plus className="w-8 h-8 text-pink-400" />
                         </div>
-                        <h2 className="text-xl font-bold text-neutral-900 dark:text-white">Create a Squad</h2>
-                        <p className="text-neutral-500 dark:text-neutral-400 text-sm">Start a new bunk group and invite your friends to sync your schedules.</p>
+                        <h2 className="text-xl font-bold text-neutral-900">Create a Squad</h2>
+                        <p className="text-neutral-500 text-sm">Start a new bunk group and invite your friends to sync your schedules.</p>
                         <button 
                             onClick={generateCode}
-                            className="w-full bg-pink-600 hover:bg-pink-500 text-neutral-900 dark:text-white py-3 rounded-xl font-bold transition-colors shadow-lg shadow-pink-500/20"
+                            className="w-full bg-pink-600 hover:bg-pink-500 text-neutral-900 py-3 rounded-xl font-bold transition-colors shadow-lg shadow-pink-500/20"
                         >
                             Generate Squad Code
                         </button>
                     </div>
 
                     {/* Join Squad */}
-                    <div className="glass-card p-8 border-gray-200 dark:border-neutral-800 text-center space-y-6">
+                    <div className="glass-card p-8 border-gray-200 text-center space-y-6">
                         <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
                             <Users className="w-8 h-8 text-blue-400" />
                         </div>
-                        <h2 className="text-xl font-bold text-neutral-900 dark:text-white">Join a Squad</h2>
-                        <p className="text-neutral-500 dark:text-neutral-400 text-sm">Have an invite code from a friend? Enter it below to link up.</p>
+                        <h2 className="text-xl font-bold text-neutral-900">Join a Squad</h2>
+                        <p className="text-neutral-500 text-sm">Have an invite code from a friend? Enter it below to link up.</p>
                         <form onSubmit={joinSquad} className="space-y-4">
                             <input 
                                 type="text"
                                 placeholder="Enter Code (e.g. SQD-123)"
                                 value={joinCode}
                                 onChange={(e) => setJoinCode(e.target.value)}
-                                className="w-full bg-black border border-gray-200 dark:border-neutral-800 rounded-xl px-4 py-3 text-center text-neutral-900 dark:text-white focus:outline-none focus:border-blue-500 uppercase tracking-widest font-mono"
+                                className="w-full bg-black border border-gray-200 rounded-xl px-4 py-3 text-center text-neutral-900 focus:outline-none focus:border-blue-500 uppercase tracking-widest font-mono"
                             />
                             <button 
                                 type="submit"
                                 disabled={syncing || joinCode.length < 5}
-                                className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-neutral-900 dark:text-white py-3 rounded-xl font-bold transition-colors shadow-lg shadow-blue-500/20 flex justify-center items-center gap-2"
+                                className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-neutral-900 py-3 rounded-xl font-bold transition-colors shadow-lg shadow-blue-500/20 flex justify-center items-center gap-2"
                             >
                                 {syncing ? <RefreshCw className="animate-spin w-5 h-5" /> : 'Join Squad'}
                             </button>
@@ -146,11 +146,11 @@ const BunkSquad = () => {
                                 <Users className="text-pink-400 w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">Active Squad</h2>
-                                <p className="text-neutral-500 dark:text-neutral-400 text-sm">3 members connected</p>
+                                <h2 className="text-xl font-bold text-neutral-900">Active Squad</h2>
+                                <p className="text-neutral-500 text-sm">3 members connected</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3 bg-black px-4 py-2 rounded-lg border border-gray-200 dark:border-neutral-800 cursor-pointer hover:border-pink-500/50 transition-colors" onClick={() => {navigator.clipboard.writeText(squadCode); toast.success('Code copied!')}}>
+                        <div className="flex items-center gap-3 bg-black px-4 py-2 rounded-lg border border-gray-200 cursor-pointer hover:border-pink-500/50 transition-colors" onClick={() => {navigator.clipboard.writeText(squadCode); toast.success('Code copied!')}}>
                             <span className="text-neutral-500 font-mono text-sm">CODE:</span>
                             <span className="text-pink-400 font-bold font-mono tracking-widest">{squadCode}</span>
                             <Copy size={16} className="text-neutral-500 ml-2" />
@@ -160,14 +160,14 @@ const BunkSquad = () => {
                     {/* Members List */}
                     <div className="grid md:grid-cols-3 gap-4">
                         {squadMembers.map(member => (
-                            <div key={member.id} className="glass-card p-5 border-gray-200 dark:border-neutral-800 relative overflow-hidden">
+                            <div key={member.id} className="glass-card p-5 border-gray-200 relative overflow-hidden">
                                 {member.isMe && <div className="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>}
                                 <div className="flex items-center gap-4 mb-4">
-                                    <div className="text-3xl bg-white dark:bg-neutral-900 w-12 h-12 flex items-center justify-center rounded-full">
+                                    <div className="text-3xl bg-white w-12 h-12 flex items-center justify-center rounded-full">
                                         {member.avatar}
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-neutral-900 dark:text-white flex items-center gap-2">
+                                        <h3 className="font-bold text-neutral-900 flex items-center gap-2">
                                             {member.name} {member.isMe && <span className="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full uppercase tracking-wider">You</span>}
                                         </h3>
                                         <span className={`text-xs font-bold flex items-center gap-1 ${member.status === 'safe' ? 'text-emerald-400' : 'text-red-400'}`}>
@@ -176,7 +176,7 @@ const BunkSquad = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div className="pt-4 border-t border-gray-200 dark:border-white/5">
+                                <div className="pt-4 border-t border-gray-200">
                                     <div className="text-xs text-neutral-500 mb-1">Lowest Subject Margin</div>
                                     <div className={`text-2xl font-black ${member.lowestAttendance >= 75 ? 'text-emerald-400' : 'text-red-500'}`}>
                                         {member.lowestAttendance.toFixed(1)}%
@@ -191,7 +191,7 @@ const BunkSquad = () => {
                         <button 
                             onClick={simulateGroupBunk}
                             disabled={syncing}
-                            className="w-full group relative overflow-hidden bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-neutral-900 dark:text-white p-6 rounded-2xl font-black text-xl transition-all shadow-[0_0_40px_rgba(219,39,119,0.3)] disabled:opacity-50"
+                            className="w-full group relative overflow-hidden bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-neutral-900 p-6 rounded-2xl font-black text-xl transition-all shadow-[0_0_40px_rgba(219,39,119,0.3)] disabled:opacity-50"
                         >
                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                             <div className="relative z-10 flex items-center justify-center gap-3">

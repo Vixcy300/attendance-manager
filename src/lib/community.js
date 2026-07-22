@@ -5,24 +5,22 @@ import DOMPurify from 'dompurify';
 // Constants
 // ---------------------------------------------------------------------------
 export const POST_MAX_CHARS  = 2000;
+export const REPLY_MAX_CHARS = 1000;
 export const NICK_MAX_CHARS  = 30;
-export const RATE_LIMIT_MAX  = 3;       // posts per window
-export const RATE_LIMIT_MS   = 5 * 60 * 1000; // 5 minutes
+export const RATE_LIMIT_MAX  = 3;
+export const RATE_LIMIT_MS   = 5 * 60 * 1000;
 export const POSTS_PER_PAGE  = 20;
 
 export const CATEGORIES = ['General', 'Help', 'Tips', 'V-Study', 'ARMS', 'Announcements', 'Funny'];
 
 // ---------------------------------------------------------------------------
-// Safety: Sanitize text (strips HTML / XSS)
+// Safety
 // ---------------------------------------------------------------------------
 export function sanitize(text) {
   if (typeof window === 'undefined') return text;
   return DOMPurify.sanitize(text, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
 }
 
-// ---------------------------------------------------------------------------
-// Safety: Profanity check (basic blocklist – expand as needed)
-// ---------------------------------------------------------------------------
 const BLOCKLIST = [
   /\bfuck\b/i, /\bshit\b/i, /\bbitch\b/i, /\basshole\b/i,
   /\bwhore\b/i, /\bslut\b/i, /\bnigger\b/i, /\bfaggot\b/i,
@@ -32,7 +30,7 @@ export function hasProfanity(text) {
 }
 
 // ---------------------------------------------------------------------------
-// Safety: Client-side rate limiting via localStorage
+// Rate limiting
 // ---------------------------------------------------------------------------
 const RL_KEY = 'community_posts_rl';
 export function canPost() {
@@ -56,7 +54,7 @@ export function recordPost() {
 }
 
 // ---------------------------------------------------------------------------
-// Safety: Duplicate content guard (same text within 60s)
+// Duplicate guard
 // ---------------------------------------------------------------------------
 const DUP_KEY = 'community_last_hash';
 function simpleHash(str) {
@@ -79,7 +77,7 @@ export function recordHash(text) {
 }
 
 // ---------------------------------------------------------------------------
-// Anonymous nickname generator (persisted per browser)
+// Nickname
 // ---------------------------------------------------------------------------
 const NICK_KEY = 'community_nickname';
 const ADJECTIVES = ['Swift', 'Clever', 'Bright', 'Bold', 'Calm', 'Daring', 'Epic', 'Fearless', 'Gentle', 'Happy'];
@@ -101,17 +99,40 @@ export function saveNickname(nick) {
 }
 
 // ---------------------------------------------------------------------------
-// Supabase CRUD
+// Avatar color (deterministic from nickname)
+// ---------------------------------------------------------------------------
+const AVATAR_GRADIENTS = [
+  'from-violet-500 to-indigo-500',
+  'from-rose-500 to-pink-500',
+  'from-emerald-500 to-teal-500',
+  'from-amber-500 to-orange-500',
+  'from-cyan-500 to-blue-500',
+  'from-fuchsia-500 to-purple-500',
+];
+export function avatarGradient(name = '') {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+  return AVATAR_GRADIENTS[Math.abs(h) % AVATAR_GRADIENTS.length];
+}
+
+// ---------------------------------------------------------------------------
+// Supabase: Posts
 // ---------------------------------------------------------------------------
 export const community = {
-  async getPosts({ category = null, search = '', page = 0 } = {}) {
+  async getPosts({ category = null, search = '', page = 0, sort = 'latest' } = {}) {
     let q = supabase
       .from('community_posts')
       .select('*')
-      .order('created_at', { ascending: false })
       .range(page * POSTS_PER_PAGE, (page + 1) * POSTS_PER_PAGE - 1);
+
     if (category && category !== 'All') q = q.eq('category', category);
     if (search.trim()) q = q.ilike('content', `%${search.trim()}%`);
+
+    if (sort === 'hot') {
+      q = q.order('likes', { ascending: false });
+    } else {
+      q = q.order('created_at', { ascending: false });
+    }
     return q;
   },
 
@@ -123,16 +144,45 @@ export const community = {
       likes: 0,
       hearts: 0,
       fires: 0,
+      reply_count: 0,
     }]).select().single();
   },
 
   async react(postId, field) {
-    // Use RPC to atomically increment
     return supabase.rpc('increment_reaction', { post_id: postId, field_name: field });
   },
 
+  // ─── Replies ───────────────────────────────────────────────────────────
+  async getReplies(postId) {
+    return supabase
+      .from('community_replies')
+      .select('*')
+      .eq('post_id', postId)
+      .order('created_at', { ascending: true });
+  },
+
+  async createReply({ postId, parentId, nickname, content }) {
+    const { data, error } = await supabase.from('community_replies').insert([{
+      post_id:   postId,
+      parent_id: parentId || null,
+      nickname:  sanitize(nickname).slice(0, NICK_MAX_CHARS),
+      content:   sanitize(content).slice(0, REPLY_MAX_CHARS),
+      likes:     0,
+    }]).select().single();
+
+    // Increment the reply_count on the parent post
+    if (!error) {
+      await supabase.rpc('increment_reply_count', { post_id: postId });
+    }
+    return { data, error };
+  },
+
+  async likeReply(replyId) {
+    return supabase.rpc('increment_reply_like', { reply_id: replyId });
+  },
+
   subscribeToNew(callback) {
-    return supabase.channel('community_posts_insert')
+    return supabase.channel('community_realtime')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_posts' }, callback)
       .subscribe();
   },

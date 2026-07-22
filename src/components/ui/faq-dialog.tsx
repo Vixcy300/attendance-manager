@@ -79,7 +79,7 @@ export function FaqDialog() {
           </DialogHeader>
           <DialogFooter className="px-6 pb-6 sm:justify-start">
             <DialogClose asChild>
-              <Button type="button" className="bg-indigo-600 hover:bg-indigo-700 text-neutral-900 dark:text-white rounded-full px-6">
+              <Button type="button" className="bg-indigo-600 hover:bg-indigo-700 text-neutral-900 rounded-full px-6">
                 Understood
               </Button>
             </DialogClose>

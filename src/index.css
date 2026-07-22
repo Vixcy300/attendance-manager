@@ -74,7 +74,7 @@
   }
 
   .spinner-blade {
-    @apply absolute h-[20%] w-[8%] bg-neutral-900 dark:bg-white rounded-[1px];
+    @apply absolute h-[20%] w-[8%] bg-neutral-900 rounded-[1px];
     animation: spinner-blade 1s linear infinite;
     will-change: opacity;
     top: 37%;

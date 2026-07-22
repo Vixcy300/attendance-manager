@@ -44,20 +44,20 @@ const Profile = () => {
     <div className="space-y-6 max-w-xl mx-auto">
       {/* Header */}
       <div className="text-center">
-        <div className="w-20 h-20 rounded-full bg-emerald-500 flex items-center justify-center text-neutral-900 dark:text-white text-3xl font-bold mx-auto mb-3">
+        <div className="w-20 h-20 rounded-full bg-emerald-500 flex items-center justify-center text-neutral-900 text-3xl font-bold mx-auto mb-3">
           {userData?.name?.charAt(0).toUpperCase() || 'U'}
         </div>
-        <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white">My Profile</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">My Profile</h1>
         <p className="text-neutral-500 text-sm">Manage your account information</p>
       </div>
 
       {/* Profile Form */}
-      <form onSubmit={handleSubmit} className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4 sm:p-6 space-y-5">
-        <h2 className="font-semibold text-neutral-900 dark:text-white mb-4">Personal Information</h2>
+      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 space-y-5">
+        <h2 className="font-semibold text-neutral-900 mb-4">Personal Information</h2>
 
         {/* Email (Read-only) */}
         <div>
-          <label className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">
+          <label className="flex items-center gap-2 text-sm text-neutral-500 mb-1.5">
             <Mail size={14} />
             Email Address
           </label>
@@ -65,7 +65,7 @@ const Profile = () => {
             type="email"
             value={user?.email || ''}
             disabled
-            className="w-full px-3 py-2 bg-gray-50 dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-lg text-neutral-500 cursor-not-allowed"
+            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-neutral-500 cursor-not-allowed"
           />
           <p className="text-xs text-neutral-600 mt-1">Email cannot be changed</p>
           
@@ -81,7 +81,7 @@ const Profile = () => {
 
         {/* Name */}
         <div>
-          <label className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">
+          <label className="flex items-center gap-2 text-sm text-neutral-500 mb-1.5">
             <User size={14} />
             Full Name *
           </label>
@@ -91,13 +91,13 @@ const Profile = () => {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             placeholder="Enter your name"
             required
-            className="w-full px-3 py-2 bg-gray-50 dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-lg text-neutral-900 dark:text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
+            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-neutral-900 placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
           />
         </div>
 
         {/* Roll Number */}
         <div>
-          <label className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">
+          <label className="flex items-center gap-2 text-sm text-neutral-500 mb-1.5">
             <Hash size={14} />
             Roll Number
           </label>
@@ -106,13 +106,13 @@ const Profile = () => {
             value={formData.roll_number}
             onChange={(e) => setFormData({ ...formData, roll_number: e.target.value })}
             placeholder="Enter your roll number"
-            className="w-full px-3 py-2 bg-gray-50 dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-lg text-neutral-900 dark:text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
+            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-neutral-900 placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
           />
         </div>
 
         {/* University */}
         <div>
-          <label className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-1.5">
+          <label className="flex items-center gap-2 text-sm text-neutral-500 mb-1.5">
             <Building2 size={14} />
             University / College
           </label>
@@ -121,14 +121,14 @@ const Profile = () => {
             value={formData.university}
             onChange={(e) => setFormData({ ...formData, university: e.target.value })}
             placeholder="Enter your institution"
-            className="w-full px-3 py-2 bg-gray-50 dark:bg-neutral-950 border border-gray-200 dark:border-neutral-800 rounded-lg text-neutral-900 dark:text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
+            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-neutral-900 placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-neutral-900 dark:text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-neutral-900 font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           <Save size={18} />
           {loading ? 'Saving...' : 'Save Changes'}
@@ -136,12 +136,12 @@ const Profile = () => {
       </form>
 
       {/* Account Info */}
-      <div className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4">
-        <h3 className="font-medium text-neutral-900 dark:text-white mb-3">Account Info</h3>
+      <div className="bg-white border border-gray-200 rounded-xl p-4">
+        <h3 className="font-medium text-neutral-900 mb-3">Account Info</h3>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-neutral-500">Member Since</span>
-            <span className="text-neutral-600 dark:text-neutral-300">
+            <span className="text-neutral-600">
               {userData?.created_at ? new Date(userData.created_at).toLocaleDateString() : '-'}
             </span>
           </div>

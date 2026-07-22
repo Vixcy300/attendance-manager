@@ -31,7 +31,7 @@ const FeedbackHistory = () => {
       case 'Completed':
         return 'bg-emerald-500/10 text-emerald-400';
       default:
-        return 'bg-neutral-500/10 text-neutral-500 dark:text-neutral-400';
+        return 'bg-neutral-500/10 text-neutral-500';
     }
   };
 
@@ -41,31 +41,31 @@ const FeedbackHistory = () => {
       <div className="flex items-center gap-3">
         <Link 
           to="/feedback" 
-          className="p-2 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 transition-colors"
+          className="p-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors"
         >
-          <ArrowLeft size={18} className="text-neutral-500 dark:text-neutral-400" />
+          <ArrowLeft size={18} className="text-neutral-500" />
         </Link>
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white">Feedback History</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Feedback History</h1>
           <p className="text-neutral-500 text-sm mt-0.5">View your submitted feedback</p>
         </div>
       </div>
 
       {/* Feedback List */}
       {loading ? (
-        <div className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-8 text-center">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
           <p className="text-neutral-500">Loading...</p>
         </div>
       ) : feedbackList.length === 0 ? (
-        <div className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl text-center py-12 px-6">
-          <div className="w-16 h-16 bg-gray-100 dark:bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="bg-white border border-gray-200 rounded-xl text-center py-12 px-6">
+          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <MessageSquare className="w-8 h-8 text-neutral-600" />
           </div>
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">No feedback yet</h3>
+          <h3 className="text-lg font-semibold text-neutral-900 mb-2">No feedback yet</h3>
           <p className="text-neutral-500 mb-6">You haven't submitted any feedback</p>
           <Link
             to="/feedback"
-            className="bg-emerald-500 hover:bg-emerald-600 text-neutral-900 dark:text-white font-medium py-2 px-4 rounded-lg transition-colors inline-block"
+            className="bg-emerald-500 hover:bg-emerald-600 text-neutral-900 font-medium py-2 px-4 rounded-lg transition-colors inline-block"
           >
             Submit Feedback
           </Link>
@@ -75,19 +75,19 @@ const FeedbackHistory = () => {
           {feedbackList.map((feedback) => (
             <div
               key={feedback.id}
-              className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-4 hover:border-neutral-700 transition-colors"
+              className="bg-white border border-gray-200 rounded-xl p-4 hover:border-neutral-700 transition-colors"
             >
               <div className="flex items-start justify-between gap-3 mb-2">
-                <h3 className="font-medium text-neutral-900 dark:text-white">{feedback.subject}</h3>
+                <h3 className="font-medium text-neutral-900">{feedback.subject}</h3>
                 <span className={`text-xs px-2 py-0.5 rounded shrink-0 ${getStatusColor(feedback.status)}`}>
                   {feedback.status}
                 </span>
               </div>
               
-              <p className="text-neutral-500 dark:text-neutral-400 text-sm line-clamp-2 mb-3">{feedback.description}</p>
+              <p className="text-neutral-500 text-sm line-clamp-2 mb-3">{feedback.description}</p>
               
               <div className="flex items-center justify-between text-xs">
-                <span className="bg-gray-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 px-2 py-0.5 rounded">
+                <span className="bg-gray-100 text-neutral-500 px-2 py-0.5 rounded">
                   {feedback.type}
                 </span>
                 <span className="text-neutral-600 flex items-center gap-1">

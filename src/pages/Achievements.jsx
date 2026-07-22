@@ -162,14 +162,14 @@ const Achievements = () => {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <p className="text-xs uppercase tracking-widest text-neutral-500 mb-1 font-semibold">Achievements</p>
-                    <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
+                    <h1 className="text-2xl font-extrabold text-neutral-900 tracking-tight">
                         Your Badges
                     </h1>
                 </div>
                 <div className="flex gap-3">
                     <button
                         onClick={handleShare}
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-white/[0.03] hover:bg-white/[0.06] text-neutral-600 dark:text-neutral-300 text-sm font-medium transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-300 bg-gray-100 hover:bg-white/[0.06] text-neutral-600 text-sm font-medium transition-colors"
                     >
                         <Share2 size={16} />
                         Share
@@ -182,12 +182,12 @@ const Achievements = () => {
             </div>
 
             {/* Progress Overview */}
-            <div className="rounded-2xl border border-white/[0.06] bg-gray-50 dark:bg-white/[0.02] p-5">
+            <div className="rounded-2xl border border-white/[0.06] bg-gray-50 p-5">
                 <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-neutral-500 dark:text-neutral-400">Overall Progress</span>
-                    <span className="text-sm font-bold text-neutral-900 dark:text-white">{unlockedCount} of {achievements.length} unlocked</span>
+                    <span className="text-sm font-semibold text-neutral-500">Overall Progress</span>
+                    <span className="text-sm font-bold text-neutral-900">{unlockedCount} of {achievements.length} unlocked</span>
                 </div>
-                <div className="h-2 bg-white dark:bg-neutral-900 rounded-full overflow-hidden">
+                <div className="h-2 bg-white rounded-full overflow-hidden">
                     <div
                         className="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-1000"
                         style={{ width: `${(unlockedCount / achievements.length) * 100}%` }}
@@ -202,7 +202,7 @@ const Achievements = () => {
                         key={item.id}
                         className={`relative rounded-2xl border p-5 transition-all duration-300 overflow-hidden group ${
                             item.unlocked
-                                ? `${item.border} bg-gray-100 dark:bg-white/[0.03] hover:bg-white/[0.05]`
+                                ? `${item.border} bg-gray-100 hover:bg-white/[0.05]`
                                 : 'border-white/[0.04] bg-white/[0.01] opacity-60 hover:opacity-80'
                         }`}
                     >
@@ -214,7 +214,7 @@ const Achievements = () => {
                         <div className="relative z-10">
                             {/* Icon + Badge */}
                             <div className="flex justify-between items-start mb-4">
-                                <div className={`p-3 rounded-xl ${item.unlocked ? item.bg : 'bg-white dark:bg-neutral-900'}`}>
+                                <div className={`p-3 rounded-xl ${item.unlocked ? item.bg : 'bg-white'}`}>
                                     <item.icon className={item.unlocked ? item.color : 'text-neutral-600'} size={22} />
                                 </div>
                                 {item.unlocked && (
@@ -225,7 +225,7 @@ const Achievements = () => {
                             </div>
 
                             {/* Title + Description */}
-                            <h3 className={`font-bold text-base mb-1 ${item.unlocked ? 'text-neutral-900 dark:text-white' : 'text-neutral-500'}`}>
+                            <h3 className={`font-bold text-base mb-1 ${item.unlocked ? 'text-neutral-900' : 'text-neutral-500'}`}>
                                 {item.title}
                             </h3>
                             <p className="text-xs text-neutral-500 mb-4 leading-relaxed">{item.description}</p>
@@ -238,7 +238,7 @@ const Achievements = () => {
                                         {Math.min(100, Math.floor(item.progress))}%
                                     </span>
                                 </div>
-                                <div className="h-1.5 bg-white dark:bg-neutral-900 rounded-full overflow-hidden">
+                                <div className="h-1.5 bg-white rounded-full overflow-hidden">
                                     <div
                                         className={`h-full rounded-full transition-all duration-1000 ease-out ${item.unlocked ? item.barColor : 'bg-neutral-700'}`}
                                         style={{ width: `${Math.min(100, item.progress)}%` }}
@@ -252,9 +252,9 @@ const Achievements = () => {
 
             {/* Encouragement */}
             {unlockedCount < achievements.length && (
-                <div className="rounded-2xl border border-white/[0.06] bg-gray-50 dark:bg-white/[0.02] p-5 text-center">
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                        Keep attending classes to unlock more badges! You're <span className="text-neutral-900 dark:text-white font-semibold">{achievements.length - unlockedCount}</span> away from completing all achievements.
+                <div className="rounded-2xl border border-white/[0.06] bg-gray-50 p-5 text-center">
+                    <p className="text-sm text-neutral-500">
+                        Keep attending classes to unlock more badges! You're <span className="text-neutral-900 font-semibold">{achievements.length - unlockedCount}</span> away from completing all achievements.
                     </p>
                 </div>
             )}

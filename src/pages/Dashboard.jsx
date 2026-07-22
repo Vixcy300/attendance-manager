@@ -115,13 +115,13 @@ const Dashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-widest text-neutral-500 mb-1 font-semibold">Dashboard</p>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight leading-tight">
             Welcome back{user?.user_metadata?.full_name ? `, ${user.user_metadata.full_name.split(' ')[0]}` : ''}
           </h1>
         </div>
         <button
           onClick={() => navigate('/streaks')}
-          className="group inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-neutral-900 dark:text-white text-sm font-semibold rounded-xl hover:brightness-110 transition-all shadow-lg shadow-orange-500/20 w-fit"
+          className="group inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-neutral-900 text-sm font-semibold rounded-xl hover:brightness-110 transition-all shadow-lg shadow-orange-500/20 w-fit"
         >
           <Flame size={16} className="group-hover:animate-pulse" />
           Streaks
@@ -143,9 +143,9 @@ const Dashboard = () => {
             />
             <div className="flex items-center gap-2 mb-3">
               <s.icon size={16} className={s.accent} />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">{s.label}</span>
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-neutral-500">{s.label}</span>
             </div>
-            <p className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white tracking-tight leading-none">{s.value}</p>
+            <p className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight leading-none">{s.value}</p>
             <p className="text-[11px] text-neutral-500 mt-1 font-medium">{s.sub}</p>
           </div>
         ))}
@@ -154,7 +154,7 @@ const Dashboard = () => {
       {/* ─── COURSES SECTION ─── */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-bold text-neutral-900 dark:text-white tracking-tight flex items-center gap-2">
+          <h2 className="text-base font-bold text-neutral-900 tracking-tight flex items-center gap-2">
             <BookOpen size={18} className="text-indigo-400" />
             Your Courses
           </h2>
@@ -167,7 +167,7 @@ const Dashboard = () => {
         </div>
 
         {courses.length === 0 ? (
-          <div className="text-center py-16 rounded-2xl border border-dashed border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
+          <div className="text-center py-16 rounded-2xl border border-dashed border-gray-300 bg-gray-50">
             <BookOpen size={40} className="mx-auto text-neutral-700 mb-4" />
             <p className="text-neutral-500 mb-5 text-sm font-medium">No courses added yet</p>
             <button onClick={() => navigate('/courses')} className="btn-primary text-sm">
@@ -187,13 +187,13 @@ const Dashboard = () => {
                 <div
                   key={course.id}
                   onClick={() => navigate('/courses')}
-                  className="group relative flex items-center gap-4 p-4 rounded-2xl bg-gray-100 dark:bg-white/[0.03] border border-white/[0.06] hover:border-white/15 hover:bg-white/[0.06] transition-all duration-300 cursor-pointer"
+                  className="group relative flex items-center gap-4 p-4 rounded-2xl bg-gray-100 border border-white/[0.06] hover:border-white/15 hover:bg-white/[0.06] transition-all duration-300 cursor-pointer"
                 >
                   {/* ── ring ── */}
                   <div className="relative flex-shrink-0">
                     <ProgressRing percentage={pct} size={56} stroke={5} color={color} />
                     <span
-                      className="absolute inset-0 flex items-center justify-center text-[11px] font-bold text-neutral-900 dark:text-white"
+                      className="absolute inset-0 flex items-center justify-center text-[11px] font-bold text-neutral-900"
                       style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
                     >
                       {pct.toFixed(0)}%
@@ -202,13 +202,13 @@ const Dashboard = () => {
 
                   {/* ── info ── */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-neutral-900 dark:text-white truncate group-hover:text-indigo-300 transition-colors leading-tight">
+                    <h3 className="text-sm font-bold text-neutral-900 truncate group-hover:text-indigo-300 transition-colors leading-tight">
                       {course.course_code}
                     </h3>
                     <p className="text-[11px] text-neutral-500 truncate mt-0.5 leading-tight">{course.course_name}</p>
 
                     <div className="flex items-center gap-3 mt-2">
-                      <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-medium">
+                      <span className="text-[10px] text-neutral-500 font-medium">
                         {course.classes_attended}<span className="text-neutral-600">/</span>{course.total_classes}
                       </span>
                       <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${safe ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>
@@ -218,7 +218,7 @@ const Dashboard = () => {
                   </div>
 
                   {/* ── arrow ── */}
-                  <ChevronRight size={14} className="text-neutral-700 group-hover:text-neutral-500 dark:text-neutral-400 transition-colors flex-shrink-0" />
+                  <ChevronRight size={14} className="text-neutral-700 group-hover:text-neutral-500 transition-colors flex-shrink-0" />
                 </div>
               );
             })}
@@ -236,12 +236,12 @@ const Dashboard = () => {
           <button
             key={a.label}
             onClick={() => navigate(a.to)}
-            className={`group rounded-2xl border border-white/[0.06] bg-gray-50 dark:bg-white/[0.02] ${a.hover} p-4 sm:p-5 text-left transition-all duration-300 hover:bg-white/[0.04]`}
+            className={`group rounded-2xl border border-white/[0.06] bg-gray-50 ${a.hover} p-4 sm:p-5 text-left transition-all duration-300 hover:bg-white/[0.04]`}
           >
             <div className={`${a.bg} w-10 h-10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
               <a.icon className={a.accent} size={20} />
             </div>
-            <h3 className="text-sm font-bold text-neutral-900 dark:text-white group-hover:text-white/90 transition-colors">{a.label}</h3>
+            <h3 className="text-sm font-bold text-neutral-900 group-hover:text-white/90 transition-colors">{a.label}</h3>
             <p className="text-[11px] text-neutral-600 mt-0.5 hidden sm:block">{a.desc}</p>
           </button>
         ))}

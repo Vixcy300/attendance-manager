@@ -261,11 +261,11 @@ export function EventManager({
   }
 
   return (
-    <div className={cn("flex flex-col gap-4 text-neutral-900 dark:text-white bg-white dark:bg-neutral-900 p-6 rounded-2xl border border-neutral-100 dark:border-neutral-800 shadow-sm", className)}>
+    <div className={cn("flex flex-col gap-4 text-neutral-900 bg-white p-6 rounded-2xl border border-neutral-100 shadow-sm", className)}>
       {/* Header */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-          <h2 className="text-xl font-bold sm:text-2xl text-neutral-800 dark:text-neutral-100">
+          <h2 className="text-xl font-bold sm:text-2xl text-neutral-800">
             {view === "month" &&
               currentDate.toLocaleDateString("en-US", {
                 month: "long",
@@ -335,7 +335,7 @@ export function EventManager({
           </div>
 
           {/* Desktop: Button group */}
-          <div className="hidden sm:flex items-center gap-1 rounded-lg border bg-neutral-50 dark:bg-neutral-800 p-1">
+          <div className="hidden sm:flex items-center gap-1 rounded-lg border bg-neutral-50 p-1">
             <Button
               variant={view === "month" ? "secondary" : "ghost"}
               size="sm"
@@ -403,7 +403,7 @@ export function EventManager({
             placeholder="Search events..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700"
+            className="pl-9 bg-neutral-50 border-neutral-200"
           />
           {searchQuery && (
             <Button
@@ -423,7 +423,7 @@ export function EventManager({
             {/* Color Filter */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 whitespace-nowrap flex-shrink-0 bg-transparent text-neutral-600 dark:text-neutral-300">
+                <Button variant="outline" size="sm" className="gap-2 whitespace-nowrap flex-shrink-0 bg-transparent text-neutral-600">
                   <Filter className="h-4 w-4" />
                   Colors
                   {selectedColors.length > 0 && (
@@ -433,7 +433,7 @@ export function EventManager({
                   )}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-48 bg-white dark:bg-neutral-900">
+              <DropdownMenuContent align="start" className="w-48 bg-white">
                 <DropdownMenuLabel>Filter by Color</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {colors.map((color) => (
@@ -458,7 +458,7 @@ export function EventManager({
             {/* Tag Filter */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 whitespace-nowrap flex-shrink-0 bg-transparent text-neutral-600 dark:text-neutral-300">
+                <Button variant="outline" size="sm" className="gap-2 whitespace-nowrap flex-shrink-0 bg-transparent text-neutral-600">
                   <Filter className="h-4 w-4" />
                   Tags
                   {selectedTags.length > 0 && (
@@ -468,7 +468,7 @@ export function EventManager({
                   )}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-48 bg-white dark:bg-neutral-900">
+              <DropdownMenuContent align="start" className="w-48 bg-white">
                 <DropdownMenuLabel>Filter by Tag</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {availableTags.map((tag) => (
@@ -488,7 +488,7 @@ export function EventManager({
             {/* Category Filter */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 whitespace-nowrap flex-shrink-0 bg-transparent text-neutral-600 dark:text-neutral-300">
+                <Button variant="outline" size="sm" className="gap-2 whitespace-nowrap flex-shrink-0 bg-transparent text-neutral-600">
                   <Filter className="h-4 w-4" />
                   Categories
                   {selectedCategories.length > 0 && (
@@ -498,7 +498,7 @@ export function EventManager({
                   )}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-48 bg-white dark:bg-neutral-900">
+              <DropdownMenuContent align="start" className="w-48 bg-white">
                 <DropdownMenuLabel>Filter by Category</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {categories.map((category) => (
@@ -536,7 +536,7 @@ export function EventManager({
           {/* Color Filter */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2 bg-transparent text-neutral-600 dark:text-neutral-300 border-neutral-200 dark:border-neutral-700">
+              <Button variant="outline" size="sm" className="gap-2 bg-transparent text-neutral-600 border-neutral-200">
                 <Filter className="h-4 w-4" />
                 Colors
                 {selectedColors.length > 0 && (
@@ -546,7 +546,7 @@ export function EventManager({
                 )}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-neutral-900">
+            <DropdownMenuContent align="end" className="w-48 bg-white">
               <DropdownMenuLabel>Filter by Color</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {colors.map((color) => (
@@ -571,7 +571,7 @@ export function EventManager({
           {/* Tag Filter */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2 bg-transparent text-neutral-600 dark:text-neutral-300 border-neutral-200 dark:border-neutral-700">
+              <Button variant="outline" size="sm" className="gap-2 bg-transparent text-neutral-600 border-neutral-200">
                 <Filter className="h-4 w-4" />
                 Tags
                 {selectedTags.length > 0 && (
@@ -581,7 +581,7 @@ export function EventManager({
                 )}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-neutral-900">
+            <DropdownMenuContent align="end" className="w-48 bg-white">
               <DropdownMenuLabel>Filter by Tag</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {availableTags.map((tag) => (
@@ -601,7 +601,7 @@ export function EventManager({
           {/* Category Filter */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2 bg-transparent text-neutral-600 dark:text-neutral-300 border-neutral-200 dark:border-neutral-700">
+              <Button variant="outline" size="sm" className="gap-2 bg-transparent text-neutral-600 border-neutral-200">
                 <Filter className="h-4 w-4" />
                 Categories
                 {selectedCategories.length > 0 && (
@@ -611,7 +611,7 @@ export function EventManager({
                 )}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-neutral-900">
+            <DropdownMenuContent align="end" className="w-48 bg-white">
               <DropdownMenuLabel>Filter by Category</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {categories.map((category) => (
@@ -741,7 +741,7 @@ export function EventManager({
 
       {/* Event Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700">
+        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto bg-white border border-neutral-200">
           <DialogHeader>
             <DialogTitle>{isCreating ? "Create Event" : "Event Details"}</DialogTitle>
             <DialogDescription>
@@ -749,7 +749,7 @@ export function EventManager({
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 text-neutral-800 dark:text-neutral-100">
+          <div className="space-y-4 text-neutral-800">
             <div className="space-y-2">
               <Label htmlFor="title" className="text-sm font-semibold">Title</Label>
               <Input
@@ -761,7 +761,7 @@ export function EventManager({
                     : setSelectedEvent((prev) => (prev ? { ...prev, title: e.target.value } : null))
                 }
                 placeholder="Event title"
-                className="bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700"
+                className="bg-neutral-50 border-neutral-200"
               />
             </div>
 
@@ -780,7 +780,7 @@ export function EventManager({
                 }
                 placeholder="Event description"
                 rows={3}
-                className="bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700"
+                className="bg-neutral-50 border-neutral-200"
               />
             </div>
 
@@ -811,7 +811,7 @@ export function EventManager({
                       ? setNewEvent((prev) => ({ ...prev, startTime: date }))
                       : setSelectedEvent((prev) => (prev ? { ...prev, startTime: date } : null))
                   }}
-                  className="bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700"
+                  className="bg-neutral-50 border-neutral-200"
                 />
               </div>
 
@@ -839,7 +839,7 @@ export function EventManager({
                       ? setNewEvent((prev) => ({ ...prev, endTime: date }))
                       : setSelectedEvent((prev) => (prev ? { ...prev, endTime: date } : null))
                   }}
-                  className="bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700"
+                  className="bg-neutral-50 border-neutral-200"
                 />
               </div>
             </div>
@@ -855,10 +855,10 @@ export function EventManager({
                       : setSelectedEvent((prev) => (prev ? { ...prev, category: value } : null))
                   }
                 >
-                  <SelectTrigger id="category" className="bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700">
+                  <SelectTrigger id="category" className="bg-neutral-50 border-neutral-200">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-neutral-900">
+                  <SelectContent className="bg-white">
                     {categories.map((cat) => (
                       <SelectItem key={cat} value={cat}>
                         {cat}
@@ -878,10 +878,10 @@ export function EventManager({
                       : setSelectedEvent((prev) => (prev ? { ...prev, color: value } : null))
                   }
                 >
-                  <SelectTrigger id="color" className="bg-neutral-50 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700">
+                  <SelectTrigger id="color" className="bg-neutral-50 border-neutral-200">
                     <SelectValue placeholder="Select color" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-neutral-900">
+                  <SelectContent className="bg-white">
                     {colors.map((color) => (
                       <SelectItem key={color.value} value={color.value}>
                         <div className="flex items-center gap-2">
@@ -929,7 +929,7 @@ export function EventManager({
                   setIsCreating(false)
                   setSelectedEvent(null)
                 }}
-                className="rounded-xl border-neutral-200 dark:border-neutral-700"
+                className="rounded-xl border-neutral-200"
               >
                 Cancel
               </Button>
@@ -1006,10 +1006,10 @@ function EventCard({
         </div>
         {isHovered && (
           <div className="absolute left-0 top-full z-50 mt-1 w-64 animate-in fade-in slide-in-from-top-2 duration-200">
-            <Card className="border p-3 shadow-xl bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100">
+            <Card className="border p-3 shadow-xl bg-white border-neutral-200 text-neutral-800">
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-2">
-                  <h4 className="font-bold text-sm leading-tight text-neutral-800 dark:text-neutral-100">{event.title}</h4>
+                  <h4 className="font-bold text-sm leading-tight text-neutral-800">{event.title}</h4>
                   <div className={cn("h-3 w-3 rounded-full flex-shrink-0", colorClasses.bg)} />
                 </div>
                 {event.description && <p className="text-xs text-neutral-500 line-clamp-2">{event.description}</p>}
@@ -1108,10 +1108,10 @@ function EventCard({
       </div>
       {isHovered && (
         <div className="absolute left-0 top-full z-50 mt-1 w-72 animate-in fade-in slide-in-from-top-2 duration-200">
-          <Card className="border p-4 shadow-xl bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100">
+          <Card className="border p-4 shadow-xl bg-white border-neutral-200 text-neutral-800">
             <div className="space-y-3">
               <div className="flex items-start justify-between gap-2">
-                <h4 className="font-bold text-neutral-800 dark:text-neutral-100 leading-tight">{event.title}</h4>
+                <h4 className="font-bold text-neutral-800 leading-tight">{event.title}</h4>
                 <div className={cn("h-4 w-4 rounded-full flex-shrink-0", colorClasses.bg)} />
               </div>
               {event.description && <p className="text-xs text-neutral-500">{event.description}</p>}
@@ -1187,16 +1187,16 @@ function MonthView({
   }
 
   return (
-    <Card className="overflow-hidden border border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900">
-      <div className="grid grid-cols-7 border-b border-neutral-100 dark:border-neutral-800 bg-neutral-50/50">
+    <Card className="overflow-hidden border border-neutral-100 bg-white">
+      <div className="grid grid-cols-7 border-b border-neutral-100 bg-neutral-50/50">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="border-r border-neutral-100 dark:border-neutral-800 p-3 text-center text-xs font-bold last:border-r-0 sm:text-sm text-neutral-600 dark:text-neutral-300">
+          <div key={day} className="border-r border-neutral-100 p-3 text-center text-xs font-bold last:border-r-0 sm:text-sm text-neutral-600">
             <span className="hidden sm:inline">{day}</span>
             <span className="sm:hidden">{day.charAt(0)}</span>
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-7 text-neutral-800 dark:text-neutral-100">
+      <div className="grid grid-cols-7 text-neutral-800">
         {days.map((day, index) => {
           const dayEvents = getEventsForDay(day)
           const isCurrentMonth = day.getMonth() === currentDate.getMonth()
@@ -1206,7 +1206,7 @@ function MonthView({
             <div
               key={index}
               className={cn(
-                "min-h-[100px] border-b border-r border-neutral-100 dark:border-neutral-800 p-1.5 transition-colors [&:nth-child(7n)]:border-r-0 hover:bg-neutral-50/30",
+                "min-h-[100px] border-b border-r border-neutral-100 p-1.5 transition-colors [&:nth-child(7n)]:border-r-0 hover:bg-neutral-50/30",
                 !isCurrentMonth && "bg-neutral-50/40 opacity-50",
               )}
               onDragOver={(e) => e.preventDefault()}
@@ -1289,13 +1289,13 @@ function WeekView({
   }
 
   return (
-    <Card className="overflow-auto border border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900">
-      <div className="grid grid-cols-8 border-b border-neutral-100 dark:border-neutral-800 bg-neutral-50/50 min-w-[700px]">
-        <div className="border-r border-neutral-100 dark:border-neutral-800 p-3 text-center text-xs font-bold text-neutral-500">Time</div>
+    <Card className="overflow-auto border border-neutral-100 bg-white">
+      <div className="grid grid-cols-8 border-b border-neutral-100 bg-neutral-50/50 min-w-[700px]">
+        <div className="border-r border-neutral-100 p-3 text-center text-xs font-bold text-neutral-500">Time</div>
         {weekDays.map((day) => (
           <div
             key={day.toISOString()}
-            className="border-r border-neutral-100 dark:border-neutral-800 p-3 text-center text-xs font-bold last:border-r-0 text-neutral-700"
+            className="border-r border-neutral-100 p-3 text-center text-xs font-bold last:border-r-0 text-neutral-700"
           >
             <div className="hidden sm:block">{day.toLocaleDateString("en-US", { weekday: "short" })}</div>
             <div className="sm:hidden">{day.toLocaleDateString("en-US", { weekday: "narrow" })}</div>
@@ -1305,10 +1305,10 @@ function WeekView({
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-8 min-w-[700px] text-neutral-800 dark:text-neutral-100">
+      <div className="grid grid-cols-8 min-w-[700px] text-neutral-800">
         {hours.map((hour) => (
           <React.Fragment key={hour}>
-            <div className="border-b border-r border-neutral-100 dark:border-neutral-800 p-2 text-center text-[10px] font-bold text-neutral-400 bg-neutral-50/10">
+            <div className="border-b border-r border-neutral-100 p-2 text-center text-[10px] font-bold text-neutral-400 bg-neutral-50/10">
               {hour.toString().padStart(2, "0")}:00
             </div>
             {weekDays.map((day) => {
@@ -1316,7 +1316,7 @@ function WeekView({
               return (
                 <div
                   key={`${day.toISOString()}-${hour}`}
-                  className="min-h-[50px] border-b border-r border-neutral-100 dark:border-neutral-800 p-1 transition-colors hover:bg-neutral-50/20 last:border-r-0"
+                  className="min-h-[50px] border-b border-r border-neutral-100 p-1 transition-colors hover:bg-neutral-50/20 last:border-r-0"
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={() => onDrop(day, hour)}
                 >
@@ -1377,23 +1377,23 @@ function DayView({
   }
 
   return (
-    <Card className="overflow-auto border border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900">
-      <div className="grid grid-cols-4 border-b border-neutral-100 dark:border-neutral-800 bg-neutral-50/50">
-        <div className="border-r border-neutral-100 dark:border-neutral-800 p-3 text-center text-xs font-bold text-neutral-500">Time</div>
+    <Card className="overflow-auto border border-neutral-100 bg-white">
+      <div className="grid grid-cols-4 border-b border-neutral-100 bg-neutral-50/50">
+        <div className="border-r border-neutral-100 p-3 text-center text-xs font-bold text-neutral-500">Time</div>
         <div className="col-span-3 p-3 text-center text-xs font-bold text-neutral-700">
           {currentDate.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}
         </div>
       </div>
-      <div className="grid grid-cols-4 text-neutral-800 dark:text-neutral-100">
+      <div className="grid grid-cols-4 text-neutral-800">
         {hours.map((hour) => {
           const hourEvents = getEventsForHour(hour)
           return (
             <React.Fragment key={hour}>
-              <div className="border-b border-r border-neutral-100 dark:border-neutral-800 p-3 text-center text-xs font-bold text-neutral-400 bg-neutral-50/10">
+              <div className="border-b border-r border-neutral-100 p-3 text-center text-xs font-bold text-neutral-400 bg-neutral-50/10">
                 {hour.toString().padStart(2, "0")}:00
               </div>
               <div
-                className="col-span-3 min-h-[60px] border-b border-neutral-100 dark:border-neutral-800 p-2 transition-colors hover:bg-neutral-50/20"
+                className="col-span-3 min-h-[60px] border-b border-neutral-100 p-2 transition-colors hover:bg-neutral-50/20"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={() => onDrop(currentDate, hour)}
               >
@@ -1435,7 +1435,7 @@ function ListView({
 
   if (sortedEvents.length === 0) {
     return (
-      <Card className="flex flex-col items-center justify-center p-8 text-center border-neutral-100 dark:border-neutral-800">
+      <Card className="flex flex-col items-center justify-center p-8 text-center border-neutral-100">
         <Calendar className="h-12 w-12 text-neutral-400 opacity-50 mb-3" />
         <p className="font-semibold text-neutral-500">No events scheduled</p>
       </Card>
@@ -1449,7 +1449,7 @@ function ListView({
         return (
           <Card
             key={event.id}
-            className="flex items-center justify-between p-4 hover:bg-neutral-50 dark:bg-neutral-800 cursor-pointer transition-colors border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900"
+            className="flex items-center justify-between p-4 hover:bg-neutral-50 cursor-pointer transition-colors border-neutral-100 bg-white"
             onClick={(e) => {
               e.stopPropagation()
               onEventClick(event)
@@ -1458,7 +1458,7 @@ function ListView({
             <div className="flex items-center gap-3">
               <div className={cn("h-3.5 w-3.5 rounded-full shadow-sm", colorClasses.bg)} />
               <div>
-                <h4 className="font-bold text-sm text-neutral-800 dark:text-neutral-100">{event.title}</h4>
+                <h4 className="font-bold text-sm text-neutral-800">{event.title}</h4>
                 {event.description && <p className="text-xs text-neutral-500 line-clamp-1">{event.description}</p>}
               </div>
             </div>

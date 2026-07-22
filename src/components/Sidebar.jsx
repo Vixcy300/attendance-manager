@@ -42,7 +42,7 @@ const Sidebar = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-3 left-3 z-50 p-2.5 rounded-xl glass-panel text-neutral-900 dark:text-white shadow-lg"
+        className="lg:hidden fixed top-3 left-3 z-50 p-2.5 rounded-xl glass-panel text-neutral-900 shadow-lg"
       >
         {isOpen ? <X size={22} /> : <Menu size={22} />}
       </button>
@@ -57,12 +57,12 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-screen w-64 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-2xl border-r border-gray-200 dark:border-white/5 transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 z-40 h-screen w-64 bg-white/80 backdrop-blur-2xl border-r border-gray-200 transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
           } lg:translate-x-0 shadow-2xl`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="p-6 border-b border-gray-200 dark:border-white/5">
+          <div className="p-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500 blur-lg opacity-40 rounded-full"></div>
@@ -73,8 +73,8 @@ const Sidebar = () => {
                 />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-neutral-900 dark:text-white tracking-wide">SIMATS</h1>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">Attendance Manager</p>
+                <h1 className="text-lg font-bold text-neutral-900 tracking-wide">SIMATS</h1>
+                <p className="text-xs text-neutral-500">Attendance Manager</p>
               </div>
             </div>
           </div>
@@ -99,10 +99,10 @@ const Sidebar = () => {
                       }}
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-300 ${isActive && !isLocked
-                          ? 'bg-blue-600 text-neutral-900 dark:text-white shadow-lg shadow-blue-500/20'
+                          ? 'bg-blue-600 text-neutral-900 shadow-lg shadow-blue-500/20'
                           : isLocked
                             ? 'text-neutral-600 opacity-50 cursor-not-allowed'
-                            : 'text-neutral-500 dark:text-neutral-400 hover:bg-white/5 hover:text-neutral-900 dark:text-white'
+                            : 'text-neutral-500 hover:bg-white/5 hover:text-neutral-900'
                         }`
                       }
                     >
@@ -110,13 +110,13 @@ const Sidebar = () => {
                       <span className="font-medium text-sm">{item.name}</span>
                       
                       {item.isPremium && (
-                         <span className="ml-auto text-[10px] bg-gradient-to-r from-purple-500 to-indigo-500 text-neutral-900 dark:text-white px-2 py-0.5 rounded-full font-bold shadow-md shadow-purple-500/20">
+                         <span className="ml-auto text-[10px] bg-gradient-to-r from-purple-500 to-indigo-500 text-neutral-900 px-2 py-0.5 rounded-full font-bold shadow-md shadow-purple-500/20">
                            PRO
                          </span>
                       )}
 
                       {item.isNew && !item.isPremium && (
-                        <span className="ml-auto text-[10px] bg-gradient-to-r from-orange-500 to-red-500 text-neutral-900 dark:text-white px-2 py-0.5 rounded-full font-bold shadow-md shadow-orange-500/20">
+                        <span className="ml-auto text-[10px] bg-gradient-to-r from-orange-500 to-red-500 text-neutral-900 px-2 py-0.5 rounded-full font-bold shadow-md shadow-orange-500/20">
                           NEW
                         </span>
                       )}
@@ -154,7 +154,7 @@ const Sidebar = () => {
           </div>
 
           {/* Sign Out */}
-          <div className="p-4 border-t border-gray-200 dark:border-white/5">
+          <div className="p-4 border-t border-gray-200">
             <button
               onClick={handleSignOut}
               className="flex items-center gap-3 w-full px-3.5 py-3 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-xl transition-all duration-300 group"
