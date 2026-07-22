@@ -8,10 +8,11 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { BellRing } from "lucide-react";
 
 const steps = [
   {
@@ -40,28 +41,18 @@ export default function TransitionModal() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    // Check if the user has already seen the modal
-    const hasSeenModal = localStorage.getItem("vstudy-transition-modal-seen");
-    if (!hasSeenModal) {
-      // Small delay to not aggressive popup immediately
-      const timer = setTimeout(() => {
-        setOpen(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
+    // Pop up every time the user opens
+    const timer = setTimeout(() => {
+      setOpen(true);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
-  const handleOpenChange = (isOpen) => {
-    setOpen(isOpen);
-    if (!isOpen) {
-      localStorage.setItem("vstudy-transition-modal-seen", "true");
-    }
-  };
-
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-2xl bg-white dark:bg-neutral-950 p-0 overflow-hidden sm:rounded-2xl">
-        <div className="flex w-full items-center justify-center bg-white dark:bg-neutral-950 px-6 py-10 text-neutral-900 dark:text-neutral-100">
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-2xl bg-white dark:bg-neutral-950 p-0 overflow-y-auto max-h-[90vh] sm:rounded-2xl">
+          <div className="flex w-full justify-center bg-white dark:bg-neutral-950 px-6 py-10 text-neutral-900 dark:text-neutral-100">
           <div className="mx-auto w-full max-w-xl">
             <div className="mb-10 text-center sm:text-left">
               <Badge variant="outline" className="mb-4 text-indigo-600 border-indigo-200 bg-indigo-50 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800">
@@ -100,16 +91,29 @@ export default function TransitionModal() {
             </ol>
             
             <div className="mt-8 pt-6 border-t border-neutral-100 dark:border-neutral-800 flex justify-end">
-              <button 
-                onClick={() => handleOpenChange(false)}
+              <Button 
+                onClick={() => setOpen(false)}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl font-medium transition-all"
               >
                 Got it, thanks!
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       </DialogContent>
     </Dialog>
+
+    {!open && (
+      <Button
+        variant="destructive"
+        onClick={() => setOpen(true)}
+        className="fixed z-50 shadow-lg rounded-full px-4 py-6"
+        style={{ bottom: '9rem', right: '1rem' }}
+      >
+        <BellRing size={20} className="mr-2" />
+        Important Update
+      </Button>
+    )}
+  </>
   );
 }
