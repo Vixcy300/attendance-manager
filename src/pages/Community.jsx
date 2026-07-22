@@ -35,7 +35,12 @@ const MOODS = [
 ];
 
 // Social Credit System
-const BAD_WORDS = ['sex', 'porn', 'boobs', 'nude', 'nsfw', 'cock', 'dick', 'pussy', 'vagina', 'penis', 'naked', 'xxx', 'erotic'];
+const BAD_WORDS = [
+  'sex', 'porn', 'boobs', 'nude', 'nsfw', 'cock', 'dick', 'pussy', 'vagina',
+  'penis', 'naked', 'xxx', 'erotic', 'fuck', 'fucking', 'shit', 'bitch',
+  'asshole', 'whore', 'slut', 'nigger', 'faggot', 'bastard', 'cunt',
+  'motherfucker', 'rape', 'molest', 'pedo', 'incest', 'blowjob', 'handjob',
+];
 const GOOD_TRIGGERS = ['flexi learning', 'flexilearning', 'flexible learning', 'vstudy', 'v study', 'v-study'];
 const CREDIT_KEY    = 'community_social_credit';
 const BAN_KEY       = 'community_ban_until';
@@ -281,7 +286,9 @@ function ComposeModal({ nickname, onClose, onPosted }) {
   const [textareaClass, setTextareaClass] = useState('');
   const [bannedNow, setBannedNow]   = useState(isBanned());
   const popupTimer = useRef(null);
-  const lastChecked = useRef('');
+  // Track which words already penalised this compose session (avoid double-hits)
+  const detectedBad  = useRef(new Set());
+  const detectedGood = useRef(new Set());
 
   const triggerPopup = (type, word) => {
     clearTimeout(popupTimer.current);
@@ -292,33 +299,40 @@ function ComposeModal({ nickname, onClose, onPosted }) {
   const handleContentChange = (e) => {
     const val = e.target.value.slice(0, POST_MAX_CHARS);
     setContent(val);
+    const lower = val.toLowerCase();
 
-    // Real-time social credit check — only on new content
-    if (val === lastChecked.current) return;
-    lastChecked.current = val;
+    // ── Bad word check ── penalise only once per unique word per session
+    for (const word of BAD_WORDS) {
+      if (lower.includes(word) && !detectedBad.current.has(word)) {
+        detectedBad.current.add(word);
+        const current = getCredit();
+        const newScore = Math.max(0, current - 50);
+        setCredit(newScore);
+        setCreditScore(newScore);
+        setTextareaClass('flash-red shake');
+        triggerPopup('bad', word);
+        setTimeout(() => setTextareaClass(''), 1500);
+        if (newScore <= 0) {
+          ban();
+          setCreditPopup(null);
+          setTimeout(() => setBannedNow(true), 500);
+        }
+        return; // one penalty per keystroke
+      }
+    }
 
-    const { badFound, goodFound } = checkText(val);
-
-    if (goodFound) {
-      const newScore = creditScore + 100;
-      setCredit(newScore);
-      setCreditScore(newScore);
-      setTextareaClass('flash-green');
-      triggerPopup('good', goodFound);
-      setTimeout(() => setTextareaClass(''), 2000);
-    } else if (badFound) {
-      const newScore = creditScore - 50;
-      setCredit(newScore);
-      setCreditScore(newScore);
-      setTextareaClass('flash-red shake');
-      triggerPopup('bad', badFound);
-      setTimeout(() => setTextareaClass(''), 1500);
-
-      // Ban if credit falls to 0
-      if (newScore <= 0) {
-        ban();
-        setCreditPopup(null);
-        setTimeout(() => setBannedNow(true), 500);
+    // ── Good trigger check ──
+    for (const trigger of GOOD_TRIGGERS) {
+      if (lower.includes(trigger) && !detectedGood.current.has(trigger)) {
+        detectedGood.current.add(trigger);
+        const current = getCredit();
+        const newScore = Math.min(200, current + 100);
+        setCredit(newScore);
+        setCreditScore(newScore);
+        setTextareaClass('flash-green');
+        triggerPopup('good', trigger);
+        setTimeout(() => setTextareaClass(''), 2000);
+        return;
       }
     }
   };
