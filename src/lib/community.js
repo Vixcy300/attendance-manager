@@ -148,6 +148,10 @@ export const community = {
     }]).select().single();
   },
 
+  async deletePost(postId) {
+    return supabase.from('community_posts').delete().eq('id', postId);
+  },
+
   async react(postId, field) {
     return supabase.rpc('increment_reaction', { post_id: postId, field_name: field });
   },

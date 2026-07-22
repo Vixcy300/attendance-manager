@@ -626,12 +626,14 @@ function ReplyThread({ postId, nickname }) {
 // ---------------------------------------------------------------------------
 // Post card
 // ---------------------------------------------------------------------------
-function PostCard({ post, nickname, expanded, onToggle }) {
+function PostCard({ post, nickname, expanded, onToggle, onDelete }) {
   const [reacted, setReacted]       = useState({});
   const [counts, setCounts]         = useState({ likes: post.likes || 0, hearts: post.hearts || 0, fires: post.fires || 0 });
+  const [deleting, setDeleting]     = useState(false);
   const catColor = CAT_COLORS[post.category] || CAT_COLORS.General;
   const mood = MOODS.find(m => m.id === post.mood);
   const replyCount = post.reply_count || 0;
+  const isOwner = post.nickname === nickname;
 
   const handleReact = async (field) => {
     const key = post.id + field;
@@ -639,6 +641,13 @@ function PostCard({ post, nickname, expanded, onToggle }) {
     setReacted(prev => ({ ...prev, [key]: true }));
     setCounts(prev => ({ ...prev, [field]: prev[field] + 1 }));
     await community.react(post.id, field);
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+    setDeleting(true);
+    await onDelete(post.id);
+    setDeleting(false);
   };
 
   return (
@@ -652,9 +661,21 @@ function PostCard({ post, nickname, expanded, onToggle }) {
               <span className="text-sm font-semibold text-neutral-800">{post.nickname}</span>
               {mood && <span title={mood.label} className="text-base">{mood.emoji}</span>}
               <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${catColor}`}>{post.category}</span>
-              <span className="text-xs text-neutral-400 ml-auto flex items-center gap-1">
-                <Clock size={10} />{timeAgo(post.created_at)}
-              </span>
+              <div className="ml-auto flex items-center gap-2">
+                <span className="text-xs text-neutral-400 flex items-center gap-1">
+                  <Clock size={10} />{timeAgo(post.created_at)}
+                </span>
+                {isOwner && (
+                  <button
+                    onClick={handleDelete}
+                    disabled={deleting}
+                    className="text-neutral-400 hover:text-red-600 p-1 rounded-lg hover:bg-red-50 transition-colors"
+                    title="Delete post"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
             </div>
             <p className={`text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap break-words mt-1 ${!expanded ? 'line-clamp-3' : ''}`}>
               {post.content}
@@ -735,6 +756,13 @@ export default function Community() {
     const ch = community.subscribeToNew(() => setLiveCount(c => c + 1));
     return () => ch?.unsubscribe?.();
   }, []);
+
+  const handleDeletePost = async (postId) => {
+    const { error } = await community.deletePost(postId);
+    if (!error) {
+      setPosts(prev => prev.filter(p => p.id !== postId));
+    }
+  };
 
   if (showBan) return <BanScreen onExpired={() => setShowBan(false)} />;
 
@@ -897,7 +925,8 @@ export default function Community() {
                 {posts.map(post => (
                   <PostCard key={post.id} post={post} nickname={nickname}
                     expanded={expandedId === post.id}
-                    onToggle={() => setExpandedId(prev => prev === post.id ? null : post.id)} />
+                    onToggle={() => setExpandedId(prev => prev === post.id ? null : post.id)}
+                    onDelete={handleDeletePost} />
                 ))}
               </div>
             )}
