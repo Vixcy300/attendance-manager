@@ -23,7 +23,7 @@ const steps = [
   {
     icon: Activity,
     title: "SaveethaAM is Impacted",
-    copy: "Because our calculator relies heavily on syncing with the ARMS portal, the recent university changes have caused our auto-sync features to break.",
+    copy: "Because our calculator relies heavily on syncing with the ARMS portal, the recent university changes have caused our auto-sync features to break. Until a major update, some advanced features may not work due to financial and user base constraints. However, basic features will still work, and we are striving hard to fix everything!",
   },
   {
     icon: Wrench,
