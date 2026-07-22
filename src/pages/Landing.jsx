@@ -50,7 +50,7 @@ const Landing = () => {
             
             {/* Sparkle Badge */}
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 1, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs sm:text-sm font-semibold mb-8"
@@ -61,7 +61,7 @@ const Landing = () => {
 
             {/* Main Aceternity Typography Heading */}
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 20 }}
               animate={{ opacity: 1, y: [20, -5, 0] }}
               transition={{ duration: 0.8, ease: [0.4, 0.0, 0.2, 1] }}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-neutral-700 max-w-4xl tracking-tight leading-tight sm:leading-snug lg:leading-normal text-center mx-auto mb-8 font-sans"
@@ -75,7 +75,7 @@ const Landing = () => {
 
             {/* Supporting Description */}
             <motion.p
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
               className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-neutral-500 mb-10 leading-relaxed"
@@ -85,7 +85,7 @@ const Landing = () => {
 
             {/* Action Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
@@ -106,7 +106,7 @@ const Landing = () => {
             
             {/* Quick FAQ Trigger */}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.6 }}
               className="mt-12"
@@ -184,7 +184,7 @@ const Landing = () => {
       <section className="bg-white py-20 border-b border-neutral-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
@@ -227,7 +227,7 @@ const Landing = () => {
             ].map((item, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 1, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
@@ -242,23 +242,17 @@ const Landing = () => {
           </div>
 
           {/* Natural SEO paragraph — visible, well-designed, not hidden */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-16 bg-indigo-50 border border-indigo-100 rounded-2xl p-8 md:p-10 text-center"
-          >
+          <div className="mt-16 bg-indigo-50 border border-indigo-100 rounded-2xl p-8 md:p-10 text-center animate-fade-in">
             <p className="text-neutral-600 text-sm md:text-base leading-relaxed max-w-3xl mx-auto">
               <strong className="text-neutral-900">SaveethaAM</strong> is a free, open-source attendance calculator built by students of{' '}
               <strong className="text-neutral-900">SIMATS (Saveetha Institute of Medical and Technical Sciences)</strong> for students of{' '}
-              <strong className="text-neutral-900">Saveetha Engineering College</strong>. Whether you need to calculate how many classes you can skip while maintaining{' '}
+              <strong className="text-neutral-900">SIMATS ENGINEERING</strong>. Whether you need to calculate how many classes you can skip while maintaining{' '}
               <strong className="text-neutral-900">80% attendance</strong>, sync your attendance data from the{' '}
               <strong className="text-neutral-900">ARMS portal</strong>, or receive automated daily email reports — SaveethaAM handles it all.
               Track your <strong className="text-neutral-900">attendance percentage</strong>, set goals, earn streak badges, and plan your schedule with our interactive calendar.
               Your data is protected with <strong className="text-neutral-900">AES-256 encryption</strong> and we never share your information with third parties.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
