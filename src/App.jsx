@@ -20,6 +20,7 @@ import FeedbackHistory from './pages/FeedbackHistory';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Contact from './pages/Contact';
+import Community from './pages/Community';
 
 // Components
 import Layout from './components/Layout';
@@ -80,6 +81,7 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/community" element={<Community />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
