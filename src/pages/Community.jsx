@@ -34,10 +34,10 @@ const COMMUNITY_TAGS = [
 ];
 
 const MOODS = [
-  { id: 0, label: 'Love it', emoji: '😍', color: 'hover:bg-slate-100', active: 'bg-slate-900 text-white ring-1 ring-slate-900 ring-offset-1' },
-  { id: 1, label: "It's OK", emoji: '😐', color: 'hover:bg-slate-100', active: 'bg-slate-900 text-white ring-1 ring-slate-900 ring-offset-1' },
-  { id: 2, label: 'Not great', emoji: '😕', color: 'hover:bg-slate-100', active: 'bg-slate-900 text-white ring-1 ring-slate-900 ring-offset-1' },
-  { id: 3, label: 'Help!', emoji: '😰', color: 'hover:bg-slate-100', active: 'bg-slate-900 text-white ring-1 ring-slate-900 ring-offset-1' },
+  { id: 0, label: 'Love it', emoji: '😍', color: 'hover:bg-slate-100', active: 'bg-blue-900 text-white ring-1 ring-blue-900 ring-offset-1' },
+  { id: 1, label: "It's OK", emoji: '😐', color: 'hover:bg-slate-100', active: 'bg-blue-900 text-white ring-1 ring-blue-900 ring-offset-1' },
+  { id: 2, label: 'Not great', emoji: '😕', color: 'hover:bg-slate-100', active: 'bg-blue-900 text-white ring-1 ring-blue-900 ring-offset-1' },
+  { id: 3, label: 'Help!', emoji: '😰', color: 'hover:bg-slate-100', active: 'bg-blue-900 text-white ring-1 ring-blue-900 ring-offset-1' },
 ];
 
 // Social Credit System (Professional wording)
@@ -206,7 +206,7 @@ function TagsSelector({ selected, onSelect, onDeselect }) {
           <motion.div
             key={tag.id}
             layoutId={`tag-${tag.id}`}
-            className="flex items-center gap-1.5 pl-3 pr-1.5 py-1.5 bg-slate-900 text-white rounded-xl shrink-0 text-xs font-semibold"
+            className="flex items-center gap-1.5 pl-3 pr-1.5 py-1.5 bg-blue-900 text-white rounded-xl shrink-0 text-xs font-semibold"
           >
             <motion.span layoutId={`tag-label-${tag.id}`}>{tag.label}</motion.span>
             <button type="button" onClick={() => onDeselect(tag.id)} className="p-0.5 rounded-full hover:bg-slate-700 transition-colors">
@@ -224,7 +224,7 @@ function TagsSelector({ selected, onSelect, onDeselect }) {
               layoutId={`tag-${tag.id}`}
               type="button"
               onClick={() => onSelect(tag)}
-              className="flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-medium hover:border-slate-300 hover:shadow-sm hover:text-slate-900 transition-all"
+              className="flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-medium hover:border-slate-300 hover:shadow-sm hover:text-blue-900 transition-all"
             >
               <motion.span layoutId={`tag-label-${tag.id}`}>{tag.label}</motion.span>
             </motion.button>
@@ -397,7 +397,7 @@ function ComposeModal({ nickname, onClose, onPosted }) {
       </AnimatePresence>
 
       <div
-        className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center bg-slate-900/40 backdrop-blur-sm sm:p-4"
+        className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center bg-blue-900/40 backdrop-blur-sm sm:p-4"
         onClick={e => e.target === e.currentTarget && onClose()}
       >
         <motion.div
@@ -412,7 +412,7 @@ function ComposeModal({ nickname, onClose, onPosted }) {
             <div className="flex items-center gap-3">
               <Avatar name={nickname} />
               <div>
-                <p className="text-sm font-bold text-slate-900">{nickname}</p>
+                <p className="text-sm font-bold text-blue-900">{nickname}</p>
                 <p className="text-xs font-medium text-slate-500">Posting to community</p>
               </div>
             </div>
@@ -439,7 +439,7 @@ function ComposeModal({ nickname, onClose, onPosted }) {
                   autoFocus
                   maxLength={POST_MAX_CHARS}
                   className={cn(
-                    "w-full text-base border border-slate-200 rounded-2xl px-5 py-4 bg-white text-slate-900 placeholder-slate-400 resize-none outline-none focus:ring-4 focus:ring-slate-100 focus:border-slate-400 transition-all leading-relaxed",
+                    "w-full text-base border border-slate-200 rounded-2xl px-5 py-4 bg-white text-blue-900 placeholder-slate-400 resize-none outline-none focus:ring-4 focus:ring-slate-100 focus:border-slate-400 transition-all leading-relaxed",
                     textareaClass
                   )}
                 />
@@ -478,7 +478,7 @@ function ComposeModal({ nickname, onClose, onPosted }) {
               <button
                 type="submit"
                 disabled={posting || !content.trim()}
-                className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white text-sm font-bold px-8 py-3 rounded-xl transition-all shadow-sm active:scale-[0.98]"
+                className="flex items-center gap-2 bg-blue-900 hover:bg-blue-800 disabled:bg-slate-200 disabled:text-slate-400 text-white text-sm font-bold px-8 py-3 rounded-xl transition-all shadow-sm active:scale-[0.98]"
               >
                 {posting ? <><RefreshCw size={16} className="animate-spin" /> Posting...</> : <><Send size={16} /> Publish</>}
               </button>
@@ -506,7 +506,7 @@ function ReplyNode({ reply, allReplies, onReply, onLike, likedSet }) {
         <Avatar name={reply.nickname} size="sm" />
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2 mb-1 flex-wrap">
-            <span className="text-sm font-bold text-slate-900">{reply.nickname}</span>
+            <span className="text-sm font-bold text-blue-900">{reply.nickname}</span>
             {reply.parent_id && (
               <span className="text-xs font-medium text-slate-400 flex items-center gap-0.5">
                 <CornerDownRight size={10} />
@@ -520,13 +520,13 @@ function ReplyNode({ reply, allReplies, onReply, onLike, likedSet }) {
             <button onClick={handleLike}
               className={cn(
                 "flex items-center gap-1.5 text-xs font-bold transition-colors group/like",
-                liked ? 'text-slate-900' : 'text-slate-400 hover:text-slate-700'
+                liked ? 'text-blue-900' : 'text-slate-400 hover:text-slate-700'
               )}>
-              <ThumbsUp size={12} className={cn("transition-transform group-active/like:scale-75", liked && "fill-slate-900")} /> 
+              <ThumbsUp size={12} className={cn("transition-transform group-active/like:scale-75", liked && "fill-blue-900")} /> 
               {localLikes > 0 && localLikes}
             </button>
             <button onClick={() => onReply(reply)}
-              className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">
+              className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-blue-900 transition-colors">
               <MessageSquare size={12} /> Reply
             </button>
           </div>
@@ -620,7 +620,7 @@ function ReplyThread({ postId, nickname }) {
         {replyingTo && (
           <div className="flex items-center gap-2 mb-3 text-xs font-medium text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-lg w-fit shadow-sm">
             <CornerDownRight size={12} className="text-slate-400" />
-            Replying to <span className="font-bold text-slate-900">{replyingTo.nickname}</span>
+            Replying to <span className="font-bold text-blue-900">{replyingTo.nickname}</span>
             <button type="button" onClick={() => setReplyingTo(null)} className="ml-1 p-0.5 hover:bg-slate-100 rounded-md transition-colors"><X size={12} /></button>
           </div>
         )}
@@ -631,14 +631,14 @@ function ReplyThread({ postId, nickname }) {
               <textarea ref={inputRef} value={content} onChange={e => setContent(e.target.value.slice(0, REPLY_MAX_CHARS))}
                 placeholder={replyingTo ? `Reply to ${replyingTo.nickname}...` : 'Add to the discussion...'}
                 rows={2} maxLength={REPLY_MAX_CHARS}
-                className="w-full text-sm px-4 py-3 bg-transparent text-slate-900 placeholder-slate-400 resize-none outline-none block" />
+                className="w-full text-sm px-4 py-3 bg-transparent text-blue-900 placeholder-slate-400 resize-none outline-none block" />
               
               <div className="flex items-center justify-between px-3 py-2 bg-slate-50 border-t border-slate-100">
                 <span className={cn("text-[10px] font-bold uppercase tracking-widest", (REPLY_MAX_CHARS - content.length) < 50 ? "text-rose-500" : "text-slate-400")}>
                   {REPLY_MAX_CHARS - content.length}
                 </span>
                 <button type="submit" disabled={posting || !content.trim()}
-                  className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-slate-900 text-white text-xs font-bold px-4 py-1.5 rounded-lg transition-all active:scale-[0.98]">
+                  className="flex items-center gap-1.5 bg-blue-900 hover:bg-blue-800 disabled:opacity-30 disabled:hover:bg-blue-900 text-white text-xs font-bold px-4 py-1.5 rounded-lg transition-all active:scale-[0.98]">
                   {posting ? <RefreshCw size={12} className="animate-spin" /> : <Send size={12} />}
                   {posting ? 'Posting...' : 'Reply'}
                 </button>
@@ -683,7 +683,7 @@ function PostCard({ post, nickname, expanded, onToggle }) {
           <div className="flex-1 min-w-0 pt-0.5">
             <div className="flex items-center justify-between gap-4 mb-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-sm font-bold text-slate-900">{post.nickname}</span>
+                <span className="text-sm font-bold text-blue-900">{post.nickname}</span>
                 <span className="text-xs font-medium text-slate-400">&middot; {timeAgo(post.created_at)}</span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
@@ -716,7 +716,7 @@ function PostCard({ post, nickname, expanded, onToggle }) {
                   "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all select-none border group/btn",
                   hasReacted 
                     ? active 
-                    : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                    : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-blue-900'
                 )}>
                 <Icon size={14} className={cn("transition-transform group-active/btn:scale-75", hasReacted && "fill-current")} /> 
                 {counts[field] > 0 && counts[field]}
@@ -728,8 +728,8 @@ function PostCard({ post, nickname, expanded, onToggle }) {
             className={cn(
               "ml-auto flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-all border",
               expanded 
-                ? 'bg-slate-900 text-white border-slate-900' 
-                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                ? 'bg-blue-900 text-white border-blue-900' 
+                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-blue-900'
             )}>
             <MessageCircle size={14} />
             {replyCount > 0 ? `${replyCount} Reply${replyCount > 1 ? 's' : ''}` : 'Reply'}
@@ -809,16 +809,16 @@ export default function Community() {
       <header className="fixed top-0 w-full bg-white/70 backdrop-blur-xl z-[100] border-b border-slate-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
         <div className="max-w-6xl mx-auto px-4 lg:px-6 h-16 flex items-center gap-4">
           <Link to="/" className="flex items-center gap-2.5 mr-2 group">
-            <div className="w-8 h-8 rounded-xl bg-slate-900 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-xl bg-blue-900 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
               <Sparkles className="text-white size-4" />
             </div>
-            <span className="font-extrabold text-xl tracking-tight text-slate-900 hidden sm:block">
+            <span className="font-extrabold text-xl tracking-tight text-blue-900 hidden sm:block">
               Saveetha<span className="text-slate-400 font-medium">AM</span>
             </span>
           </Link>
           
           <div className="h-5 w-px bg-slate-200 hidden sm:block mx-1"></div>
-          <span className="font-bold text-slate-800 hidden sm:block text-sm tracking-wide">Community</span>
+          <span className="font-bold text-blue-800 hidden sm:block text-sm tracking-wide">Community</span>
           
           <div className="ml-auto flex items-center gap-3 sm:gap-4">
             {/* Identity Control */}
@@ -826,15 +826,15 @@ export default function Community() {
               <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
                 <input value={nickDraft} onChange={e => setNickDraft(e.target.value.slice(0, NICK_MAX_CHARS))}
                   onKeyDown={e => { if (e.key === 'Enter') { saveNickname(nickDraft); setNickname(nickDraft); setEditingNick(false); } }}
-                  autoFocus className="text-sm font-semibold bg-transparent w-24 sm:w-32 outline-none px-2 text-slate-900 placeholder-slate-400" placeholder="Display name" />
+                  autoFocus className="text-sm font-semibold bg-transparent w-24 sm:w-32 outline-none px-2 text-blue-900 placeholder-slate-400" placeholder="Display name" />
                 <button onClick={() => { saveNickname(nickDraft); setNickname(nickDraft); setEditingNick(false); }}
-                  className="text-xs bg-slate-900 text-white px-3 py-1.5 rounded-lg font-bold shadow-sm">Save</button>
+                  className="text-xs bg-blue-900 text-white px-3 py-1.5 rounded-lg font-bold shadow-sm">Save</button>
               </div>
             ) : (
               <button onClick={() => { setNickDraft(nickname); setEditingNick(true); }}
                 className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-slate-100 transition-colors group">
                 <Avatar name={nickname} size="sm" />
-                <span className="font-bold text-sm text-slate-700 group-hover:text-slate-900 hidden sm:block">{nickname}</span>
+                <span className="font-bold text-sm text-slate-700 group-hover:text-blue-900 hidden sm:block">{nickname}</span>
               </button>
             )}
             
@@ -846,7 +846,7 @@ export default function Community() {
             
             {/* CTA */}
             <button onClick={() => { if (isBanned()) { setShowBan(true); return; } setShowCompose(true); }}
-              className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl transition-all shadow-sm active:scale-[0.98]">
+              className="flex items-center gap-1.5 bg-blue-900 hover:bg-blue-800 text-white text-sm font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl transition-all shadow-sm active:scale-[0.98]">
               <Plus size={16} /> <span className="hidden sm:inline">New Post</span><span className="sm:hidden">Post</span>
             </button>
           </div>
@@ -867,7 +867,7 @@ export default function Community() {
                     <Users size={20} className="text-slate-700" />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-slate-900 tracking-tight">Discussion Board</h2>
+                    <h2 className="text-base font-bold text-blue-900 tracking-tight">Discussion Board</h2>
                     <p className="text-xs font-medium text-slate-400">SIMATS Network</p>
                   </div>
                 </div>
@@ -886,18 +886,22 @@ export default function Community() {
                 <nav className="space-y-0.5">
                   {['All', ...COMMUNITY_TAGS.map(t => t.id)].map(cat => {
                     const isActive = categoryFilter === cat;
+                    const tagObj = COMMUNITY_TAGS.find(t => t.id === cat);
+                    const emoji = tagObj ? tagObj.label.split(' ')[0] : '';
+                    const text = tagObj ? tagObj.label.split(' ').slice(1).join(' ') : '';
+                    
                     return (
                       <button key={cat} onClick={() => setCategoryFilter(cat)}
                         className={cn(
                           "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all text-left group",
                           isActive 
-                            ? 'bg-slate-900 text-white shadow-sm' 
-                            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                            ? 'bg-blue-900 text-white shadow-sm' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-blue-900'
                         )}>
                         <span className={cn("text-base transition-transform group-hover:scale-110", isActive && "grayscale brightness-200 contrast-100")}>
-                          {cat === 'All' ? '🌐' : COMMUNITY_TAGS.find(t => t.id === cat)?.label.charAt(0)}
+                          {cat === 'All' ? '🌐' : emoji}
                         </span>
-                        <span>{cat === 'All' ? 'Everything' : COMMUNITY_TAGS.find(t => t.id === cat)?.label.slice(2)}</span>
+                        <span>{cat === 'All' ? 'Everything' : text}</span>
                         {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white" />}
                       </button>
                     );
@@ -906,7 +910,7 @@ export default function Community() {
               </div>
 
               {/* Guidelines */}
-              <div className="bg-slate-900 rounded-[1.5rem] p-5 shadow-sm text-white">
+              <div className="bg-blue-900 rounded-[1.5rem] p-5 shadow-sm text-white">
                 <div className="flex items-center gap-2 mb-4 text-emerald-400">
                   <ShieldCheck size={18} />
                   <h3 className="text-sm font-bold uppercase tracking-wider">Guidelines</h3>
@@ -928,15 +932,15 @@ export default function Community() {
               
               {/* Search - Pill shaped */}
               <div className="relative flex-1 group">
-                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-900 transition-colors" />
                 <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search discussions..."
-                  className="w-full pl-11 pr-4 py-3 text-sm font-medium bg-white border border-slate-200/80 rounded-full outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-sm" />
+                  className="w-full pl-11 pr-4 py-3 text-sm font-medium bg-white border border-slate-200/80 rounded-full outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent transition-all shadow-sm" />
               </div>
 
               {/* Mobile Category Select */}
               <div className="relative lg:hidden">
                 <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}
-                  className="w-full text-sm bg-white border border-slate-200/80 rounded-full pl-4 pr-10 py-3 outline-none focus:ring-2 focus:ring-slate-900 appearance-none font-bold text-slate-700 shadow-sm">
+                  className="w-full text-sm bg-white border border-slate-200/80 rounded-full pl-4 pr-10 py-3 outline-none focus:ring-2 focus:ring-blue-900 appearance-none font-bold text-slate-700 shadow-sm">
                   <option value="All">All Categories</option>
                   {COMMUNITY_TAGS.map(t => <option key={t.id} value={t.id}>{t.label.slice(2)}</option>)}
                 </select>
@@ -948,14 +952,14 @@ export default function Community() {
                 <button onClick={() => setSort('latest')}
                   className={cn(
                     "flex-1 sm:flex-none px-5 py-2 flex items-center justify-center gap-1.5 text-sm font-bold rounded-full transition-all duration-200",
-                    sort === 'latest' ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                    sort === 'latest' ? "bg-white text-blue-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
                   )}>
                   <Clock size={14} /> Latest
                 </button>
                 <button onClick={() => setSort('hot')}
                   className={cn(
                     "flex-1 sm:flex-none px-5 py-2 flex items-center justify-center gap-1.5 text-sm font-bold rounded-full transition-all duration-200",
-                    sort === 'hot' ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                    sort === 'hot' ? "bg-white text-blue-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
                   )}>
                   <Zap size={14} /> Hot
                 </button>
@@ -967,7 +971,7 @@ export default function Community() {
               {liveCount > 0 && (
                 <motion.div initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }} className="mb-6 flex justify-center">
                   <button onClick={() => { setLiveCount(0); setPage(0); fetchPosts(0, categoryFilter, search, sort, true); }}
-                    className="flex items-center gap-2 bg-slate-900 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-transform hover:scale-105 shadow-md">
+                    className="flex items-center gap-2 bg-blue-900 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-transform hover:scale-105 shadow-md">
                     <RefreshCw size={14} className="animate-spin" />
                     Load {liveCount} new {liveCount > 1 ? 'entries' : 'entry'}
                   </button>
@@ -996,12 +1000,12 @@ export default function Community() {
                 <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-5 border border-slate-100">
                   <MessageSquare size={28} className="text-slate-300" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">No discussions found</h3>
+                <h3 className="text-xl font-bold text-blue-900 mb-2">No discussions found</h3>
                 <p className="text-sm font-medium text-slate-500 max-w-xs mx-auto mb-6">
                   {search ? 'Try adjusting your filters or search terms.' : 'Be the first to start a conversation in this topic.'}
                 </p>
                 <button onClick={() => setShowCompose(true)}
-                  className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-slate-800 transition-all shadow-sm active:scale-95">
+                  className="flex items-center gap-2 bg-blue-900 text-white px-6 py-3 rounded-xl text-sm font-bold hover:bg-blue-800 transition-all shadow-sm active:scale-95">
                   <Plus size={16} /> New Discussion
                 </button>
               </div>
@@ -1018,7 +1022,7 @@ export default function Community() {
             {!loading && hasMore && posts.length > 0 && (
               <button onClick={() => { const next = page + 1; setPage(next); fetchPosts(next, categoryFilter, search, sort, false); }}
                 disabled={loadingMore}
-                className="w-full mt-8 flex items-center justify-center gap-2 text-sm font-bold text-slate-900 bg-white border border-slate-200 hover:border-slate-300 rounded-xl py-4 transition-all shadow-sm disabled:opacity-50">
+                className="w-full mt-8 flex items-center justify-center gap-2 text-sm font-bold text-blue-900 bg-white border border-slate-200 hover:border-slate-300 rounded-xl py-4 transition-all shadow-sm disabled:opacity-50">
                 {loadingMore ? <RefreshCw size={16} className="animate-spin" /> : <ChevronDown size={16} />}
                 {loadingMore ? 'Loading more...' : 'Load older discussions'}
               </button>
