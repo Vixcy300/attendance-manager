@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { ArrowRight, CheckCircle2, BarChart3, Clock, Sparkles, Users, Calculator, Mail, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle2, BarChart3, Clock, Sparkles, Users, Calculator, Mail, Zap, MessageSquare } from 'lucide-react';
 import { motion } from "framer-motion";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { FaqDialog } from "@/components/ui/faq-dialog";
@@ -33,6 +33,9 @@ const Landing = () => {
             </span>
           </div>
           <nav className="flex gap-4 items-center">
+            <Link to="/community" className="hidden sm:flex items-center gap-1.5 text-sm font-semibold text-neutral-600 hover:text-indigo-600 transition-colors">
+              <MessageSquare size={15} /> Community
+            </Link>
             <Link to="/login" className="text-sm font-semibold text-neutral-600 hover:text-indigo-600 transition-colors">
               Log In
             </Link>
@@ -252,6 +255,45 @@ const Landing = () => {
               Track your <strong className="text-neutral-900">attendance percentage</strong>, set goals, earn streak badges, and plan your schedule with our interactive calendar.
               Your data is protected with <strong className="text-neutral-900">AES-256 encryption</strong> and we never share your information with third parties.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Community CTA Section */}
+      <section className="bg-gradient-to-br from-indigo-600 to-violet-600 py-20">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-10 text-white">
+            <div className="flex-1 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs font-semibold mb-4">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" /> Live Community
+              </div>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
+                💬 Join the Student Discussion
+              </h2>
+              <p className="text-indigo-100 text-base md:text-lg leading-relaxed mb-6 max-w-lg">
+                Share tips, ask questions, and connect with fellow SIMATS students — no login needed. Completely anonymous and moderated.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                <Link
+                  to="/community"
+                  className="flex items-center justify-center gap-2 bg-white text-indigo-700 hover:bg-indigo-50 px-7 py-3.5 rounded-full text-base font-bold transition-all shadow-lg hover:-translate-y-0.5 active:scale-95"
+                >
+                  <MessageSquare size={18} /> Open Community Board
+                </Link>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 w-full md:w-auto shrink-0 min-w-[220px]">
+              {[
+                { emoji: '🚀', text: 'No login required' },
+                { emoji: '🔒', text: 'Anonymous & safe' },
+                { emoji: '⚡', text: 'Real-time discussions' },
+                { emoji: '🏷️', text: 'Categorized topics' },
+              ].map(({ emoji, text }) => (
+                <div key={text} className="flex items-center gap-3 bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm font-medium">
+                  <span className="text-base">{emoji}</span> {text}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
